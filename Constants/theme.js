@@ -3,9 +3,10 @@ const colors = {
   antiFlashWhite: '#F1F5F9',
   black: '#000000',
   // Opacity 50%
-  bluetiful: '#0260E8',
+  bluetiful: 'rgba(2,96,232,0.5)',
   // Opacity 71%
   red: '#FF0000',
+  lightBlue: '#dbeaff',
 };
 
 const sizes = {
