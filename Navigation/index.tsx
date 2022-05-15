@@ -3,8 +3,8 @@ import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Integration from '../Screens/Integration';
-import Maison from '../Screens/Maison';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Identification from '../Screens/Identification';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,7 +36,7 @@ const App = () => {
             <Stack.Screen name={'Integration'} component={Integration} />
           )}
 
-          <Stack.Screen name={'Maison'} component={Maison} />
+          <Stack.Screen name={'Identification'} component={Identification} />
         </Stack.Navigator>
       </NavigationContainer>
     )

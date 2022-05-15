@@ -1,12 +1,14 @@
 const colors = {
   blue: '#0260E8',
   antiFlashWhite: '#F1F5F9',
+  grey: '#E5E5E5',
   black: '#000000',
   // Opacity 50%
   bluetiful: 'rgba(2,96,232,0.5)',
   // Opacity 71%
   red: '#FF0000',
   lightBlue: '#dbeaff',
+  lightBlue2: '#d9f9ff',
 };
 
 const sizes = {

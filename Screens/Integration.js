@@ -87,7 +87,7 @@ const Integration = ({navigation}) => {
             <View style={{height: 50}}>
               <TouchableOpacity
                 style={[styles.btn]}
-                onPress={() => navigation.replace('Maison')}>
+                onPress={() => navigation.replace('Identification')}>
                 <Text style={[styles.btntxt]}>Commencez</Text>
               </TouchableOpacity>
             </View>
