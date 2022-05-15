@@ -1,20 +1,11 @@
 import React from 'react';
-import {SafeAreaView, StatusBar, Text, View} from 'react-native';
-import {theme} from '../Constants';
+import {Text, View} from 'react-native';
+import {theme} from '../Constants/index';
 
-const Maison = () => {
-  return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: 'white',
-      }}>
-      <StatusBar backgroundColor={theme.colors.black} />
-      <View>
-        <Text>Maison</Text>
-      </View>
-    </SafeAreaView>
-  );
-};
+const Maison = () => (
+  <View>
+    <Text style={{color: theme.colors.blue}}>Maison</Text>
+  </View>
+);
 
 export default Maison;
