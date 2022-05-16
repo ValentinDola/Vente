@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   btntxt: {
-    fontSize: theme.sizes.h6,
+    fontSize: theme.sizes.h5,
     fontFamily: 'Nunito-SemiBold',
     color: theme.colors.antiFlashWhite,
   },
