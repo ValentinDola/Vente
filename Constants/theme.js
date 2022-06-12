@@ -9,7 +9,7 @@ const colors = {
   red: '#FF0000',
   lightBlue: '#dbeaff',
   lightBlue2: '#d4dafd',
-  greyblack: '#2F3640'
+  greyblack: '#F6F6F7'
 };
 
 const sizes = {

@@ -9,6 +9,18 @@ import Inscription from '../Screens/Inscription';
 
 const Stack = createNativeStackNavigator();
 
+const config = {
+  animation: 'spring',
+  config: {
+    stiffness: 1000,
+    damping: 500,
+    mass: 3,
+    overshootClamping: true,
+    restDisplacementThreshold: 0.01,
+    restSpeedThreshold: 0.01,
+  },
+};
+
 const App = () => {
   const [isAppFirstLaunched, setIsAppFirstLaunched]: React.SetStateAction<any> =
     useState(null);
@@ -33,13 +45,36 @@ const App = () => {
   return (
     isAppFirstLaunched != null && (
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+            gestureEnabled: true,
+          }}>
           {isAppFirstLaunched && (
             <Stack.Screen name={'Integration'} component={Integration} />
           )}
 
-          <Stack.Screen name={'Identification'} component={Identification} />
-          <Stack.Screen name={'Inscription'} component={Inscription} />
+          <Stack.Screen
+            name={'Identification'}
+            component={Identification}
+            options={{
+              transitionSpec: {
+                open: config,
+                close: config
+              }
+            }}
+
+          />
+          <Stack.Screen
+            name={'Inscription'}
+            component={Inscription}
+            options={{
+              transitionSpec: {
+                open: config,
+                close: config,
+              },
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     )

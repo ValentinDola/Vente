@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   btntxt: {
-    fontSize: theme.sizes.h4,
+    fontSize: theme.sizes.h5,
     fontFamily: 'Nunito-SemiBold',
     color: theme.colors.antiFlashWhite,
   },

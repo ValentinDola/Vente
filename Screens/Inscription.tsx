@@ -1,123 +1,87 @@
-import React, {useState} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
-import Input from '../Components/Input';
-import Button from '../Components/Button';
+import React from 'react';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import Google from '../Components/svgs/google';
+import Tiktok from '../Components/svgs/tiktok';
+import Instagram from '../Components/svgs/instagram';
 import {theme} from '../Constants/index';
 
 const Inscription = (props: {
   navigation: {navigate: (arg0: string) => void};
 }): JSX.Element => {
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
-
-  const Forms = () => {
-    return (
-      <View style={{marginVertical: 30}}>
-        <Input
-          label={'Email'}
-          value={email}
-          onChangeText={(text: React.SetStateAction<any>) => setEmail(text)}
-          type={'email-address'}
-          // onFocus
-          // onValid
-          // onError
-        />
-        <Input
-          label={'Mot de Passe'}
-          value={password}
-          onChangeText={(text: React.SetStateAction<any>) => setPassword(text)}
-          secure
-
-          // onFocus
-          // onValid
-          // onError
-        />
-      </View>
-    );
-  };
-
   return (
-    <View style={{flex: 1}}>
-      <View style={{flex: 0.5}}>
+    <View style={{flex: 1, backgroundColor: theme.colors.greyblack}}>
+      <View style={{flex: 0.3}}>
         <Text style={[styles.introduction]}>Inscription</Text>
+        <Text style={[styles.int]}>
+          Créez un profil, suivez les organisateurs.
+        </Text>
       </View>
 
-      <View style={{flexDirection: 'row', flex: 0.1, justifyContent: 'center'}}>
-        <TouchableOpacity
-          style={[
-            styles.btn,
-            {
-              backgroundColor: 'transparent',
-              borderWidth: 2,
-              borderColor: theme.colors.black,
-            },
-          ]}
-          onPress={() => console.log('d')}>
-          <Image
-            source={require('../assets/icons/google.png')}
-            style={{marginRight: 10}}
-          />
-          <Text style={[styles.btntxt, {color: theme.colors.black}]}>
-            Google
-          </Text>
-        </TouchableOpacity>
+      <View style={{flex: 0.6, justifyContent: 'flex-start'}}>
+        <View>
+          <TouchableOpacity style={styles.btn}>
+            <Text style={styles.btntxt}>Continue avec Email</Text>
+          </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity
-          style={[
-            styles.btn,
-            {
-              backgroundColor: 'transparent',
-              borderWidth: 2,
-              borderColor: theme.colors.black,
-            },
-          ]}
-          onPress={() => console.log('s')}>
-          <Image
-            source={require('../assets/icons/tiktok.png')}
-            style={{marginRight: 10}}
-          />
-          <Text style={[styles.btntxt, {color: theme.colors.black}]}>
-            Tiktok
-          </Text>
-        </TouchableOpacity>
+        <View>
+          <TouchableOpacity style={styles.btn}>
+            <Google />
+            <View style={{width: 20}} />
+            <Text style={styles.btntxt}>Continue avec Google</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View>
+          <TouchableOpacity style={styles.btn}>
+            <Tiktok />
+            <View style={{width: 20}} />
+            <Text style={styles.btntxt}>Continue avec Tiktok</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View>
+          <TouchableOpacity style={styles.btn}>
+            <Instagram />
+            <View style={{width: 20}} />
+            <Text style={styles.btntxt}>Continue avec Instagram</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-
-      <Forms />
-
-      <Button text={'Continuez'} onPress={() => console.log('next step')} />
 
       <View
         style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          marginBottom: 25,
-          marginTop: 10,
+          flex: 0.1,
+          justifyContent: 'flex-end',
+          backgroundColor: theme.colors.grey,
         }}>
-        <Text
+        <View
           style={{
-            color: theme.colors.black,
-            fontSize: theme.sizes.h6,
-            fontFamily: 'Nunito-SemiBold',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            marginBottom: 20,
           }}>
-          Vous n'avez pas de compte ?{' '}
-        </Text>
-        <Text
-          style={{
-            color: theme.colors.blue,
-            fontSize: theme.sizes.h6,
-            fontFamily: 'Nunito-SemiBold',
-          }}
-          onPress={() => props.navigation.navigate('Identification')}>
-          S' identifier{' '}
-        </Text>
+          <Text
+            style={{
+              color: theme.colors.black,
+              fontSize: theme.sizes.h7,
+              fontFamily: 'Nunito-SemiBold',
+            }}>
+            {' '}
+            Vous avez déjà un compte?{' '}
+          </Text>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('Identification')}>
+            <Text
+              style={{
+                color: theme.colors.blue,
+                fontSize: theme.sizes.h7,
+                fontFamily: 'Nunito-SemiBold',
+              }}>
+              S' identifier
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -132,20 +96,30 @@ const styles = StyleSheet.create({
     marginTop: 50,
     marginLeft: 28,
   },
+  int: {
+    fontSize: theme.sizes.h6,
+    fontFamily: 'Nunito-SemiBold',
+    color: theme.colors.black,
+    marginTop: 20,
+    marginLeft: 35,
+  },
   btn: {
     flexDirection: 'row',
     height: 50,
-    borderRadius: 3,
-    backgroundColor: theme.colors.blue,
+    borderRadius: 5,
+    backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 15,
+    marginHorizontal: 25,
     paddingHorizontal: 10,
+    marginVertical: 10,
+    borderWidth: 2,
+    borderColor: theme.colors.black,
   },
   btntxt: {
-    fontSize: theme.sizes.h4,
+    fontSize: theme.sizes.h6,
     fontFamily: 'Nunito-SemiBold',
-    color: theme.colors.antiFlashWhite,
+    color: theme.colors.black,
   },
 });
 
