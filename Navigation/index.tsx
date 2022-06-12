@@ -6,20 +6,9 @@ import Integration from '../Screens/Integration';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Identification from '../Screens/Identification';
 import Inscription from '../Screens/Inscription';
+import Maison from '../Screens/Maison';
 
 const Stack = createNativeStackNavigator();
-
-const config = {
-  animation: 'spring',
-  config: {
-    stiffness: 1000,
-    damping: 500,
-    mass: 3,
-    overshootClamping: true,
-    restDisplacementThreshold: 0.01,
-    restSpeedThreshold: 0.01,
-  },
-};
 
 const App = () => {
   const [isAppFirstLaunched, setIsAppFirstLaunched]: React.SetStateAction<any> =
@@ -57,23 +46,16 @@ const App = () => {
           <Stack.Screen
             name={'Identification'}
             component={Identification}
-            options={{
-              transitionSpec: {
-                open: config,
-                close: config
-              }
-            }}
 
           />
           <Stack.Screen
             name={'Inscription'}
             component={Inscription}
-            options={{
-              transitionSpec: {
-                open: config,
-                close: config,
-              },
-            }}
+          />
+
+          <Stack.Screen
+            name={'Maison'}
+            component={Maison}
           />
         </Stack.Navigator>
       </NavigationContainer>
