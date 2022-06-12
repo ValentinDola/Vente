@@ -5,11 +5,13 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Integration from '../Screens/Integration';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Identification from '../Screens/Identification';
+import Inscription from '../Screens/Inscription';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  const [isAppFirstLaunched, setIsAppFirstLaunched]: any = useState(null);
+  const [isAppFirstLaunched, setIsAppFirstLaunched]: React.SetStateAction<any> =
+    useState(null);
 
   useEffect(() => {
     const checkData = async () => {
@@ -37,6 +39,7 @@ const App = () => {
           )}
 
           <Stack.Screen name={'Identification'} component={Identification} />
+          <Stack.Screen name={'Inscription'} component={Inscription} />
         </Stack.Navigator>
       </NavigationContainer>
     )

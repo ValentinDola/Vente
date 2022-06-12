@@ -8,7 +8,7 @@ const App = () => {
       .then(r => console.log(r, 'Bootsplash has been hidden successfully'))
       .catch(err => console.error(err));
   }, []);
-  return <Navigation/>;
+  return <Navigation />;
 };
 
 export default App;

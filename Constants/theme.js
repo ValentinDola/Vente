@@ -8,7 +8,8 @@ const colors = {
   // Opacity 71%
   red: '#FF0000',
   lightBlue: '#dbeaff',
-  lightBlue2: '#d9f9ff',
+  lightBlue2: '#d4dafd',
+  greyblack: '#2F3640'
 };
 
 const sizes = {
