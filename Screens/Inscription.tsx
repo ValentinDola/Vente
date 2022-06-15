@@ -1,3 +1,10 @@
+// ADD TODO
+// [X] Email registration button.
+// [X] Google registration button.
+// [X] Tiktok registration button.
+// [X] Instagram registration button.
+// [X] Navigation panel to Identification page.
+
 import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import Google from '../Components/svgs/google';

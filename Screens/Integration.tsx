@@ -1,3 +1,9 @@
+// ADD TODO
+// [X] Slide array containing object with id, image and description.
+// [X] Component for rendering a slide object.
+// [X] Footer, buttons to navigate between the onboardings.
+// [X] Stack all components.
+
 import React, {useRef} from 'react';
 import {
   SafeAreaView,
@@ -9,6 +15,7 @@ import {
   Image,
   Text,
   TouchableOpacity,
+  ImageSourcePropType,
 } from 'react-native';
 import {theme} from '../Constants';
 import * as PropTypes from 'prop-types';
@@ -39,7 +46,18 @@ const Integration = ({navigation}) => {
   const [currentIndicatorIndex, setCurrentIndicatorIndex] = React.useState(0);
   const ref = useRef(null);
 
-  const Slide = props => {
+  const Slide = (props: {
+    item: {
+      image: ImageSourcePropType;
+      description:
+        | boolean
+        | React.ReactChild
+        | React.ReactFragment
+        | React.ReactPortal
+        | null
+        | undefined;
+    };
+  }) => {
     return (
       <View style={{alignItems: 'center'}}>
         <Image
@@ -87,7 +105,7 @@ const Integration = ({navigation}) => {
             <View style={{height: 50}}>
               <TouchableOpacity
                 style={[styles.btn]}
-                onPress={() => navigation.replace('Identification')}>
+                onPress={() => navigation.replace('Maison')}>
                 <Text style={[styles.btntxt]}>Commencez</Text>
               </TouchableOpacity>
             </View>
@@ -120,7 +138,9 @@ const Integration = ({navigation}) => {
 
   Slide.propTypes = {item: PropTypes.object};
 
-  const updateCurrentSlideIndex = e => {
+  const updateCurrentSlideIndex = (e: {
+    nativeEvent: {contentOffset: {x: any}};
+  }) => {
     const contentOffsetX = e.nativeEvent.contentOffset.x;
     const currentIndex = Math.round(contentOffsetX / width);
     setCurrentIndicatorIndex(currentIndex);

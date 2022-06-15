@@ -6,7 +6,7 @@ import Integration from '../Screens/Integration';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Identification from '../Screens/Identification';
 import Inscription from '../Screens/Inscription';
-import Maison from '../Screens/Maison';
+import Maison from './Maison';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,20 +43,10 @@ const App = () => {
             <Stack.Screen name={'Integration'} component={Integration} />
           )}
 
-          <Stack.Screen
-            name={'Identification'}
-            component={Identification}
+          <Stack.Screen name={'Identification'} component={Identification} />
+          <Stack.Screen name={'Inscription'} component={Inscription} />
 
-          />
-          <Stack.Screen
-            name={'Inscription'}
-            component={Inscription}
-          />
-
-          <Stack.Screen
-            name={'Maison'}
-            component={Maison}
-          />
+          <Stack.Screen name={'Maison'} component={Maison} />
         </Stack.Navigator>
       </NavigationContainer>
     )

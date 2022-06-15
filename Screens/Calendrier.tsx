@@ -2,10 +2,10 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import {theme} from '../Constants/index';
 
-const Maison = () => (
+const Calendrier = () => (
   <View>
-    <Text style={{color: theme.colors.blue}}>Maison</Text>
+    <Text style={{color: theme.colors.blue}}>Calendrier</Text>
   </View>
 );
 
-export default Maison;
+export default Calendrier;
