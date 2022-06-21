@@ -42,7 +42,9 @@ const slides = [
   },
 ];
 
-const Integration = ({navigation}) => {
+const Integration = (props: {
+  navigation: {replace: (arg0: string) => void};
+}) => {
   const [currentIndicatorIndex, setCurrentIndicatorIndex] = React.useState(0);
   const ref = useRef(null);
 
@@ -105,7 +107,7 @@ const Integration = ({navigation}) => {
             <View style={{height: 50}}>
               <TouchableOpacity
                 style={[styles.btn]}
-                onPress={() => navigation.replace('Maison')}>
+                onPress={() => props.navigation.replace('Maison')}>
                 <Text style={[styles.btntxt]}>Commencez</Text>
               </TouchableOpacity>
             </View>

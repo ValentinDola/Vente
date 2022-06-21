@@ -1,3 +1,4 @@
 import * as theme from './theme';
+import * as data from './dummy-data';
 
-export {theme};
+export {theme, data};

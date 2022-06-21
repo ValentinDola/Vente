@@ -1,5 +1,6 @@
 const colors = {
   blue: '#0260E8',
+  white: '#ffffff',
   antiFlashWhite: '#F1F5F9',
   grey: '#E5E5E5',
   black: '#000000',
@@ -9,7 +10,7 @@ const colors = {
   red: '#FF0000',
   lightBlue: '#dbeaff',
   lightBlue2: '#d4dafd',
-  greyblack: '#F6F6F7'
+  greyblack: '#F6F6F7',
 };
 
 const sizes = {
@@ -39,4 +40,8 @@ const fonts = {
   h10: {fontSize: sizes.h10},
 };
 
-export {colors, sizes, fonts};
+const family = {
+  SB: {fontFamily: 'Nunito-SemiBold'},
+};
+
+export {colors, sizes, fonts, family};
