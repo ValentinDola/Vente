@@ -27,6 +27,8 @@ target 'Vente' do
 
   pod 'react-native-maps', :path => '../node_modules/react-native-maps'
 
+  pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+
   target 'VenteTests' do
     inherit! :complete
     # Pods for testing

@@ -10,10 +10,12 @@ import {
   ImageBackground,
   TouchableWithoutFeedback,
 } from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {events} from '../Constants/dummy-data';
 import {theme} from '../Constants/index';
+import {selectUser, setUser} from '../Slices/user';
 
 const {width, height} = Dimensions.get('window');
 
@@ -46,6 +48,9 @@ const categories = [
 ];
 
 const Explorer = ({navigation}: any) => {
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
   const renderCat = ({item}: any) => (
     <View
       style={{
@@ -163,7 +168,7 @@ const Explorer = ({navigation}: any) => {
     </TouchableWithoutFeedback>
   );
 
-  const Header = () => (
+  const Header = props => (
     <View
       style={{
         flexDirection: 'row',
@@ -179,7 +184,7 @@ const Explorer = ({navigation}: any) => {
           fontFamily: 'Nunito-SemiBold',
           fontSize: theme.sizes.h2,
         }}>
-        Emplacement
+        {props.user}
       </Text>
 
       <View style={{flexDirection: 'row'}}>
@@ -243,7 +248,7 @@ const Explorer = ({navigation}: any) => {
 
   return (
     <View style={{flex: 1, backgroundColor: '#F6F6F7'}}>
-      <Header />
+      <Header user={user} />
       <Categories />
       <EventNearby />
     </View>

@@ -1,7 +1,7 @@
 // ADD TODO
 // [X] Bottom Navigation
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {StyleSheet, Text, View} from 'react-native';
 import {CleanTabBar} from 'react-navigation-tabbar-collection';

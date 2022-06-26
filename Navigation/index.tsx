@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Integration from '../Screens/Integration';
@@ -7,8 +8,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Identification from '../Screens/Identification';
 import Inscription from '../Screens/Inscription';
 import Maison from './Maison';
-import Explorer from '../Screens/Explorer';
+
 import Detail from '../Screens/Détail';
+import Loader from '../Components/svgs/loader';
 
 const Stack = createNativeStackNavigator();
 

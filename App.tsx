@@ -1,6 +1,8 @@
 import React, {useEffect} from 'react';
 import Navigation from './Navigation';
 import RNBootSplash from 'react-native-bootsplash';
+import {Provider} from 'react-redux';
+import {store} from './Store/index';
 import {SafeAreaView} from 'react-native';
 import moment from 'moment';
 
@@ -80,9 +82,11 @@ const App = () => {
       .catch(err => console.error(err));
   }, []);
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <Navigation />
-    </SafeAreaView>
+    <Provider store={store}>
+      <SafeAreaView style={{flex: 1}}>
+        <Navigation />
+      </SafeAreaView>
+    </Provider>
   );
 };
 
