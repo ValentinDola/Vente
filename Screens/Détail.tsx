@@ -321,7 +321,8 @@ const Detail = ({navigation, route}: any) => {
                     fontFamily: 'Nunito-SemiBold',
                     fontSize: theme.sizes.h6,
                   }}>
-                  /personne
+                  {' '}
+                  / personne
                 </Text>
               )}
             </View>

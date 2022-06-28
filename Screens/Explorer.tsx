@@ -168,7 +168,15 @@ const Explorer = ({navigation}: any) => {
     </TouchableWithoutFeedback>
   );
 
-  const Header = props => (
+  const Header = (props: {
+    user:
+      | boolean
+      | React.ReactChild
+      | React.ReactFragment
+      | React.ReactPortal
+      | null
+      | undefined;
+  }) => (
     <View
       style={{
         flexDirection: 'row',
@@ -200,7 +208,7 @@ const Explorer = ({navigation}: any) => {
   );
 
   const Categories = () => (
-    <View style={{flex: 0.25}}>
+    <View style={{flex: 0.28}}>
       <Text
         style={{
           color: theme.colors.black,
@@ -223,7 +231,7 @@ const Explorer = ({navigation}: any) => {
   );
 
   const EventNearby = () => (
-    <View style={{flex: 0.6}}>
+    <View style={{flex: 0.52}}>
       <Text
         style={{
           color: theme.colors.black,
@@ -246,11 +254,27 @@ const Explorer = ({navigation}: any) => {
     </View>
   );
 
+  const Promotion = () => (
+    <View>
+      <Text
+        style={{
+          color: theme.colors.black,
+          fontSize: theme.sizes.h5,
+          fontFamily: 'Nunito-SemiBold',
+          marginHorizontal: 15,
+          marginBottom: 25,
+        }}>
+        Pour toi.
+      </Text>
+    </View>
+  );
+
   return (
     <View style={{flex: 1, backgroundColor: '#F6F6F7'}}>
       <Header user={user} />
       <Categories />
       <EventNearby />
+      <Promotion />
     </View>
   );
 };
