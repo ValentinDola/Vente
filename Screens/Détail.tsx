@@ -13,7 +13,7 @@
  * [X] Build the fixed bottom bar
  */
 
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -24,30 +24,43 @@ import {
   StyleSheet,
   Dimensions,
   Image,
+  TextInput,
 } from 'react-native';
 import moment from 'moment';
+// import TextInput from 'react-native-text-input-interactive';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Region, MapStyle} from '../Constants/dummy-data';
-import {theme} from '../Constants/index';
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+import { theme } from '../Constants/index';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectLike, setLike } from '../Slices/app';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
-const Detail = ({navigation, route}: any) => {
+const Detail = ({ navigation, route }: any) => {
   const [selectedEvent, setSelectedEvent]: any = useState(null);
+  const [ticket, setTicket]: any = useState('1');
+  const [liked, setLiked] = useState(false);
+
+  const like = useSelector(selectLike);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    let {selectedEvent} = route.params;
+    let { selectedEvent } = route.params;
     setSelectedEvent(selectedEvent);
   }, []);
+
+  // const likeEvent = () => (
+  //   dispatch(setLike())
+  // )
 
   const ImageBackgroundComponent = () => {
     return (
       <ImageBackground
         source={selectedEvent?.image}
-        style={{width: '100%', height: height / 2.2}}>
+        style={{ width: '100%', height: height / 2.2 }}>
         {/* Image Header */}
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <View
             style={{
               flexDirection: 'row',
@@ -79,14 +92,16 @@ const Detail = ({navigation, route}: any) => {
                 borderRadius: 5,
                 opacity: 0.7,
               }}>
-              <TouchableOpacity onPress={() => console.log('You like it')}>
+              <TouchableOpacity
+                onPress={() => setLiked(!liked)}
+              >
                 <Icon
-                  name="ios-heart-outline"
+                  name={liked === false ? "ios-heart-outline" : "ios-heart"}
                   size={24}
-                  color={theme.colors.black}
+                  color={liked === false ? theme.colors.black : 'red'}
                 />
               </TouchableOpacity>
-              <View style={{width: 15}} />
+              <View style={{ width: 15 }} />
               <TouchableOpacity onPress={() => console.log('Share it')}>
                 <Icon
                   name="ios-share-outline"
@@ -140,7 +155,7 @@ const Detail = ({navigation, route}: any) => {
                   fontSize: theme.sizes.h5,
                   color: theme.colors.white,
                 }}>
-                Départ. {moment(selectedEvent?.startTime).format('HH:mm')}
+                Début. {moment(selectedEvent?.startTime).format('LT')}
               </Text>
             </View>
             <View
@@ -159,7 +174,7 @@ const Detail = ({navigation, route}: any) => {
                   color: theme.colors.black,
                   fontFamily: 'Nunito-SemiBold',
                 }}>
-                {moment(selectedEvent?.startTime).format('MMM')}
+                {moment(selectedEvent?.date).format('MMM')}
               </Text>
               <Text
                 style={{
@@ -167,7 +182,7 @@ const Detail = ({navigation, route}: any) => {
                   fontFamily: 'Nunito-SemiBold',
                   fontSize: theme.sizes.h3,
                 }}>
-                {moment(selectedEvent?.startTime).format('DD')}
+                {moment(selectedEvent?.date).format('DD')}
               </Text>
             </View>
           </View>
@@ -226,7 +241,7 @@ const Detail = ({navigation, route}: any) => {
 
   const DescriptionSection = () => {
     return (
-      <View style={{marginHorizontal: 20}}>
+      <View style={{ marginHorizontal: 20 }}>
         <Text
           style={{
             color: theme.colors.black,
@@ -241,28 +256,77 @@ const Detail = ({navigation, route}: any) => {
 
   const LocationSection = () => {
     return (
-      <View style={{marginTop: 15, marginHorizontal: 20}}>
+      <View style={{ marginTop: 15, marginHorizontal: 20, marginBottom: selectedEvent?.promotion.state === false ? 150 : 0 }}>
         <Text
           style={{
             color: theme.colors.black,
             fontFamily: 'Nunito-SemiBold',
             fontSize: theme.sizes.h4,
           }}>
-          Location
+          Lieux
         </Text>
-        <View style={{height: 250}}>
-          <MapView
-            provider={PROVIDER_GOOGLE}
-            style={{height: 250, borderRadius: 30, marginTop: 20}}
-            minZoomLevel={15}
-            region={{
-              latitude: 37.78825,
-              longitude: -122.4324,
-              latitudeDelta: 0.015,
-              longitudeDelta: 0.0121,
-            }}></MapView>
+        <View
+          style={{
+            marginVertical: 5,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{
+              color: theme.colors.black,
+              fontFamily: 'Nunito-SemiBold',
+              fontSize: theme.sizes.h7,
+            }}>
+            {selectedEvent?.location}
+          </Text>
+          <TouchableOpacity
+            onPress={() => console.log('Locate')}
+            style={{
+              backgroundColor: theme.colors.bluetiful,
+              padding: 6,
+              borderRadius: 10,
+              opacity: 0.7,
+            }}>
+            <Icon
+              style={{
+                backgroundColor: theme.colors.bluetiful,
+                padding: 6,
+                borderRadius: 10,
+                // opacity: 0.7,
+              }}
+              name="location-outline"
+              size={24}
+              color={theme.colors.black}
+            />
+          </TouchableOpacity>
         </View>
-        <View style={{paddingBottom: 120}} />
+      </View>
+    );
+  };
+
+  const PromotionSection = () => {
+    return (
+      <View style={{ marginTop: 5, marginHorizontal: 20 }}>
+        <Text
+          style={{
+            color: theme.colors.black,
+            fontFamily: 'Nunito-SemiBold',
+            fontSize: theme.sizes.h4,
+          }}>
+          Promotion
+        </Text>
+        <View style={{ marginVertical: 5 }}>
+          <Text
+            style={{
+              color: theme.colors.black,
+              fontFamily: 'Nunito-SemiBold',
+              fontSize: theme.sizes.h7,
+            }}>
+            {selectedEvent?.promotion?.detail}
+          </Text>
+        </View>
+        <View style={{ paddingBottom: selectedEvent?.price !== 0 ? 140 : 80 }} />
       </View>
     );
   };
@@ -271,7 +335,7 @@ const Detail = ({navigation, route}: any) => {
     return (
       <View
         style={{
-          height: 80,
+          height: 140,
           width,
           borderRadius: 10,
           opacity: 0.9,
@@ -282,24 +346,18 @@ const Detail = ({navigation, route}: any) => {
         }}>
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+            // flexDirection: 'row',
+            // justifyContent: 'space-between',
+            // alignItems: 'center',
             marginHorizontal: 20,
           }}>
-          <View>
-            {selectedEvent?.price !== 0 && (
-              <Text
-                style={{
-                  color: theme.colors.black,
-                  fontFamily: 'Nunito-SemiBold',
-                  letterSpacing: 1,
-                  opacity: 0.8,
-                }}>
-                PRIX
-              </Text>
-            )}
-
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: 20,
+            }}>
             <View
               style={{
                 flexDirection: 'row',
@@ -312,9 +370,9 @@ const Detail = ({navigation, route}: any) => {
                   fontFamily: 'Nunito-SemiBold',
                   fontSize: theme.sizes.h3,
                 }}>
-                {selectedEvent?.price === 0 ? 'Gratuit' : selectedEvent?.price}
+                {selectedEvent?.price + 'f'}
               </Text>
-              {selectedEvent?.price !== 0 && (
+              {
                 <Text
                   style={{
                     color: theme.colors.black,
@@ -324,15 +382,34 @@ const Detail = ({navigation, route}: any) => {
                   {' '}
                   / personne
                 </Text>
-              )}
+              }
+            </View>
+            <View>
+              <TextInput
+                defaultValue={ticket}
+                style={{
+                  height: 40,
+
+                  width: 80,
+                  backgroundColor: 'transparent',
+                  borderWidth: 3,
+                  borderRadius: 5,
+                  paddingLeft: 10,
+                  fontFamily: 'Nunito-SemiBold',
+                  fontSize: theme.sizes.h6,
+                  color: theme.colors.black,
+                  borderColor: theme.colors.bluetiful,
+                }}
+                onChangeText={text => setTicket(text)}
+                keyboardType={'number-pad'}
+              />
             </View>
           </View>
-          {selectedEvent?.price !== 0 && (
+          {
             <TouchableOpacity
               style={{
-                flexDirection: 'row',
                 borderRadius: 5,
-                justifyContent: 'space-around',
+                justifyContent: 'center',
                 alignItems: 'center',
                 backgroundColor: theme.colors.bluetiful,
               }}>
@@ -341,17 +418,13 @@ const Detail = ({navigation, route}: any) => {
                   color: theme.colors.white,
                   fontFamily: 'Nunito-SemiBold',
                   paddingVertical: 10,
-                  paddingHorizontal: 10,
-                  fontSize: theme.sizes.h6,
+
+                  fontSize: theme.sizes.h5,
                 }}>
                 Acheter Billet
               </Text>
-              <Image
-                source={require('../assets/images/splash/ticket.png')}
-                style={{width: 23, height: 23, marginRight: 10}}
-              />
             </TouchableOpacity>
-          )}
+          }
         </View>
       </View>
     );
@@ -361,8 +434,8 @@ const Detail = ({navigation, route}: any) => {
     <View style={styles.container}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1, backgroundColor: '#F6F6F7'}}
-        style={{backgroundColor: '#F6F6F7'}}>
+        contentContainerStyle={{ flexGrow: 1, backgroundColor: '#F6F6F7' }}
+        style={{ backgroundColor: '#F6F6F7' }}>
         {/* ImageBackground */}
         <ImageBackgroundComponent />
         {/* Buttons group section */}
@@ -371,9 +444,11 @@ const Detail = ({navigation, route}: any) => {
         <DescriptionSection />
         {/* Location section */}
         <LocationSection />
+        {/* Promotion section */}
+        {selectedEvent?.promotion?.state === true && <PromotionSection />}
       </ScrollView>
       {/* Buttom bar section */}
-      <ButtomBarSection />
+      {selectedEvent?.price !== 0 && <ButtomBarSection />}
     </View>
   );
 };

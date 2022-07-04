@@ -1,16 +1,17 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Navigation from './Navigation';
 import RNBootSplash from 'react-native-bootsplash';
-import {Provider} from 'react-redux';
-import {store} from './Store/index';
-import {SafeAreaView} from 'react-native';
+import { Provider } from 'react-redux';
+import { store } from './Store/index';
+import { SafeAreaView, StatusBar } from 'react-native';
 import moment from 'moment';
 
-import {enableLatestRenderer} from 'react-native-maps';
+import { enableLatestRenderer } from 'react-native-maps';
+import { theme } from './Constants';
 
 enableLatestRenderer();
 
-moment.defineLocale('fr', {
+moment.updateLocale('fr', {
   months:
     'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split(
       '_',
@@ -77,13 +78,14 @@ moment.defineLocale('fr', {
 
 const App = () => {
   useEffect(() => {
-    RNBootSplash.hide({fade: true})
+    RNBootSplash.hide({ fade: true })
       .then(r => console.log(r, 'Bootsplash has been hidden successfully'))
       .catch(err => console.error(err));
   }, []);
   return (
     <Provider store={store}>
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <StatusBar backgroundColor={theme.colors.black} />
         <Navigation />
       </SafeAreaView>
     </Provider>

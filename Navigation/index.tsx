@@ -1,8 +1,7 @@
 import 'react-native-gesture-handler';
-import React, {useEffect, useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React, { useEffect, useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Integration from '../Screens/Integration';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Identification from '../Screens/Identification';
@@ -11,6 +10,13 @@ import Maison from './Maison';
 
 import Detail from '../Screens/Détail';
 import Loader from '../Components/svgs/loader';
+import Recherche from '../Screens/Recherche';
+import Menu from '../Screens/Menu';
+import Tickets from '../Screens/Tickets';
+import Reglages from '../Screens/Reglages';
+import About from '../Screens/About';
+import Termes from '../Screens/Termes';
+import Promotions from '../Screens/promotions';
 
 const Stack = createNativeStackNavigator();
 
@@ -49,6 +55,13 @@ const App = () => {
 
           <Stack.Screen name={'Maison'} component={Maison} />
           <Stack.Screen name={'Detail'} component={Detail} />
+          <Stack.Screen name={'Recherche'} component={Recherche} />
+          <Stack.Screen name={'Menu'} component={Menu} />
+          <Stack.Screen name={'Tickets'} component={Tickets} />
+          <Stack.Screen name={'Reglages'} component={Reglages} />
+          <Stack.Screen name={'About'} component={About} />
+          <Stack.Screen name={'Termes'} component={Termes} />
+          <Stack.Screen name={'Promotions'} component={Promotions} />
 
           <Stack.Screen name={'Identification'} component={Identification} />
           <Stack.Screen name={'Inscription'} component={Inscription} />

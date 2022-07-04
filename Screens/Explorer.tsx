@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Dimensions,
   StyleSheet,
@@ -9,49 +9,33 @@ import {
   Image,
   ImageBackground,
   TouchableWithoutFeedback,
+  ScrollView,
 } from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {events} from '../Constants/dummy-data';
-import {theme} from '../Constants/index';
-import {selectUser, setUser} from '../Slices/user';
+// import { events } from '../Constants/dummy-data';
+import { theme } from '../Constants/index';
+import {
+  selectUser,
+  setUser,
+  selectData,
+  setData,
+  selectCategories,
+  setCategories,
+} from '../Slices/app';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
-const categories = [
-  {
-    id: 1,
-    title: 'Musique',
-    image: require('../assets/images/categories/icons8-earbud-headphones-40.png'),
-  },
-  {
-    id: 2,
-    title: 'Sortie',
-    image: require('../assets/images/categories/icons8-partly-cloudy-day-40.png'),
-  },
-  {
-    id: 3,
-    title: 'Bouffe',
-    image: require('../assets/images/categories/icons8-ice-cream-sundae-40.png'),
-  },
-  {
-    id: 4,
-    title: 'Party',
-    image: require('../assets/images/categories/icons8-the-toast-40.png'),
-  },
-  {
-    id: 5,
-    title: 'Sport',
-    image: require('../assets/images/categories/icons8-soccer-ball-40.png'),
-  },
-];
-
-const Explorer = ({navigation}: any) => {
+const Explorer = ({ navigation }: any) => {
   const user = useSelector(selectUser);
+  const event = useSelector(selectData);
+  const categories = useSelector(selectCategories);
   const dispatch = useDispatch();
 
-  const renderCat = ({item}: any) => (
+
+
+  const renderCat = ({ item }: any) => (
     <View
       style={{
         marginHorizontal: 15,
@@ -68,7 +52,7 @@ const Explorer = ({navigation}: any) => {
           alignItems: 'center',
         }}
         onPress={() => console.log(`You select ${item.title}`)}>
-        <Image source={item.image} style={{width: 25, height: 25}} />
+        <Image source={item.image} style={{ width: 25, height: 25 }} />
       </TouchableOpacity>
       <Text
         style={{
@@ -81,13 +65,13 @@ const Explorer = ({navigation}: any) => {
     </View>
   );
 
-  const renderEv = ({item, index}: any) => (
+  const renderEv = ({ item, index }: any) => (
     <TouchableWithoutFeedback
-      onPress={() => navigation.navigate('Detail', {selectedEvent: item})}>
+      onPress={() => navigation.navigate('Detail', { selectedEvent: item })}>
       <View
         style={{
           marginLeft: index === 0 ? 15 : 20,
-          marginRight: index === events.length - 1 ? 15 : 0,
+          marginRight: index === event.length - 1 ? 15 : 0,
         }}>
         <ImageBackground
           source={item.image}
@@ -96,16 +80,8 @@ const Explorer = ({navigation}: any) => {
             height: width / 2 + 30,
             justifyContent: 'space-between',
           }}
-          imageStyle={{borderRadius: 5}}
+          imageStyle={{ borderRadius: 5 }}
           resizeMode="cover">
-          {/* <View
-            style={{
-              width: width / 2 + 70,
-              height: width / 2 + 30,
-              borderRadius: 5,
-              backgroundColor: theme.colors.black,
-              opacity: 0,
-            }}> */}
           <View
             style={{
               alignItems: 'flex-end',
@@ -127,7 +103,7 @@ const Explorer = ({navigation}: any) => {
                   color: theme.colors.black,
                   fontFamily: 'Nunito-SemiBold',
                 }}>
-                {moment(item.startTime).format('MMM')}
+                {moment(item.date).format('MMM')}
               </Text>
               <Text
                 style={{
@@ -135,11 +111,11 @@ const Explorer = ({navigation}: any) => {
                   fontFamily: 'Nunito-SemiBold',
                   fontSize: theme.sizes.h3,
                 }}>
-                {moment(item.startTime).format('DD')}
+                {moment(item.date).format('DD')}
               </Text>
             </View>
           </View>
-          <View style={{marginLeft: 10, marginBottom: 15}}>
+          <View style={{ marginLeft: 10, marginBottom: 15 }}>
             <Text
               style={{
                 textTransform: 'uppercase',
@@ -168,57 +144,83 @@ const Explorer = ({navigation}: any) => {
     </TouchableWithoutFeedback>
   );
 
-  const Header = (props: {
-    user:
-      | boolean
-      | React.ReactChild
-      | React.ReactFragment
-      | React.ReactPortal
-      | null
-      | undefined;
-  }) => (
+  const Header = (props: any) => (
     <View
       style={{
         flexDirection: 'row',
         flex: 0.15,
         marginHorizontal: 15,
-
+        height: '100%',
         justifyContent: 'space-between',
         alignItems: 'center',
       }}>
+
       <Text
         style={{
           color: theme.colors.black,
           fontFamily: 'Nunito-SemiBold',
           fontSize: theme.sizes.h2,
         }}>
-        {props.user}
+        {props.user.name}
       </Text>
 
-      <View style={{flexDirection: 'row'}}>
-        <TouchableOpacity onPress={() => console.log('search')}>
-          <Icon name="search-outline" size={20} color={theme.colors.black} />
+      <View style={{ flexDirection: 'row' }}>
+        <TouchableOpacity
+          style={{
+            backgroundColor: theme.colors.bluetiful,
+            padding: 6,
+            borderRadius: 10,
+            opacity: 0.7,
+          }}
+          onPress={() => navigation.navigate('Recherche')}>
+          <Icon
+            name="search-outline"
+            style={{
+              backgroundColor: theme.colors.bluetiful,
+              padding: 6,
+              borderRadius: 10,
+              // opacity: 0.7,
+            }}
+            size={18}
+            color={theme.colors.black}
+          />
         </TouchableOpacity>
-        <View style={{width: 20}} />
-        <TouchableOpacity onPress={() => console.log('Menu')}>
-          <Icon name="options-outline" size={20} color={theme.colors.black} />
+        <View style={{ width: 20 }} />
+        <TouchableOpacity
+          style={{
+            backgroundColor: theme.colors.bluetiful,
+            padding: 6,
+            borderRadius: 10,
+            opacity: 0.7,
+          }}
+          onPress={() => navigation.navigate('Menu')}>
+          <Icon
+            style={{
+              backgroundColor: theme.colors.bluetiful,
+              padding: 6,
+              borderRadius: 10,
+              // opacity: 0.7,
+            }}
+            name="options-outline"
+            size={18}
+            color={theme.colors.black}
+          />
         </TouchableOpacity>
       </View>
     </View>
   );
 
   const Categories = () => (
-    <View style={{flex: 0.28}}>
-      <Text
-        style={{
-          color: theme.colors.black,
-          fontSize: theme.sizes.h5,
-          fontFamily: 'Nunito-SemiBold',
-          marginHorizontal: 15,
-        }}>
-        Categories
-      </Text>
-      <View style={{marginVertical: 20}}>
+    <View style={{ flex: 0.2 }}>
+      <Text style={{
+        textDecorationLine: 'line-through',
+        color: theme.colors.blue,
+        // color: theme.colors.black,
+        fontFamily: 'Nunito-SemiBold',
+        fontSize: theme.sizes.h5,
+        marginHorizontal: 10,
+      }} > Categories </Text>
+      <View>
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -231,22 +233,20 @@ const Explorer = ({navigation}: any) => {
   );
 
   const EventNearby = () => (
-    <View style={{flex: 0.52}}>
-      <Text
-        style={{
-          color: theme.colors.black,
-          fontSize: theme.sizes.h5,
-          fontFamily: 'Nunito-SemiBold',
-          marginHorizontal: 15,
-          marginBottom: 25,
-        }}>
-        Prochains événements.
-      </Text>
+    <View style={{ flex: 0.5 }}>
+      <Text style={{
+        textDecorationLine: 'line-through',
+        color: theme.colors.blue,
+        fontFamily: 'Nunito-SemiBold',
+        fontSize: theme.sizes.h5,
+        marginHorizontal: 10,
+        marginVertical: 15,
+      }} > Evenements </Text>
       <View>
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
-          data={events}
+          data={event}
           renderItem={renderEv}
           keyExtractor={item => item.id}
         />
@@ -254,27 +254,25 @@ const Explorer = ({navigation}: any) => {
     </View>
   );
 
-  const Promotion = () => (
-    <View>
-      <Text
-        style={{
-          color: theme.colors.black,
-          fontSize: theme.sizes.h5,
-          fontFamily: 'Nunito-SemiBold',
-          marginHorizontal: 15,
-          marginBottom: 25,
-        }}>
-        Pour toi.
-      </Text>
+  const News = () => (
+    <View style={{ flex: 0.25 }}>
+      <Text style={{
+        textDecorationLine: 'line-through',
+        color: theme.colors.blue,
+        fontFamily: 'Nunito-SemiBold',
+        fontSize: theme.sizes.h5,
+        marginHorizontal: 10,
+        marginVertical: 15,
+      }} > Nouvelles </Text>
     </View>
   );
 
   return (
-    <View style={{flex: 1, backgroundColor: '#F6F6F7'}}>
+    <View style={{ flex: 1, backgroundColor: '#F6F6F7' }}>
       <Header user={user} />
       <Categories />
       <EventNearby />
-      <Promotion />
+      <News />
     </View>
   );
 };
