@@ -1,12 +1,13 @@
 import {Dimensions} from 'react-native';
+import {theme} from '../Constants/index';
 
-const {width, height} = Dimensions.get('window');
+const {width, height} = Dimensions.get('screen');
 
 export const Event = [
   {
     id: 1,
     image: require('../assets/images/data/adam-whitlock-I9j8Rk-JYFM-unsplash.jpg'),
-    type: 'SORTIE',
+    type: 'Sortie',
     date: '2020/01/21',
     startTime: '2020/01/21 09:10 PM',
     title: 'Festivale des couleurs',
@@ -21,7 +22,7 @@ export const Event = [
   {
     id: 2,
     image: require('../assets/images/data/cassie-gallegos-6wCWCPwmRJY-unsplash.jpg'),
-    type: 'PARTY',
+    type: 'Bouffe',
     date: '2020/01/21',
     startTime: '2020/01/21 09:10 PM',
     title: 'UX Design',
@@ -37,7 +38,7 @@ export const Event = [
   {
     id: 3,
     image: require('../assets/images/data/jakob-owens-qoFQxxuk3QY-unsplash.jpg'),
-    type: 'PARTY',
+    type: 'Party',
     date: '2020/02/21',
     startTime: '2020/02/21 09:10 PM',
     title: 'UI/UX',
@@ -52,7 +53,7 @@ export const Event = [
   {
     id: 4,
     image: require('../assets/images/data/lee-blanchflower-1dW1vEJLlCQ-unsplash.jpg'),
-    type: 'CONCERT',
+    type: 'Musique',
     date: '2020/04/21',
     startTime: '2020/04/21 09:10 PM',
     title: 'Festivale des couleurs',
@@ -68,7 +69,7 @@ export const Event = [
   {
     id: 5,
     image: require('../assets/images/data/med-mhamdi-mH_E0K581Yk-unsplash.jpg'),
-    type: 'MUSIC',
+    type: 'Musique',
     date: '2020/06/21',
     startTime: '2020/06/21 09:10 PM',
     title: 'Festivale des couleurs',
@@ -84,7 +85,7 @@ export const Event = [
   {
     id: 6,
     image: require('../assets/images/data/zachary-kadolph-hwHHq82Enf0-unsplash.jpg'),
-    type: 'SPORT',
+    type: 'Sport',
     date: '2020/08/21',
     startTime: '2020/08/21 09:10 PM',
     title: 'Festivale des couleurs',
@@ -100,7 +101,7 @@ export const Event = [
   {
     id: 7,
     image: require('../assets/images/data/connor-coyne-OgqWLzWRSaI-unsplash.jpg'),
-    type: 'SPORT',
+    type: 'Sport',
     date: '2020/10/21',
     startTime: '2020/10/21 09:10 PM',
     title: 'Festivale des couleurs',
@@ -147,7 +148,21 @@ export const News = [
   {
     id: 1,
     title: 'Reouvrez en toute confiance avec le manuel de sécurité COVID-19',
-    description:
-      "Nous nous sommes associés à des experts en gestion des risques et en santé pour permettre aux créateurs d'événements d'examiner attentivement les risques potentiels de sécurité lors de votre événement.",
+    color: 'red',
+  },
+  {
+    id: 2,
+    title: 'Reouvrez en toute confiance avec le manuel de sécurité COVID-19',
+    color: theme.colors.bluetiful,
+  },
+  {
+    id: 3,
+    title: 'Reouvrez en toute confiance avec le manuel de sécurité COVID-19',
+    color: theme.colors.blue,
+  },
+  {
+    id: 4,
+    title: 'Reouvrez en toute confiance avec le manuel de sécurité COVID-19',
+    color: 'cyan',
   },
 ];

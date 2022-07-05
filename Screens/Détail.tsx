@@ -50,9 +50,11 @@ const Detail = ({ navigation, route }: any) => {
     setSelectedEvent(selectedEvent);
   }, []);
 
-  // const likeEvent = () => (
-  //   dispatch(setLike())
-  // )
+  const onLike = () => (
+    setLiked(!liked),
+    console.log(`You liked ${selectedEvent?.title}`)
+
+  )
 
   const ImageBackgroundComponent = () => {
     return (
@@ -93,7 +95,7 @@ const Detail = ({ navigation, route }: any) => {
                 opacity: 0.7,
               }}>
               <TouchableOpacity
-                onPress={() => setLiked(!liked)}
+                onPress={() => onLike()}
               >
                 <Icon
                   name={liked === false ? "ios-heart-outline" : "ios-heart"}

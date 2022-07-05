@@ -14,7 +14,7 @@ const { height } = Dimensions.get('screen');
 
 type Item = {
   name: string,
-  cookies?: boolean
+  cookies?: boolean,
 }
 
 const Calendrier = () => {

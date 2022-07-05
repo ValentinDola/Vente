@@ -23,6 +23,7 @@ import {
   setData,
   selectCategories,
   setCategories,
+  selectNews,
 } from '../Slices/app';
 
 const { width, height } = Dimensions.get('window');
@@ -31,11 +32,10 @@ const Explorer = ({ navigation }: any) => {
   const user = useSelector(selectUser);
   const event = useSelector(selectData);
   const categories = useSelector(selectCategories);
+  const news = useSelector(selectNews);
   const dispatch = useDispatch();
 
-
-
-  const renderCat = ({ item }: any) => (
+  const renderCategories = ({ item }: any) => (
     <View
       style={{
         marginHorizontal: 15,
@@ -44,7 +44,7 @@ const Explorer = ({ navigation }: any) => {
       }}>
       <TouchableOpacity
         style={{
-          backgroundColor: theme.colors.white,
+          backgroundColor: theme.colors.antiFlashWhite,
           borderRadius: 50,
           height: 50,
           width: 50,
@@ -65,7 +65,7 @@ const Explorer = ({ navigation }: any) => {
     </View>
   );
 
-  const renderEv = ({ item, index }: any) => (
+  const renderEvents = ({ item, index }: any) => (
     <TouchableWithoutFeedback
       onPress={() => navigation.navigate('Detail', { selectedEvent: item })}>
       <View
@@ -144,6 +144,34 @@ const Explorer = ({ navigation }: any) => {
     </TouchableWithoutFeedback>
   );
 
+  const renderItem = ({ item, index }: any) => (
+    <View
+      style={{
+        marginHorizontal: 15,
+      }}>
+      <TouchableOpacity
+        style={{
+          backgroundColor: theme.colors.white,
+          width: width / 1.1,
+          height: 70,
+          marginTop: 5,
+          borderRadius: 3,
+          borderLeftColor: item?.color,
+          borderLeftWidth: 10,
+        }}>
+        <Text
+          style={{
+            color: theme.colors.black,
+            fontFamily: 'Nunito-SemiBold',
+            marginHorizontal: 15,
+            marginTop: 5,
+          }}>
+          {item?.title}
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+
   const Header = (props: any) => (
     <View
       style={{
@@ -154,7 +182,6 @@ const Explorer = ({ navigation }: any) => {
         justifyContent: 'space-between',
         alignItems: 'center',
       }}>
-
       <Text
         style={{
           color: theme.colors.black,
@@ -212,20 +239,24 @@ const Explorer = ({ navigation }: any) => {
 
   const Categories = () => (
     <View style={{ flex: 0.2 }}>
-      <Text style={{
-        textDecorationLine: 'line-through',
-        color: theme.colors.blue,
-        // color: theme.colors.black,
-        fontFamily: 'Nunito-SemiBold',
-        fontSize: theme.sizes.h5,
-        marginHorizontal: 10,
-      }} > Categories </Text>
-      <View>
+      <Text
+        style={{
+          textDecorationLine: 'line-through',
+          color: theme.colors.blue,
+          // color: theme.colors.black,
+          fontFamily: 'Nunito-SemiBold',
+          fontSize: theme.sizes.h5,
+          marginHorizontal: 10,
+        }}>
+        {' '}
+        Categories{' '}
+      </Text>
+      <View style={{ marginTop: 10 }} >
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
           data={categories}
-          renderItem={renderCat}
+          renderItem={renderCategories}
           keyExtractor={item => item.id}
         />
       </View>
@@ -234,20 +265,24 @@ const Explorer = ({ navigation }: any) => {
 
   const EventNearby = () => (
     <View style={{ flex: 0.5 }}>
-      <Text style={{
-        textDecorationLine: 'line-through',
-        color: theme.colors.blue,
-        fontFamily: 'Nunito-SemiBold',
-        fontSize: theme.sizes.h5,
-        marginHorizontal: 10,
-        marginVertical: 15,
-      }} > Evenements </Text>
+      <Text
+        style={{
+          textDecorationLine: 'line-through',
+          color: theme.colors.blue,
+          fontFamily: 'Nunito-SemiBold',
+          fontSize: theme.sizes.h5,
+          marginHorizontal: 10,
+          marginVertical: 15,
+        }}>
+        {' '}
+        Evenements{' '}
+      </Text>
       <View>
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
           data={event}
-          renderItem={renderEv}
+          renderItem={renderEvents}
           keyExtractor={item => item.id}
         />
       </View>
@@ -256,14 +291,28 @@ const Explorer = ({ navigation }: any) => {
 
   const News = () => (
     <View style={{ flex: 0.25 }}>
-      <Text style={{
-        textDecorationLine: 'line-through',
-        color: theme.colors.blue,
-        fontFamily: 'Nunito-SemiBold',
-        fontSize: theme.sizes.h5,
-        marginHorizontal: 10,
-        marginVertical: 15,
-      }} > Nouvelles </Text>
+      <Text
+        style={{
+          textDecorationLine: 'line-through',
+          color: theme.colors.blue,
+          fontFamily: 'Nunito-SemiBold',
+          fontSize: theme.sizes.h5,
+          marginHorizontal: 10,
+          marginVertical: 15,
+        }}>
+        {' '}
+        Nouvelles{' '}
+      </Text>
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <FlatList
+          horizontal
+          pagingEnabled={true}
+          showsHorizontalScrollIndicator={false}
+          data={news}
+          keyExtractor={item => item.id}
+          renderItem={renderItem}
+        />
+      </View>
     </View>
   );
 

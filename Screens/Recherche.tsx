@@ -34,6 +34,7 @@ const Recherche = ({ navigation }: any) => {
     const Header = () => (
         <View
             style={{
+
                 flex: 0.15,
                 marginTop: Platform.OS === 'ios' ? 10 : 5,
                 marginHorizontal: 15,
