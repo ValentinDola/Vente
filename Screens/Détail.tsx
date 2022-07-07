@@ -244,6 +244,17 @@ const Detail = ({ navigation, route }: any) => {
   const DescriptionSection = () => {
     return (
       <View style={{ marginHorizontal: 20 }}>
+        <View style={{ marginBottom: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
+            <Image source={require('../assets/images/data/cassie-gallegos-6wCWCPwmRJY-unsplash.jpg')} style={{ width: 40, height: 40, borderRadius: 50 }} />
+            <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', marginLeft: 15 }} >
+              Username
+            </Text>
+          </View>
+          <View style={{ height: 35, width: 100, backgroundColor: theme.colors.bluetiful, justifyContent: 'center', alignItems: 'center', borderRadius: 3 }} >
+            <Text style={{ color: theme.colors.white, fontFamily: 'Nunito-SemiBold' }}>Follow</Text>
+          </View>
+        </View>
         <Text
           style={{
             color: theme.colors.black,

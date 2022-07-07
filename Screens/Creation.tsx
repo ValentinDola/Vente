@@ -1,24 +1,33 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {theme} from '../Constants/index';
+import { StyleSheet, Text, View, Animated, FlatList, Dimensions } from 'react-native';
+import { theme } from '../Constants/index';
 
-const Creation = () => (
-  <View style={styles.screen}>
-    <Text style={{color: theme.colors.blue, fontFamily: 'Nunito-SemiBold'}}>
-      Post
-    </Text>
-  </View>
-);
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { CleanTabBar } from 'react-navigation-tabbar-collection';
+import Create from './New/Create';
+import Report from './New/Report';
+import Scan from './New/Scan';
+import Icon from 'react-native-vector-icons/Ionicons';
+
+
+const Tab = createBottomTabNavigator();
+
+
+const Creation = () => {
+
+  return (
+    <View style={styles.screen}>
+      <Create />
+    </View>
+  )
+}
+
 
 const styles = StyleSheet.create({
   screen: {
+    flex: 1,
     backgroundColor: '#F6F6F7',
-    width: '100%',
-    height: '100%',
-    flex: 6,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  }
 });
 
 export default Creation;

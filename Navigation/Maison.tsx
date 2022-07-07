@@ -96,10 +96,4 @@ const Maison = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  font: {
-    fontFamily: 'Nunito-SemiBold',
-  },
-});
-
 export default Maison;

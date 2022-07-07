@@ -4,10 +4,7 @@ import { theme } from '../Constants/index';
 import { selectData, setData } from '../Slices/app';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  Agenda,
-  DateData,
-  AgendaEntry,
-  AgendaSchedule,
+  Agenda, AgendaEntry,
 } from 'react-native-calendars';
 
 const { height } = Dimensions.get('screen');
@@ -17,22 +14,24 @@ type Item = {
   cookies?: boolean,
 }
 
-const Calendrier = () => {
+const Calendrier: React.FC = () => {
 
-  const events = useSelector(selectData);
-  const [items, setItems] = useState<AgendaSchedule>({
-    '2022/07/03': [{ name: 'white', height: height, day: '2022/07/03' }],
-    '2020/07/02': [{ name: 'black', height: height, day: '2020/07/02' }],
+  const [items, setItems] = useState<{ [date: string]: AgendaEntry[] }>({
+    '2022/07/07': [{ name: 'white', height: 100, day: '2022/07/07' }],
+    '2020/07/07': [{ name: 'black', height: 100, day: '2022/07/07' }],
   });
 
+  const events = useSelector(selectData);
 
 
-
-  const renderItem = (item: Item) => {
+  const renderItem = (item: AgendaEntry) => {
     return (
       <View style={styles.item} >
-        <Text>
+        <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }}>
           {item.name}
+        </Text>
+        <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }}>
+          {item.height ? 'oui' : 'non'}
         </Text>
       </View>
     )
@@ -46,6 +45,8 @@ const Calendrier = () => {
       <Agenda
         items={items}
         renderItem={renderItem}
+        displayLoadingIndicator={false}
+
       />
     </View>
   );
