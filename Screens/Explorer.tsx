@@ -28,7 +28,12 @@ import {
 
 const { width, height } = Dimensions.get('window');
 
-const Explorer = ({ navigation }: any) => {
+const Explorer: React.FC = ({ navigation }: any) => {
+
+  // useEffect(() => {
+
+  // }, [])
+
   const user = useSelector(selectUser);
   const event = useSelector(selectData);
   const categories = useSelector(selectCategories);
