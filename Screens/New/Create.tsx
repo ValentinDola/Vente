@@ -22,9 +22,9 @@ const Create = () => {
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    marginHorizontal: 15,
+                    marginHorizontal: 10,
                 }}>
-                <TouchableOpacity style={{ height: 30, width: 30, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }} onPress={() => console.log('Close')}>
+                <TouchableOpacity style={{ height: 35, width: 35, justifyContent: 'center', alignItems: 'center' }} onPress={() => console.log('Close')}>
                     <Icon name="close" size={22} color="black" />
                 </TouchableOpacity>
 
@@ -32,7 +32,7 @@ const Create = () => {
                     style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold' }}>
                     Nouvelle Evenement
                 </Text>
-                <TouchableOpacity onPress={() => console.log('Create')}>
+                <TouchableOpacity style={{ height: 35, width: 50, justifyContent: 'center', alignItems: 'center' }} onPress={() => console.log('Create')}>
                     <Text
                         style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }}>
                         Create

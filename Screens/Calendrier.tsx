@@ -1,53 +1,104 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
 import { theme } from '../Constants/index';
+import { Event } from '../Constants/dummy-data';
 import { selectData, setData } from '../Slices/app';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  Agenda, AgendaEntry,
+  Agenda
 } from 'react-native-calendars';
+import { format } from 'date-fns';
 
 const { height } = Dimensions.get('screen');
 
-type Item = {
-  name: string,
-  cookies?: boolean,
+const timeToString = (time: string | number | Date) => {
+  const date = new Date(time);
+  return date.toISOString().split('T')[0];
 }
 
 const Calendrier: React.FC = () => {
+  const [items, setItems] = useState({});
 
-  const [items, setItems] = useState<{ [date: string]: AgendaEntry[] }>({
-    '2022/07/07': [{ name: 'white', height: 100, day: '2022/07/07' }],
-    '2020/07/07': [{ name: 'black', height: 100, day: '2022/07/07' }],
-  });
+  useEffect(() => {
+    const mappedData = Event.map((event: { date: any }, index: any) => {
 
-  const events = useSelector(selectData);
+      const date = event.date;
+
+      return {
+        ...event,
+        date
+      }
+    });
+
+    const reduced = mappedData.reduce((acc: any, currentItem: { [x: string]: any; date: any; }) => {
+      const { date, ...coolItem } = currentItem;
+
+      acc[date] = [coolItem];
+
+      return acc;
+    }, {})
+
+    setItems(reduced);
+  }, [Event])
 
 
-  const renderItem = (item: AgendaEntry) => {
-    return (
-      <View style={styles.item} >
-        <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }}>
-          {item.name}
-        </Text>
-        <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }}>
-          {item.height ? 'oui' : 'non'}
-        </Text>
-      </View>
-    )
-  }
 
+
+
+
+  const loadItems = (day) => {
+    setTimeout(() => {
+      for (let i = -15; i < 85; i++) {
+        const time = day.timestamp + i * 24 * 60 * 60 * 1000;
+        const strTime = timeToString(time);
+        if (!items[strTime]) {
+          items[strTime] = [];
+          const numItems = Math.floor(Math.random() * 3 + 1);
+          for (let j = 0; j < numItems; j++) {
+            items[strTime].push({
+              name: `Items for ${strTime} # ${j}`,
+              height: Math.max(50, Math.floor(Math.random() * 150)),
+            });
+
+          }
+        }
+
+      }
+
+      const navItems = {};
+      Object.keys(items).forEach((key) => {
+        navItems[key] = items[key];
+      });
+      setItems(navItems);
+    }, 1000);
+  };
+
+  const renderItem = (item) => (
+    <TouchableOpacity style={styles.item}>
+      <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold' }} >
+        {item.title}
+      </Text>
+      <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold' }} >
+        {item.type}
+      </Text>
+      <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold' }} >
+        {item.location}
+      </Text>
+      <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold' }} >
+        {item.price}
+      </Text>
+      {item.promotion.state === true ? <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold' }} >
+        {item.promotion.detail}
+      </Text> : null}
+    </TouchableOpacity>
+  )
 
 
 
   return (
     <View style={{ flex: 1, backgroundColor: '#F6F6F7' }}>
-      <Agenda
-        items={items}
-        renderItem={renderItem}
-        displayLoadingIndicator={false}
-
-      />
+      <Agenda items={items}
+        renderItem={renderItem} selected={'2020-01-21'} />
     </View>
   );
 };
