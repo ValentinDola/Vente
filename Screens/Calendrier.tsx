@@ -20,7 +20,7 @@ const Calendrier: React.FC = () => {
   const [items, setItems] = useState({});
 
   useEffect(() => {
-    const mappedData = Event.map((event: { date: any }, index: any) => {
+    const mappedData = Event.map((event: { date: string | number | Date }, index: any) => {
 
       const date = event.date;
 
