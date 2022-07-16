@@ -54,9 +54,9 @@ export const Event = [
     id: 4,
     image: require('../assets/images/data/lee-blanchflower-1dW1vEJLlCQ-unsplash.jpg'),
     type: 'Musique',
-    date: '2020-01-25',
+    date: '2020-01-24',
     startTime: '2020/04/21 09:10 PM',
-    title: 'Festivale des couleurs',
+    title: 'Festivale des couleurs 4',
     location: '8010, Adamavo Market, Lome',
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,",
@@ -88,7 +88,7 @@ export const Event = [
     type: 'Sport',
     date: '2020-01-24',
     startTime: '2020/08/21 09:10 PM',
-    title: 'Festivale des couleurs 6',
+    title: 'Festivale des couleurs',
     location: '8010, Adamavo Market, Lome',
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,",

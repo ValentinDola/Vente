@@ -1,13 +1,62 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navigation from './Navigation';
 import RNBootSplash from 'react-native-bootsplash';
 import { Provider } from 'react-redux';
 import { store } from './Store/index';
-import { SafeAreaView, StatusBar } from 'react-native';
+import { SafeAreaView, StatusBar, PermissionsAndroid, Platform } from 'react-native';
 import moment from 'moment';
+import Geolocation from '@react-native-community/geolocation';
+import Geocoder from 'react-native-geocoding';
 
 import { enableLatestRenderer } from 'react-native-maps';
 import { theme } from './Constants';
+
+import { LocaleConfig } from 'react-native-calendars';
+
+
+
+LocaleConfig.locales['fr'] = {
+  monthNames: [
+    'Janvier',
+    'Février',
+    'Mars',
+    'Avril',
+    'Mai',
+    'Juin',
+    'Juillet',
+    'Août',
+    'Septembre',
+    'Octobre',
+    'Novembre',
+    'Décembre',
+  ],
+  monthNamesShort: [
+    'Janv.',
+    'Févr.',
+    'Mars',
+    'Avril',
+    'Mai',
+    'Juin',
+    'Juil.',
+    'Août',
+    'Sept.',
+    'Oct.',
+    'Nov.',
+    'Déc.',
+  ],
+  dayNames: [
+    'Dimanche',
+    'Lundi',
+    'Mardi',
+    'Mercredi',
+    'Jeudi',
+    'Vendredi',
+    'Samedi',
+  ],
+  dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
+  today: "Aujourd'hui",
+};
+LocaleConfig.defaultLocale = 'fr';
 
 enableLatestRenderer();
 
@@ -77,11 +126,129 @@ moment.updateLocale('fr', {
 });
 
 const App = () => {
+  const [currentLongitude, setCurrentLongitude] = useState('...');
+  const [currentLatitude, setCurrentLatitude] = useState('...');
+  const [locationStatus, setLocationStatus] = useState('');
+
   useEffect(() => {
+
+    let watchID: number;
+
     RNBootSplash.hide({ fade: true })
       .then(r => console.log(r, 'Bootsplash has been hidden successfully'))
       .catch(err => console.error(err));
+
+    const requestLocationPermission = async () => {
+      if (Platform.OS === 'ios') {
+        getOneTimeLocation();
+        subscribeLocationLocation();
+      } else {
+        try {
+          const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            {
+              title: "Accès à l'emplacement requis",
+              message: 'Cette application doit accéder à votre position',
+            });
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            //To Check, If Permission is granted
+            getOneTimeLocation();
+            subscribeLocationLocation();
+          } else {
+            setLocationStatus('Permission Denied');
+          }
+        } catch (err) {
+          console.log(err)
+        }
+      }
+    };
+
+    const getOneTimeLocation = () => {
+      setLocationStatus('Getting Location ...');
+      Geolocation.getCurrentPosition(
+        //Will give you the current location
+        (position) => {
+          setLocationStatus('You are Here');
+
+          //getting the Longitude from the location json
+          const currentLongitude =
+            JSON.stringify(position.coords.longitude);
+
+          //getting the Latitude from the location json
+          const currentLatitude =
+            JSON.stringify(position.coords.latitude);
+
+          //Setting Longitude state
+          setCurrentLongitude(currentLongitude);
+
+          //Setting Longitude state
+          setCurrentLatitude(currentLatitude);
+        },
+        (error) => {
+          setLocationStatus(error.message);
+        },
+        {
+          enableHighAccuracy: false,
+          timeout: 30000,
+          maximumAge: 1000
+        },
+      );
+    };
+
+    const subscribeLocationLocation = () => {
+      let watchID = Geolocation.watchPosition(
+        (position) => {
+          //Will give you the location on location change
+
+          setLocationStatus('You are Here');
+          console.log(position);
+
+          //getting the Longitude from the location json        
+          const currentLongitude =
+            JSON.stringify(position.coords.longitude);
+
+          //getting the Latitude from the location json
+          const currentLatitude =
+            JSON.stringify(position.coords.latitude);
+
+          //Setting Longitude state
+          setCurrentLongitude(currentLongitude);
+
+          //Setting Latitude state
+          setCurrentLatitude(currentLatitude);
+        },
+        (error) => {
+          setLocationStatus(error.message);
+        },
+        {
+          enableHighAccuracy: false,
+          maximumAge: 1000
+        },
+      );
+    };
+    requestLocationPermission();
+
+    // const getCurrentAddress = () => (
+    //   Geocoder.init('AIzaSyCls3Fj2pMSWh1eCySiZUEbFor4gHPbykQ', { language: 'fr' }),
+    //   Geocoder.from(6.1692454, 1.3050853).then(json => {
+    //     let address = json.results[0].address_components[0];
+    //     console.log(address);
+    //   }).catch(error => console.warn(error))
+    // );
+
+    // getCurrentAddress();
+
+
+
+
+    return () => {
+      Geolocation.clearWatch(watchID);
+    };
+
+
+
   }, []);
+
+
   return (
     <Provider store={store}>
       <SafeAreaView style={{ flex: 1 }}>

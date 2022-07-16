@@ -187,14 +187,25 @@ const Explorer: React.FC = ({ navigation }: any) => {
         justifyContent: 'space-between',
         alignItems: 'center',
       }}>
-      <Text
-        style={{
-          color: theme.colors.black,
-          fontFamily: 'Nunito-SemiBold',
-          fontSize: theme.sizes.h2,
-        }}>
-        {props.user.name}
-      </Text>
+      <View>
+        <Text
+          style={{
+            color: theme.colors.blue,
+            fontFamily: 'Nunito-SemiBold',
+            fontSize: theme.sizes.h10,
+          }}>
+          Autour de toi à
+        </Text>
+        <Text
+          style={{
+            color: theme.colors.blue,
+            fontFamily: 'Nunito-SemiBold',
+            fontSize: theme.sizes.h2,
+          }}>
+          Baguida
+        </Text>
+      </View>
+
 
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity
@@ -295,7 +306,7 @@ const Explorer: React.FC = ({ navigation }: any) => {
   );
 
   const News = () => (
-    <View style={{ flex: 0.25 }}>
+    <View style={{ flex: 0.15, marginBottom: 50 }}>
       <Text
         style={{
           textDecorationLine: 'line-through',
@@ -311,7 +322,6 @@ const Explorer: React.FC = ({ navigation }: any) => {
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
         <FlatList
           horizontal
-          pagingEnabled={true}
           showsHorizontalScrollIndicator={false}
           data={news}
           keyExtractor={item => item.id}
