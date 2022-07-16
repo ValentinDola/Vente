@@ -1,4 +1,10 @@
-import React, {useRef} from 'react';
+// ADD TODO
+// [X] Slide array containing object with id, image and description.
+// [X] Component for rendering a slide object.
+// [X] Footer, buttons to navigate between the onboardings.
+// [X] Stack all components.
+
+import React, { useRef } from 'react';
 import {
   SafeAreaView,
   Dimensions,
@@ -9,48 +15,60 @@ import {
   Image,
   Text,
   TouchableOpacity,
+  ImageSourcePropType,
 } from 'react-native';
-import {theme} from '../Constants';
+import { theme } from '../Constants';
 import * as PropTypes from 'prop-types';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const slides = [
   {
     id: 1,
-    image: require('../assets/images/onboarding/undraw_missed_chances_k3cq.png'),
+    name: 'water-outline',
     // title
     description:
-      'Soyez le premier à connaître le meilleur événement dans votre pays.',
+      "l'endroit où vous pouvez trouver tous les événements.",
   },
   {
     id: 2,
-    image: require('../assets/images/onboarding/undraw_Calendar_re_ki49.png'),
-    description: "Calendrier d'événements moderne.",
+    name: 'brush-outline',
+    description: "Informations en temps réel sur ce qui se passe dans le pays.",
   },
   {
     id: 3,
-    image: require('../assets/images/onboarding/undraw_off_road_9oae.png'),
-    description: 'Trouvez facilement les itinéraires',
+    name: 'timer-outline',
+    description: 'Informations en temps réel sur ce qui se passe dans le pays.',
   },
 ];
 
-const Integration = ({navigation}) => {
+const Integration = (props: {
+  navigation: { navigate: (arg0: string) => void };
+}) => {
   const [currentIndicatorIndex, setCurrentIndicatorIndex] = React.useState(0);
   const ref = useRef(null);
 
-  const Slide = props => {
+  const Slide = (props: {
+    item: {
+      name: string;
+      description:
+      | boolean
+      | React.ReactChild
+      | React.ReactFragment
+      | React.ReactPortal
+      | null
+      | undefined;
+    };
+  }) => {
     return (
-      <View style={{alignItems: 'center'}}>
-        <Image
-          source={props.item.image}
-          style={{
-            height: '75%',
-            width,
-            resizeMode: 'contain',
-          }}
-        />
-        <Text style={styles.description}>{props.item.description}</Text>
+      <View style={{ justifyContent: 'center' }}>
+        <View style={{ width, alignItems: 'center' }} >
+          <Icon name={props.item.name} size={250} color={theme.colors.blue} />
+          <Text style={styles.description}>{props.item.description}</Text>
+        </View>
+
+
       </View>
     );
   };
@@ -61,7 +79,7 @@ const Integration = ({navigation}) => {
         style={{
           height: height * 0.25,
           justifyContent: 'space-between',
-          paddingHorizontal: 20,
+
         }}>
         <View
           style={{
@@ -76,40 +94,42 @@ const Integration = ({navigation}) => {
                 styles.indicator,
                 currentIndicatorIndex == index && {
                   backgroundColor: theme.colors.blue,
-                  width: 25,
+
                 },
               ]}
             />
           ))}
         </View>
-        <View style={{marginBottom: 30}}>
+        <View style={{ marginBottom: 30 }}>
           {currentIndicatorIndex === slides.length - 1 ? (
-            <View style={{height: 50}}>
+            <View style={{ height: 50 }}>
               <TouchableOpacity
                 style={[styles.btn]}
-                onPress={() => navigation.replace('Identification')}>
+                onPress={() => props.navigation.navigate('Maison')}>
                 <Text style={[styles.btntxt]}>Commencez</Text>
               </TouchableOpacity>
             </View>
           ) : (
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <TouchableOpacity
                 style={[
                   styles.btn,
                   {
                     backgroundColor: 'transparent',
-                    borderWidth: 1,
-                    borderColor: theme.colors.blue,
+
                   },
                 ]}
                 onPress={skip}>
-                <Text style={[styles.btntxt, {color: theme.colors.blue}]}>
+                <Text style={[styles.btntxt, { color: theme.colors.blue }]}>
                   Sauter
                 </Text>
               </TouchableOpacity>
-              <View style={{width: 15}} />
-              <TouchableOpacity style={[styles.btn]} onPress={goToNextSlide}>
-                <Text style={[styles.btntxt]}>Suivant</Text>
+              <View style={{ width: 15 }} />
+              <TouchableOpacity style={[styles.btn, {
+                backgroundColor: 'transparent',
+
+              },]} onPress={goToNextSlide}>
+                <Text style={[styles.btntxt, { color: theme.colors.blue }]}>Suivant</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -118,9 +138,11 @@ const Integration = ({navigation}) => {
     );
   };
 
-  Slide.propTypes = {item: PropTypes.object};
+  Slide.propTypes = { item: PropTypes.object };
 
-  const updateCurrentSlideIndex = e => {
+  const updateCurrentSlideIndex = (e: {
+    nativeEvent: { contentOffset: { x: any } };
+  }) => {
     const contentOffsetX = e.nativeEvent.contentOffset.x;
     const currentIndex = Math.round(contentOffsetX / width);
     setCurrentIndicatorIndex(currentIndex);
@@ -130,7 +152,7 @@ const Integration = ({navigation}) => {
     const nextSlideIndex = currentIndicatorIndex + 1;
     if (nextSlideIndex != slides.length) {
       const offset = nextSlideIndex * width;
-      ref?.current?.scrollToOffset({offset});
+      ref?.current?.scrollToOffset({ offset });
       setCurrentIndicatorIndex(nextSlideIndex);
     }
   };
@@ -138,7 +160,7 @@ const Integration = ({navigation}) => {
   const skip = () => {
     const lastSlideIndex = slides.length - 1;
     const offset = lastSlideIndex * width;
-    ref?.current?.scrollToOffset({offset});
+    ref?.current?.scrollToOffset({ offset });
     setCurrentIndicatorIndex(lastSlideIndex);
   };
 
@@ -146,18 +168,18 @@ const Integration = ({navigation}) => {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor: '#F6F6F7',
       }}>
-      <StatusBar backgroundColor={theme.colors.black} />
+
       <FlatList
         ref={ref}
         onMomentumScrollEnd={updateCurrentSlideIndex}
         pagingEnabled={true}
         data={slides}
-        contentContainerStyle={{height: height * 0.75}}
+        contentContainerStyle={{ height: height * 0.75 }}
         horizontal
         showsHorizontalScrollIndicator={false}
-        renderItem={({item}) => <Slide item={item} />}
+        renderItem={({ item }) => <Slide item={item} />}
       />
       <Footer />
     </SafeAreaView>
@@ -169,28 +191,29 @@ const styles = StyleSheet.create({
     fontSize: theme.sizes.h4,
     fontFamily: 'Nunito-SemiBold',
     color: theme.colors.black,
-    fontWeight: '600',
-    // marginTop: 10,
-    width: 268,
+
+    width: 300,
     textAlign: 'center',
   },
   indicator: {
-    height: 2.5,
+    height: 10,
     width: 10,
-    backgroundColor: theme.colors.lightBlue,
+    borderColor: theme.colors.bluetiful,
+    borderWidth: 1.5,
     marginHorizontal: 3,
-    borderRadius: 2,
+    borderRadius: 50,
   },
   btn: {
     flex: 1,
-    height: 50,
+    height: 40,
     borderRadius: 3,
     backgroundColor: theme.colors.blue,
     justifyContent: 'center',
     alignItems: 'center',
+    marginHorizontal: 25,
   },
   btntxt: {
-    fontSize: theme.sizes.h5,
+    fontSize: theme.sizes.h6,
     fontFamily: 'Nunito-SemiBold',
     color: theme.colors.antiFlashWhite,
   },
