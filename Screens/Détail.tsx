@@ -38,8 +38,9 @@ const { width, height } = Dimensions.get('window');
 
 const Detail = ({ navigation, route }: any) => {
   const [selectedEvent, setSelectedEvent]: any = useState(null);
-  const [ticket, setTicket]: any = useState('1');
+  const [ticket, setTicket]: any = useState('18');
   const [liked, setLiked] = useState(false);
+  const [follow, setFollow] = useState(false);
 
   const like = useSelector(selectLike);
 
@@ -51,10 +52,8 @@ const Detail = ({ navigation, route }: any) => {
   }, []);
 
   const onLike = () => (
-    setLiked(!liked),
-    console.log(`You liked ${selectedEvent?.title}`)
-
-  )
+    setLiked(!liked), console.log(`You liked ${selectedEvent?.title}`)
+  );
 
   const ImageBackgroundComponent = () => {
     return (
@@ -94,11 +93,9 @@ const Detail = ({ navigation, route }: any) => {
                 borderRadius: 5,
                 opacity: 0.7,
               }}>
-              <TouchableOpacity
-                onPress={() => onLike()}
-              >
+              <TouchableOpacity onPress={() => onLike()}>
                 <Icon
-                  name={liked === false ? "ios-heart-outline" : "ios-heart"}
+                  name={liked === false ? 'ios-heart-outline' : 'ios-heart'}
                   size={24}
                   color={liked === false ? theme.colors.black : 'red'}
                 />
@@ -193,50 +190,17 @@ const Detail = ({ navigation, route }: any) => {
     );
   };
 
-  const DescriptionButton = () => {
+  const IntroductionComponent = () => {
     return (
-      <View
-        style={{
-          margin: 15,
-          flexDirection: 'row',
-        }}>
-        <TouchableOpacity
+      <View style={{ marginLeft: 20, marginVertical: 20, width: width / 2 }}>
+        <Text
           style={{
-            borderRadius: 5,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: theme.colors.bluetiful,
+            color: theme.colors.black,
+            fontFamily: 'Nunito-Bold',
+            fontSize: theme.sizes.h5,
           }}>
-          <Text
-            style={{
-              color: theme.colors.white,
-              fontFamily: 'Nunito-SemiBold',
-              paddingVertical: 10,
-              paddingHorizontal: 15,
-              fontSize: theme.sizes.h7,
-            }}>
-            À propos de
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            borderRadius: 5,
-            marginHorizontal: 15,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: theme.colors.white,
-          }}>
-          <Text
-            style={{
-              color: theme.colors.black,
-              fontFamily: 'Nunito-SemiBold',
-              paddingVertical: 10,
-              paddingHorizontal: 15,
-              fontSize: theme.sizes.h7,
-            }}>
-            Participants
-          </Text>
-        </TouchableOpacity>
+          Design Thinking Ghana Conference 2022
+        </Text>
       </View>
     );
   };
@@ -244,37 +208,112 @@ const Detail = ({ navigation, route }: any) => {
   const DescriptionSection = () => {
     return (
       <View style={{ marginHorizontal: 20 }}>
-        <View style={{ marginBottom: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
-            <Image source={require('../assets/images/data/cassie-gallegos-6wCWCPwmRJY-unsplash.jpg')} style={{ width: 40, height: 40, borderRadius: 50 }} />
-            <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', marginLeft: 15 }} >
-              Username
+        <View
+          style={{
+            marginBottom: 30,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            {/* <Image source={require('../assets/images/data/cassie-gallegos-6wCWCPwmRJY-unsplash.jpg')} style={{ width: 40, height: 40, borderRadius: 50 }} /> */}
+            <Text
+              style={{
+                color: theme.colors.blue,
+                fontFamily: 'Nunito-SemiBold',
+                fontSize: theme.sizes.h6,
+              }}>
+              By DolaHub
+            </Text>
+            <Text
+              style={{
+                color: theme.colors.blue,
+                fontFamily: 'Nunito-SemiBold',
+                marginLeft: 15,
+                fontSize: theme.sizes.h6,
+              }}>
+              009 followers
             </Text>
           </View>
-          <View style={{ height: 35, width: 100, backgroundColor: theme.colors.bluetiful, justifyContent: 'center', alignItems: 'center', borderRadius: 3 }} >
-            <Text style={{ color: theme.colors.white, fontFamily: 'Nunito-SemiBold' }}>Follow</Text>
-          </View>
+          <TouchableOpacity
+            style={{
+              height: 35,
+              width: 90,
+              backgroundColor: 'transparent',
+              borderColor: theme.colors.blue,
+              borderWidth: 2,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 3,
+            }} onPress={() => setFollow(!follow)} >
+            <Text
+              style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }}>
+              {follow === false ? 'follow' : 'following'}
+
+            </Text>
+          </TouchableOpacity>
         </View>
-        <Text
-          style={{
-            color: theme.colors.black,
-            fontFamily: 'Nunito-SemiBold',
-            fontSize: theme.sizes.h7,
-          }}>
-          {selectedEvent?.description}
-        </Text>
+        <View style={{ marginBottom: 25 }}>
+          <Text
+            style={{
+              color: theme.colors.black,
+              fontFamily: 'Nunito-Bold',
+              fontSize: theme.sizes.h5,
+            }}>
+            Date et l'heure
+          </Text>
+          <Text
+            style={{
+              color: theme.colors.black,
+              fontFamily: 'Nunito-SemiBold',
+              fontSize: theme.sizes.h6,
+              marginTop: 5,
+            }}>
+            {moment(selectedEvent?.date).format('D MMMM YYYY')}
+          </Text>
+          <Text
+            style={{
+              color: theme.colors.black,
+              fontFamily: 'Nunito-SemiBold',
+              fontSize: theme.sizes.h6,
+              marginTop: 3,
+            }}>
+            Début. {moment(selectedEvent?.startTime).format('LT')}
+          </Text>
+        </View>
+        <View>
+          <Text
+            style={{
+              color: theme.colors.black,
+              fontFamily: 'Nunito-SemiBold',
+              fontSize: theme.sizes.h6,
+              letterSpacing: 0.5,
+            }}>
+            {selectedEvent?.description}
+          </Text>
+        </View>
       </View>
     );
   };
 
   const LocationSection = () => {
     return (
-      <View style={{ marginTop: 15, marginHorizontal: 20, marginBottom: selectedEvent?.promotion.state === false ? 150 : 0 }}>
+      <View
+        style={{
+          marginTop: 35,
+          marginHorizontal: 20,
+          marginBottom: selectedEvent?.promotion.state === false ? 150 : 0,
+        }}>
         <Text
           style={{
             color: theme.colors.black,
-            fontFamily: 'Nunito-SemiBold',
-            fontSize: theme.sizes.h4,
+            fontFamily: 'Nunito-Bold',
+            fontSize: theme.sizes.h5,
           }}>
           Lieux
         </Text>
@@ -306,7 +345,6 @@ const Detail = ({ navigation, route }: any) => {
                 backgroundColor: theme.colors.bluetiful,
                 padding: 6,
                 borderRadius: 10,
-                // opacity: 0.7,
               }}
               name="location-outline"
               size={24}
@@ -324,8 +362,8 @@ const Detail = ({ navigation, route }: any) => {
         <Text
           style={{
             color: theme.colors.black,
-            fontFamily: 'Nunito-SemiBold',
-            fontSize: theme.sizes.h4,
+            fontFamily: 'Nunito-Bold',
+            fontSize: theme.sizes.h6,
           }}>
           Promotion
         </Text>
@@ -419,24 +457,31 @@ const Detail = ({ navigation, route }: any) => {
             </View>
           </View>
           {
-            <TouchableOpacity
-              style={{
-                borderRadius: 5,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: theme.colors.bluetiful,
-              }}>
-              <Text
+            <View style={{
+              justifyContent: 'flex-end',
+              alignItems: 'flex-end',
+            }}>
+              <TouchableOpacity
                 style={{
-                  color: theme.colors.white,
-                  fontFamily: 'Nunito-SemiBold',
-                  paddingVertical: 10,
-
-                  fontSize: theme.sizes.h5,
+                  borderRadius: 5,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: theme.colors.white,
+                  width: width / 2,
+                  height: 45,
                 }}>
-                Acheter Billet
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  style={{
+                    color: theme.colors.black,
+                    fontFamily: 'Nunito-Bold',
+
+                    fontSize: theme.sizes.h6,
+                  }}>
+                  Acheter {ticket} Billet{ticket >= 10 ? 's' : null}..
+                </Text>
+              </TouchableOpacity>
+
+            </View>
           }
         </View>
       </View>
@@ -451,10 +496,12 @@ const Detail = ({ navigation, route }: any) => {
         style={{ backgroundColor: '#F6F6F7' }}>
         {/* ImageBackground */}
         <ImageBackgroundComponent />
-        {/* Buttons group section */}
-        <DescriptionButton />
+
+        <IntroductionComponent />
+
         {/* Description section */}
         <DescriptionSection />
+
         {/* Location section */}
         <LocationSection />
         {/* Promotion section */}

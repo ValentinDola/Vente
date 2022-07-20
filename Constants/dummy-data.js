@@ -142,6 +142,16 @@ export const Categories = [
     title: 'Sport',
     image: require('../assets/images/categories/icons8-soccer-ball-40.png'),
   },
+  {
+    id: 6,
+    title: 'Church',
+    image: require('../assets/images/categories/icons8-bible-app-40.png'),
+  },
+  {
+    id: 7,
+    title: 'Emission',
+    image: require('../assets/images/categories/icons8-pray-40.png'),
+  },
 ];
 
 export const News = [

@@ -102,7 +102,6 @@ const Calendrier: React.FC = ({ navigation }) => {
         theme={{
           agendaDayTextColor: theme.colors.bluetiful,
           agendaDayNumColor: theme.colors.bluetiful,
-
           agendaKnobColor: theme.colors.bluetiful,
           foregroundColor: theme.colors.bluetiful,
           dotColor: theme.colors.blue,

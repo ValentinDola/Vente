@@ -190,7 +190,7 @@ const Explorer: React.FC = ({ navigation }: any) => {
       <View>
         <Text
           style={{
-            color: theme.colors.blue,
+            color: theme.colors.black,
             fontFamily: 'Nunito-SemiBold',
             fontSize: theme.sizes.h10,
           }}>
@@ -198,9 +198,9 @@ const Explorer: React.FC = ({ navigation }: any) => {
         </Text>
         <Text
           style={{
-            color: theme.colors.blue,
+            color: theme.colors.black,
             fontFamily: 'Nunito-SemiBold',
-            fontSize: theme.sizes.h2,
+            fontSize: theme.sizes.h1,
           }}>
           Baguida
         </Text>
