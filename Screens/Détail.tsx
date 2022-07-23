@@ -38,7 +38,7 @@ const { width, height } = Dimensions.get('window');
 
 const Detail = ({ navigation, route }: any) => {
   const [selectedEvent, setSelectedEvent]: any = useState(null);
-  const [ticket, setTicket]: any = useState('18');
+  const [ticket, setTicket]: any = useState('1');
   const [liked, setLiked] = useState(false);
   const [follow, setFollow] = useState(false);
 
@@ -155,6 +155,7 @@ const Detail = ({ navigation, route }: any) => {
                   color: theme.colors.white,
                 }}>
                 Début. {moment(selectedEvent?.startTime).format('LT')}
+                {/* {selectedEvent?.startTime} */}
               </Text>
             </View>
             <View
@@ -189,6 +190,8 @@ const Detail = ({ navigation, route }: any) => {
       </ImageBackground>
     );
   };
+
+
 
   const IntroductionComponent = () => {
     return (
@@ -228,7 +231,7 @@ const Detail = ({ navigation, route }: any) => {
                 fontFamily: 'Nunito-SemiBold',
                 fontSize: theme.sizes.h6,
               }}>
-              By DolaHub
+              Par DolaHub
             </Text>
             <Text
               style={{
@@ -253,7 +256,7 @@ const Detail = ({ navigation, route }: any) => {
             }} onPress={() => setFollow(!follow)} >
             <Text
               style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }}>
-              {follow === false ? 'follow' : 'following'}
+              {follow === false ? "S'abonner" : 'Abonné'}
 
             </Text>
           </TouchableOpacity>
@@ -287,6 +290,15 @@ const Detail = ({ navigation, route }: any) => {
           </Text>
         </View>
         <View>
+          <Text
+            style={{
+              color: theme.colors.black,
+              fontFamily: 'Nunito-Bold',
+              fontSize: theme.sizes.h5,
+              marginBottom: 5
+            }}>
+            Description
+          </Text>
           <Text
             style={{
               color: theme.colors.black,
@@ -382,6 +394,14 @@ const Detail = ({ navigation, route }: any) => {
     );
   };
 
+  const Wrapper = ({ children }: any) => {
+    return (
+      <View>
+        {children}
+      </View>
+    )
+  }
+
   const ButtomBarSection = () => {
     return (
       <View
@@ -435,26 +455,27 @@ const Detail = ({ navigation, route }: any) => {
                 </Text>
               }
             </View>
-            <View>
-              <TextInput
-                defaultValue={ticket}
-                style={{
-                  height: 40,
 
-                  width: 80,
-                  backgroundColor: 'transparent',
-                  borderWidth: 3,
-                  borderRadius: 5,
-                  paddingLeft: 10,
-                  fontFamily: 'Nunito-SemiBold',
-                  fontSize: theme.sizes.h6,
-                  color: theme.colors.black,
-                  borderColor: theme.colors.bluetiful,
-                }}
-                onChangeText={text => setTicket(text)}
-                keyboardType={'number-pad'}
-              />
-            </View>
+            <TextInput
+              defaultValue={ticket}
+              style={{
+                height: 40,
+
+                width: 80,
+                backgroundColor: 'transparent',
+                borderWidth: 3,
+                borderRadius: 5,
+                paddingLeft: 10,
+                fontFamily: 'Nunito-SemiBold',
+                fontSize: theme.sizes.h6,
+                color: theme.colors.black,
+                borderColor: theme.colors.bluetiful,
+              }}
+              onChangeText={e => setTicket(e)}
+
+              keyboardType={'number-pad'}
+            />
+
           </View>
           {
             <View style={{
@@ -477,7 +498,7 @@ const Detail = ({ navigation, route }: any) => {
 
                     fontSize: theme.sizes.h6,
                   }}>
-                  Acheter {ticket} Billet{ticket >= 10 ? 's' : null}..
+                  Acheter {ticket} Billet{ticket >= 2 ? 's' : null}..
                 </Text>
               </TouchableOpacity>
 

@@ -9,7 +9,7 @@ export const Event = [
     image: require('../assets/images/data/adam-whitlock-I9j8Rk-JYFM-unsplash.jpg'),
     type: 'Sortie',
     date: '2020-01-21',
-    startTime: '2020/01/21 09:10 PM',
+    startTime: '2020-01-21 13:00:00',
     title: 'Festivale des couleurs',
     location: '8010, Adamavo Market, Lome',
     description:
@@ -24,7 +24,7 @@ export const Event = [
     image: require('../assets/images/data/cassie-gallegos-6wCWCPwmRJY-unsplash.jpg'),
     type: 'Bouffe',
     date: '2020-01-22',
-    startTime: '2020/01/21 09:10 PM',
+    startTime: '2020-01-21 13:00:00',
     title: 'UX Design',
     location: '8010, Adamavo Market, Lome',
     description:
@@ -40,7 +40,7 @@ export const Event = [
     image: require('../assets/images/data/jakob-owens-qoFQxxuk3QY-unsplash.jpg'),
     type: 'Party',
     date: '2020-01-23',
-    startTime: '2020/02/21 09:10 PM',
+    startTime: '2020-01-21 13:00:00',
     title: 'UI/UX',
     location: '8010, Adamavo Market, Lome',
     description:
@@ -55,7 +55,7 @@ export const Event = [
     image: require('../assets/images/data/lee-blanchflower-1dW1vEJLlCQ-unsplash.jpg'),
     type: 'Musique',
     date: '2020-01-24',
-    startTime: '2020/04/21 09:10 PM',
+    startTime: '2020-01-21 13:00:00',
     title: 'Festivale des couleurs 4',
     location: '8010, Adamavo Market, Lome',
     description:
@@ -71,7 +71,7 @@ export const Event = [
     image: require('../assets/images/data/med-mhamdi-mH_E0K581Yk-unsplash.jpg'),
     type: 'Musique',
     date: '2020-01-24',
-    startTime: '2020/06/21 09:10 PM',
+    startTime: '2020-01-21 13:00:00',
     title: 'Festivale des couleurs 5',
     location: '8010, Adamavo Market, Lome',
     description:
@@ -87,7 +87,7 @@ export const Event = [
     image: require('../assets/images/data/zachary-kadolph-hwHHq82Enf0-unsplash.jpg'),
     type: 'Sport',
     date: '2020-01-24',
-    startTime: '2020/08/21 09:10 PM',
+    startTime: '2020-01-21 13:00:00',
     title: 'Festivale des couleurs',
     location: '8010, Adamavo Market, Lome',
     description:
@@ -103,7 +103,7 @@ export const Event = [
     image: require('../assets/images/data/connor-coyne-OgqWLzWRSaI-unsplash.jpg'),
     type: 'Sport',
     date: '2020-01-21',
-    startTime: '2020/10/21 09:10 PM',
+    startTime: '2020-01-21 13:00:00',
     title: 'Festivale des couleurs',
     location: '8010, Adamavo Market, Lome',
     description:
@@ -151,6 +151,16 @@ export const Categories = [
     id: 7,
     title: 'Emission',
     image: require('../assets/images/categories/icons8-pray-40.png'),
+  },
+  {
+    id: 8,
+    title: 'Santé',
+    image: require('../assets/images/categories/icons8-clinic-40.png'),
+  },
+  {
+    id: 9,
+    title: 'Affaires',
+    image: require('../assets/images/categories/icons8-business-40.png'),
   },
 ];
 
