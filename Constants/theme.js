@@ -2,7 +2,7 @@ const colors = {
   blue: '#0260E8',
   white: '#ffffff',
   antiFlashWhite: '#F1F5F9',
-  grey: '#E5E5E5',
+  grey: '#f1f1f1',
   black: '#000000',
   // Opacity 50%
   bluetiful: 'rgba(2,96,232,0.5)',

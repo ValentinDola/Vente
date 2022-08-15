@@ -20,6 +20,7 @@ import {
 import { theme } from '../Constants';
 import * as PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/Ionicons';
+import RNBounceable from '@freakycoder/react-native-bounceable';
 
 const { width, height } = Dimensions.get('window');
 
@@ -103,15 +104,15 @@ const Integration = (props: {
         <View style={{ marginBottom: 30 }}>
           {currentIndicatorIndex === slides.length - 1 ? (
             <View style={{ height: 50 }}>
-              <TouchableOpacity
+              <RNBounceable
                 style={[styles.btn]}
                 onPress={() => props.navigation.navigate('Maison')}>
                 <Text style={[styles.btntxt]}>Commencez</Text>
-              </TouchableOpacity>
+              </RNBounceable>
             </View>
           ) : (
             <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity
+              <RNBounceable
                 style={[
                   styles.btn,
                   {
@@ -123,14 +124,14 @@ const Integration = (props: {
                 <Text style={[styles.btntxt, { color: theme.colors.blue }]}>
                   Sauter
                 </Text>
-              </TouchableOpacity>
+              </RNBounceable>
               <View style={{ width: 15 }} />
-              <TouchableOpacity style={[styles.btn, {
+              <RNBounceable style={[styles.btn, {
                 backgroundColor: 'transparent',
 
               },]} onPress={goToNextSlide}>
                 <Text style={[styles.btntxt, { color: theme.colors.blue }]}>Suivant</Text>
-              </TouchableOpacity>
+              </RNBounceable>
             </View>
           )}
         </View>

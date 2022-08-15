@@ -10,212 +10,234 @@ import {
     Text,
     View,
     TouchableOpacity,
-    Platform,
     TextInput,
     Dimensions,
     FlatList,
-    TouchableWithoutFeedback,
-    ImageBackground,
-    ScrollView,
-    KeyboardAvoidingView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useSelector } from 'react-redux';
+import InteractiveTextInput from "react-native-text-input-interactive";
+import { data } from '../Constants/dummy-data';
+import { useForm, Controller } from 'react-hook-form';
 import { theme } from '../Constants/index';
-import { selectData } from '../Slices/app';
 
 const { width, height } = Dimensions.get('screen');
 
 const Recherche = ({ navigation }: any) => {
-    const [search, setSearch]: any = useState('Happy Run');
+    const [event, setEvent] = useState(data);
 
-    const event = useSelector(selectData);
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        defaultValues: {
+            search: '',
+        },
+    });
+
+    // const searchFilter = (text) => {
+    //     if (text) {
+    //         const newData = event.filter(item => {
+    //             const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+    //             const textData = text.toUpperCase();
+    //             return itemData.indexOf(textData) > -1;
+
+    //         })
+    //         setEvent(newData)
+    //     } else {
+    //         setEvent(data)
+    //     }
+    // }
+
+    const onChangeText = (data: any) => {
+        const text = data.search;
+        console.log(text);
+        if (text) {
+            const newData = event.filter(item => {
+                const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+                const textData = text.toUpperCase();
+                return itemData.indexOf(textData) > -1;
+
+            })
+            setEvent(newData);
+            console.log(newData);
+
+        } else {
+            setEvent(event)
+        }
+
+    };
+
+    // const event = useSelector(selectData);
 
     const Header = () => (
-        <View
-            style={{
-
-                flex: 0.15,
-                marginTop: Platform.OS === 'ios' ? 10 : 5,
-                marginHorizontal: 15,
-                height: '100%',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-            }}>
-            <TouchableOpacity
-                style={{
-                    backgroundColor: theme.colors.bluetiful,
-                    padding: 6,
-                    borderRadius: 10,
-                    opacity: 0.7,
-                }}
-                onPress={() => navigation.goBack()}>
-                <Icon
-                    name="ios-chevron-back-outline"
+        <View>
+            <View style={{ marginHorizontal: 30, marginTop: 20 }}>
+                <Text
                     style={{
-                        backgroundColor: theme.colors.bluetiful,
-                        padding: 6,
-                        borderRadius: 10,
-                        // opacity: 0.7,
-                    }}
-                    size={18}
-                    color={theme.colors.black}
-                />
-            </TouchableOpacity>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <TextInput
-                    value={search}
-                    style={{
-                        height: 40,
-
-                        width: width - 80,
-                        backgroundColor: 'transparent',
-                        borderWidth: 3,
-                        borderRadius: 5,
-                        paddingLeft: 10,
-                        fontFamily: 'Nunito-SemiBold',
-                        fontSize: theme.sizes.h6,
                         color: theme.colors.black,
-                        borderColor: theme.colors.bluetiful,
-                    }}
-                    placeholder="Recherche"
-                    placeholderTextColor={theme.colors.grey}
-                    onChangeText={setSearch}
-                />
-                {search !== '' && <TouchableOpacity
+                        fontFamily: 'Nunito-SemiBold',
+                        fontSize: theme.sizes.h10,
+                    }}>
+                    Autour de toi à
+                </Text>
+                <Text
                     style={{
-                        height: 35,
-                        width: 35,
-                        justifyContent: 'center', alignItems: 'center',
-                        padding: 3,
-                        borderRadius: 5,
-                        opacity: 0.7,
-                        position: 'absolute',
-                        right: 3,
+                        color: theme.colors.black,
+                        fontFamily: 'Nunito-SemiBold',
+                        fontSize: theme.sizes.h1,
+                    }}>
+                    Baguida
+                </Text>
+            </View>
+        </View>
+    );
+
+    const Form = () => (
+        <View style={{ height: 85, marginBottom: 15 }} >
+            <View
+                style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                    alignItems: 'center',
+                }}>
+                <Controller
+                    control={control}
+                    rules={{
+                        required: true,
                     }}
-                    onPress={() => setSearch('')}>
-                    <Icon
-                        name="close-outline"
-                        style={{
-                            backgroundColor: theme.colors.bluetiful,
-                            padding: 6,
-                            borderRadius: 10,
+                    render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            <View
+                                style={{
+                                    marginHorizontal: 5,
+                                    backgroundColor: 'transparent',
 
-                            // opacity: 0.7,
-                        }}
-                        size={15}
-                        color={theme.colors.black}
-                    />
-                </TouchableOpacity>}
+                                    width: '85%',
+                                    borderColor: '#e8e8e8',
+                                    borderBottomWidth: 5,
+                                    marginVertical: 10,
+                                }}>
+                                <TextInput
+                                    style={{
+                                        color: 'black',
+                                        fontFamily: 'Nunito-Bold',
+                                        fontSize: 40,
+                                        paddingBottom: -3
+                                    }}
+                                    onBlur={onBlur}
+                                    onChangeText={onChange}
+                                    value={value}
+                                    placeholder={'Commencer la recherche'}
+                                    placeholderTextColor={'#D1D3D4'}
+                                    underlineColorAndroid='transparent'
+                                />
+                            </View>
+                        </View>
+                    )}
+                    name="search"
+                />
+                {/* <View style={{ justifyContent: 'center', alignItems: 'center' }} >
+                    <View style={{
+                        
+                        marginVertical: 10,
 
+                    }} >
+                        <InteractiveTextInput
+                            textInputStyle={{
+                                color: 'black',
+                                fontFamily: 'Nunito-Bold',
+                                fontSize: 40,
+                                paddingBottom: -3,
+                                borderWidth: 0,
+                                backgroundColor: 'transparent'
+                            }}
+                            onChangeText={(text: string) => { onChangeText(text) }}
+                            placeholder={'Commencer la recherche'}
+                            placeholderTextColor={'#D1D3D4'}
+                            underlineColorAndroid='transparent' />
+                    </View>
+                </View> */}
+
+
+
+
+                <TouchableOpacity
+                    style={{
+                        marginRight: 15,
+                        backgroundColor: 'transparent',
+                        padding: 5,
+                        borderRadius: 3,
+                    }}
+                    onPress={handleSubmit(onChangeText)}>
+                    <Icon name={'search'} size={30} color={'black'} />
+                </TouchableOpacity>
             </View>
         </View>
     );
 
     const Results = () => {
 
+        const filteredResult = ({ item, index }: any) => {
+
+        }
+
         const result = ({ item, index }: any) => (
-            <TouchableWithoutFeedback
-                onPress={() => navigation.navigate('Detail', { selectedEvent: item })}>
-                <View
-                    style={{
-                        marginTop: index === 0 ? 10 : 0,
+            <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('Detail', { selectedEvent: item })} >
+                <View style={{ width: width / 1.5 }} >
+                    <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', textTransform: 'uppercase', letterSpacing: 1.2 }}>
+                        {item?.name}
+                    </Text>
+                    <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', textTransform: 'uppercase', letterSpacing: 1.2 }}>
+                        {item?.type}
+                    </Text>
+                    <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', letterSpacing: 1.2 }}>
+                        {item?.location?.address?.streetAddress}
+                    </Text>
+                    <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', letterSpacing: 1.2 }}>
+                        {moment(item?.startDate).format('LL')} - {moment(item?.endDate).format('LL')}
+                    </Text>
+                    <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', letterSpacing: 1.2 }}>
+                        {moment(item?.startDate).format('HH:mm')} - {moment(item?.endDate).format('HH:mm')}
+                    </Text>
 
-                        justifyContent: 'center', alignItems: 'center'
-                    }}>
-                    <ImageBackground
-                        source={item.image}
-                        style={{
-                            width: width,
-                            height: width / 2 + 30,
 
-                        }}
-
-                        resizeMode="cover">
-
-                        <View
-                            style={{
-                                alignItems: 'flex-end',
-                                marginHorizontal: 15,
-                                marginVertical: 15,
-                            }}>
-                            <View
-                                style={{
-                                    width: 50,
-                                    height: 50,
-                                    backgroundColor: theme.colors.white,
-                                    borderRadius: 5,
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    opacity: 0.6,
-                                }}>
-                                <Text
-                                    style={{
-                                        color: theme.colors.black,
-                                        fontFamily: 'Nunito-SemiBold',
-                                    }}>
-                                    {moment(item.startTime).format('MMM')}
-                                </Text>
-                                <Text
-                                    style={{
-                                        color: theme.colors.black,
-                                        fontFamily: 'Nunito-SemiBold',
-                                        fontSize: theme.sizes.h3,
-                                    }}>
-                                    {moment(item.startTime).format('DD')}
-                                </Text>
-                            </View>
-                        </View>
-                        <View style={{ marginLeft: 10, marginTop: 25 }}>
-                            <Text
-                                style={{
-                                    textTransform: 'uppercase',
-                                    fontFamily: 'Nunito-SemiBold',
-                                    opacity: 0.6,
-                                    marginVertical: 10,
-                                    fontSize: theme.sizes.h5,
-                                    color: theme.colors.white,
-                                }}>
-                                {' '}
-                                {item.type}{' '}
-                            </Text>
-                            <Text
-                                style={{
-                                    fontFamily: 'Nunito-SemiBold',
-                                    fontSize: theme.sizes.h4,
-                                    color: theme.colors.white,
-                                }}>
-                                {' '}
-                                {item.title}{' '}
-                            </Text>
-                        </View>
-                        {/* </View> */}
-                    </ImageBackground>
                 </View>
-            </TouchableWithoutFeedback>
+                <View>
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }} >
+                        <View style={{ backgroundColor: '#B5FBDD', height: 25, width: 85, justifyContent: 'center', alignItems: 'center', marginBottom: 10, borderRadius: 3 }} >
+                            <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', textTransform: 'uppercase', fontSize: 12, letterSpacing: 2 }}>
+                                {item?.eventStatus}
+                            </Text>
+                        </View>
+
+                        <View style={{ backgroundColor: '#F7F272', height: 25, width: 75, justifyContent: 'center', alignItems: 'center', borderRadius: 3 }} >
+                            <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', textTransform: 'uppercase', fontSize: 12 }}>
+                                {item?.offers?.type}
+                            </Text>
+                        </View>
+                    </View>
+                </View>
+            </TouchableOpacity>
         );
 
         return (
             <View style={{ flex: 1 }}>
                 <FlatList
-
                     showsVerticalScrollIndicator={false}
                     data={event}
                     renderItem={result}
                     keyExtractor={item => item.id}
                 />
             </View>
-        )
-    }
+        );
+    };
 
     return (
-        <View style={styles.screen} >
-
+        <View style={styles.screen}>
             <Header />
+            <Form />
             <Results />
-
-
         </View>
     );
 };
@@ -224,8 +246,20 @@ const styles = StyleSheet.create({
     screen: {
         backgroundColor: '#F6F6F7',
         flex: 1,
+    },
+    item: {
+        backgroundColor: '#fff',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
 
+        padding: 20,
+        // marginHorizontal: 15,
+        marginTop: 15,
     },
 });
+
+
 
 export default Recherche;

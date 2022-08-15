@@ -51,7 +51,7 @@ const Maison = () => {
         }}
       />
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Créer"
         component={Creation}
         options={{
@@ -63,7 +63,7 @@ const Maison = () => {
             <Text style={{ fontFamily: 'Nunito-SemiBold' }}>Créer</Text>
           ),
         }}
-      />
+      /> */}
 
       <Tab.Screen
         name="Carte"

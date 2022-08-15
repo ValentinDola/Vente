@@ -6,15 +6,17 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
+  Image,
 } from 'react-native';
 import { theme } from '../Constants/index';
 import { Event } from '../Constants/dummy-data';
-import { selectData, setData } from '../Slices/app';
+import { selectData, setData } from '../Slices/data';
 import { useSelector, useDispatch } from 'react-redux';
 import { Agenda } from 'react-native-calendars';
 import { format } from 'date-fns';
+import moment from 'moment';
 
-const { height } = Dimensions.get('screen');
+const { height, width } = Dimensions.get('screen');
 
 const timeToString = (time: string | number | Date) => {
   const date = new Date(time);
@@ -24,10 +26,13 @@ const timeToString = (time: string | number | Date) => {
 const Calendrier: React.FC = ({ navigation }) => {
   const [items, setItems] = useState({});
 
+  const data = useSelector(selectData);
+
   useEffect(() => {
-    const mappedData = Event.map(
-      (event: { date: string | number | Date }, index: any) => {
-        const date = event.date;
+
+    const mappedData = data.map(
+      (event: { startDate: string | number | Date }, index: any) => {
+        const date = moment(event.startDate).format('YYYY-MM-DD');
 
         return {
           ...event,
@@ -52,30 +57,42 @@ const Calendrier: React.FC = ({ navigation }) => {
     );
 
     setItems(reduced);
+    console.log(reduced);
   }, [Event]);
 
 
 
   const renderItem = (item: any) => (
     <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('Detail', { selectedEvent: item })} >
-      <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold' }}>
-        {item.title}
-      </Text>
-      <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold' }}>
-        {item.type}
-      </Text>
-      <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold' }}>
-        {item.location}
-      </Text>
-      <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold' }}>
-        {item.price}
-      </Text>
-      {item.promotion.state === true ? (
-        <Text
-          style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold' }}>
-          {item.promotion.detail}
+      <View style={{ width: width / 2.1 }} >
+        <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', textTransform: 'uppercase', letterSpacing: 1.2 }}>
+          {item?.name}
         </Text>
-      ) : null}
+
+        <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', letterSpacing: 1.2 }}>
+          {item?.location?.address?.streetAddress}
+        </Text>
+        <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', letterSpacing: 1.2 }}>
+          {moment(item?.startDate).format('HH:mm')} - {moment(item?.endDate).format('HH:mm')}
+        </Text>
+
+
+      </View>
+      <View>
+        <View style={{ justifyContent: 'center', alignItems: 'center' }} >
+          <View style={{ backgroundColor: '#B5FBDD', height: 25, width: 85, justifyContent: 'center', alignItems: 'center', marginBottom: 10, borderRadius: 3 }} >
+            <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', textTransform: 'uppercase', fontSize: 12, letterSpacing: 2 }}>
+              {item?.eventStatus}
+            </Text>
+          </View>
+
+          <View style={{ backgroundColor: '#F7F272', height: 25, width: 75, justifyContent: 'center', alignItems: 'center', borderRadius: 3 }} >
+            <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', textTransform: 'uppercase', fontSize: 12 }}>
+              {item?.offers?.priceFirst + ' cfa'}
+            </Text>
+          </View>
+        </View>
+      </View>
     </TouchableOpacity>
   );
 
@@ -84,7 +101,7 @@ const Calendrier: React.FC = ({ navigation }) => {
       <Agenda
         items={items}
         renderItem={renderItem}
-        selected={'2020-01-21'}
+
         renderEmptyDate={() => (
           <View>
             <Text
@@ -100,8 +117,6 @@ const Calendrier: React.FC = ({ navigation }) => {
           console.log('day changed', day);
         }}
         theme={{
-          agendaDayTextColor: theme.colors.bluetiful,
-          agendaDayNumColor: theme.colors.bluetiful,
 
           agendaKnobColor: theme.colors.bluetiful,
           foregroundColor: theme.colors.bluetiful,
@@ -111,18 +126,22 @@ const Calendrier: React.FC = ({ navigation }) => {
 
         }}
       />
+
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
     flex: 1,
-    borderRadius: 5,
-    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+
+    padding: 20,
     marginRight: 10,
-    marginTop: 17,
+    marginTop: 15,
   },
 });
 

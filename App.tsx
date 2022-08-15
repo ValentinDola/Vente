@@ -130,15 +130,19 @@ const App = () => {
   const [currentLatitude, setCurrentLatitude] = useState('...');
   const [locationStatus, setLocationStatus] = useState('');
 
+
+
   useEffect(() => {
 
-    let watchID: number;
+    // let watchID: number;
 
     RNBootSplash.hide({ fade: true })
       .then(r => console.log(r, 'Bootsplash has been hidden successfully'))
       .catch(err => console.error(err));
 
     const requestLocationPermission = async () => {
+
+
       if (Platform.OS === 'ios') {
         getOneTimeLocation();
         subscribeLocationLocation();
@@ -162,69 +166,9 @@ const App = () => {
       }
     };
 
-    const getOneTimeLocation = () => {
-      setLocationStatus('Getting Location ...');
-      Geolocation.getCurrentPosition(
-        //Will give you the current location
-        (position) => {
-          setLocationStatus('You are Here');
 
-          //getting the Longitude from the location json
-          const currentLongitude =
-            JSON.stringify(position.coords.longitude);
 
-          //getting the Latitude from the location json
-          const currentLatitude =
-            JSON.stringify(position.coords.latitude);
 
-          //Setting Longitude state
-          setCurrentLongitude(currentLongitude);
-
-          //Setting Longitude state
-          setCurrentLatitude(currentLatitude);
-        },
-        (error) => {
-          setLocationStatus(error.message);
-        },
-        {
-          enableHighAccuracy: false,
-          timeout: 30000,
-          maximumAge: 1000
-        },
-      );
-    };
-
-    const subscribeLocationLocation = () => {
-      let watchID = Geolocation.watchPosition(
-        (position) => {
-          //Will give you the location on location change
-
-          setLocationStatus('You are Here');
-          console.log(position);
-
-          //getting the Longitude from the location json        
-          const currentLongitude =
-            JSON.stringify(position.coords.longitude);
-
-          //getting the Latitude from the location json
-          const currentLatitude =
-            JSON.stringify(position.coords.latitude);
-
-          //Setting Longitude state
-          setCurrentLongitude(currentLongitude);
-
-          //Setting Latitude state
-          setCurrentLatitude(currentLatitude);
-        },
-        (error) => {
-          setLocationStatus(error.message);
-        },
-        {
-          enableHighAccuracy: false,
-          maximumAge: 1000
-        },
-      );
-    };
     requestLocationPermission();
 
     // const getCurrentAddress = () => (
@@ -247,6 +191,70 @@ const App = () => {
 
 
   }, []);
+
+  const getOneTimeLocation = () => {
+    setLocationStatus('Getting Location ...');
+    Geolocation.getCurrentPosition(
+      //Will give you the current location
+      (position) => {
+        setLocationStatus('You are Here');
+
+        //getting the Longitude from the location json
+        const currentLongitude =
+          JSON.stringify(position.coords.longitude);
+
+        //getting the Latitude from the location json
+        const currentLatitude =
+          JSON.stringify(position.coords.latitude);
+
+        //Setting Longitude state
+        setCurrentLongitude(currentLongitude);
+
+        //Setting Longitude state
+        setCurrentLatitude(currentLatitude);
+      },
+      (error) => {
+        setLocationStatus(error.message);
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 30000,
+        maximumAge: 1000
+      },
+    );
+  };
+
+  const subscribeLocationLocation = () => {
+    watchID = Geolocation.watchPosition(
+      (position) => {
+        //Will give you the location on location change
+
+        setLocationStatus('You are Here');
+        console.log(position);
+
+        //getting the Longitude from the location json        
+        const currentLongitude =
+          JSON.stringify(position.coords.longitude);
+
+        //getting the Latitude from the location json
+        const currentLatitude =
+          JSON.stringify(position.coords.latitude);
+
+        //Setting Longitude state
+        setCurrentLongitude(currentLongitude);
+
+        //Setting Latitude state
+        setCurrentLatitude(currentLatitude);
+      },
+      (error) => {
+        setLocationStatus(error.message);
+      },
+      {
+        enableHighAccuracy: false,
+        maximumAge: 1000
+      },
+    );
+  };
 
 
   return (
