@@ -72,7 +72,11 @@ const Explorer: React.FC = ({ navigation }: any) => {
 
   const renderEvents = ({ item, index }: any) => (
     <TouchableWithoutFeedback
-      onPress={() => navigation.navigate('Detail', { selectedEvent: item })}>
+      onPress={
+        () =>
+          navigation.navigate('Detail', { selectedEvent: item })
+        // console.log(item)
+      }>
       <View
         style={{
           marginLeft: index === 0 ? 15 : 20,
@@ -108,7 +112,7 @@ const Explorer: React.FC = ({ navigation }: any) => {
                   color: theme.colors.black,
                   fontFamily: 'Nunito-SemiBold',
                 }}>
-                {moment(item.date).format('MMM')}
+                {moment(item.startDate).format('MMM')}
               </Text>
               <Text
                 style={{
@@ -116,7 +120,7 @@ const Explorer: React.FC = ({ navigation }: any) => {
                   fontFamily: 'Nunito-SemiBold',
                   fontSize: theme.sizes.h3,
                 }}>
-                {moment(item.date).format('DD')}
+                {moment(item.startDate).format('DD')}
               </Text>
             </View>
           </View>
@@ -140,7 +144,7 @@ const Explorer: React.FC = ({ navigation }: any) => {
                 color: theme.colors.white,
               }}>
               {' '}
-              {item.title}{' '}
+              {item.name}{' '}
             </Text>
           </View>
           {/* </View> */}

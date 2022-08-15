@@ -1,12 +1,12 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {Event, Categories, News} from '../Constants/dummy-data';
+import {Event, Categories, News, data} from '../Constants/dummy-data';
 
 const initialState = {
   user: {
     name: 'Valentin',
   },
   loading: false,
-  data: Event,
+  data: data,
   categories: Categories,
   news: News,
   like: false,

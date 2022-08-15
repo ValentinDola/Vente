@@ -37,7 +37,7 @@ import { selectLike, setLike } from '../Slices/app';
 const { width, height } = Dimensions.get('window');
 
 const Detail = ({ navigation, route }: any) => {
-  const [selectedEvent, setSelectedEvent]: any = useState(null);
+  const [selectedEvent, setSelectedEvent]: any = useState({});
   const [ticket, setTicket]: any = useState('1');
   const [liked, setLiked] = useState(false);
   const [follow, setFollow] = useState(false);
@@ -140,11 +140,11 @@ const Detail = ({ navigation, route }: any) => {
               <Text
                 style={{
                   fontFamily: 'Nunito-SemiBold',
-
+                  width: 300,
                   fontSize: theme.sizes.h3,
                   color: theme.colors.white,
                 }}>
-                {selectedEvent?.title}
+                {selectedEvent?.name}
               </Text>
               <Text
                 style={{
@@ -154,7 +154,7 @@ const Detail = ({ navigation, route }: any) => {
                   fontSize: theme.sizes.h5,
                   color: theme.colors.white,
                 }}>
-                Début. {moment(selectedEvent?.startTime).format('LT')}
+                Début. {moment(selectedEvent?.startDate).format('LT')}
                 {/* {selectedEvent?.startTime} */}
               </Text>
             </View>
@@ -174,7 +174,7 @@ const Detail = ({ navigation, route }: any) => {
                   color: theme.colors.black,
                   fontFamily: 'Nunito-SemiBold',
                 }}>
-                {moment(selectedEvent?.date).format('MMM')}
+                {moment(selectedEvent?.startDate).format('MMM')}
               </Text>
               <Text
                 style={{
@@ -182,7 +182,7 @@ const Detail = ({ navigation, route }: any) => {
                   fontFamily: 'Nunito-SemiBold',
                   fontSize: theme.sizes.h3,
                 }}>
-                {moment(selectedEvent?.date).format('DD')}
+                {moment(selectedEvent?.startDate).format('DD')}
               </Text>
             </View>
           </View>
@@ -195,16 +195,32 @@ const Detail = ({ navigation, route }: any) => {
 
   const IntroductionComponent = () => {
     return (
-      <View style={{ marginLeft: 20, marginVertical: 20, width: width / 2 }}>
-        <Text
-          style={{
-            color: theme.colors.black,
-            fontFamily: 'Nunito-Bold',
-            fontSize: theme.sizes.h5,
-          }}>
-          Design Thinking Ghana Conference 2022
-        </Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, marginVertical: 10 }} >
+        <View style={{ marginVertical: 20, width: width / 2 }}>
+          <Text
+            style={{
+              color: theme.colors.black,
+              fontFamily: 'Nunito-Bold',
+              fontSize: theme.sizes.h5,
+            }}>
+            {selectedEvent?.name}
+          </Text>
+        </View>
+        <View style={{ justifyContent: 'center', alignItems: 'center' }} >
+          <View style={{ backgroundColor: '#B5FBDD', height: 25, width: 75, justifyContent: 'center', alignItems: 'center', marginBottom: 10, borderRadius: 3 }} >
+            <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', textTransform: 'uppercase', fontSize: 12, letterSpacing: 2 }}>
+              {selectedEvent?.eventStatus}
+            </Text>
+          </View>
+
+          <View style={{ backgroundColor: '#F7F272', height: 25, width: 70, justifyContent: 'center', alignItems: 'center', borderRadius: 3 }} >
+            <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', textTransform: 'uppercase', fontSize: 12 }}>
+              {selectedEvent?.eventAttendanceMode}
+            </Text>
+          </View>
+        </View>
       </View>
+
     );
   };
 
@@ -224,23 +240,24 @@ const Detail = ({ navigation, route }: any) => {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            {/* <Image source={require('../assets/images/data/cassie-gallegos-6wCWCPwmRJY-unsplash.jpg')} style={{ width: 40, height: 40, borderRadius: 50 }} /> */}
+
             <Text
               style={{
                 color: theme.colors.blue,
-                fontFamily: 'Nunito-SemiBold',
+                fontFamily: 'Nunito-Bold',
                 fontSize: theme.sizes.h6,
+                width: 150
               }}>
-              Par DolaHub
+              {selectedEvent?.organizer?.name}
             </Text>
             <Text
               style={{
-                color: theme.colors.blue,
-                fontFamily: 'Nunito-SemiBold',
+                color: theme.colors.black,
+                fontFamily: 'Nunito-Bold',
                 marginLeft: 15,
                 fontSize: theme.sizes.h6,
               }}>
-              009 followers
+              9 followers
             </Text>
           </View>
           <TouchableOpacity
@@ -277,7 +294,7 @@ const Detail = ({ navigation, route }: any) => {
               fontSize: theme.sizes.h6,
               marginTop: 5,
             }}>
-            {moment(selectedEvent?.date).format('D MMMM YYYY')}
+            {moment(selectedEvent?.startDate).format('D MMMM YYYY')} - {moment(selectedEvent?.endDate).format('D MMMM YYYY')}
           </Text>
           <Text
             style={{
@@ -286,7 +303,7 @@ const Detail = ({ navigation, route }: any) => {
               fontSize: theme.sizes.h6,
               marginTop: 3,
             }}>
-            Début. {moment(selectedEvent?.startTime).format('LT')}
+            Début. {moment(selectedEvent?.startDate).format('LT')} - {moment(selectedEvent?.endDate).format('LT')}
           </Text>
         </View>
         <View>
@@ -319,7 +336,7 @@ const Detail = ({ navigation, route }: any) => {
         style={{
           marginTop: 35,
           marginHorizontal: 20,
-          marginBottom: selectedEvent?.promotion.state === false ? 150 : 0,
+          marginBottom: 150
         }}>
         <Text
           style={{
@@ -341,23 +358,16 @@ const Detail = ({ navigation, route }: any) => {
               color: theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h7,
+              width: 250
+
             }}>
-            {selectedEvent?.location}
+            {selectedEvent?.location?.name} - {selectedEvent?.location?.address?.streetAddress}
           </Text>
           <TouchableOpacity
             onPress={() => console.log('Locate')}
-            style={{
-              backgroundColor: theme.colors.bluetiful,
-              padding: 6,
-              borderRadius: 10,
-              opacity: 0.7,
-            }}>
+          >
             <Icon
-              style={{
-                backgroundColor: theme.colors.bluetiful,
-                padding: 6,
-                borderRadius: 10,
-              }}
+
               name="location-outline"
               size={24}
               color={theme.colors.black}
@@ -441,7 +451,7 @@ const Detail = ({ navigation, route }: any) => {
                   fontFamily: 'Nunito-SemiBold',
                   fontSize: theme.sizes.h3,
                 }}>
-                {selectedEvent?.price + 'f'}
+                {selectedEvent?.offers?.price}
               </Text>
               {
                 <Text
@@ -471,7 +481,7 @@ const Detail = ({ navigation, route }: any) => {
                 color: theme.colors.black,
                 borderColor: theme.colors.bluetiful,
               }}
-              onChangeText={e => setTicket(e)}
+              onChange={({ nativeEvent: { eventCount, target, text } }) => setTicket(text)}
 
               keyboardType={'number-pad'}
             />
@@ -526,7 +536,7 @@ const Detail = ({ navigation, route }: any) => {
         {/* Location section */}
         <LocationSection />
         {/* Promotion section */}
-        {selectedEvent?.promotion?.state === true && <PromotionSection />}
+        {/* {selectedEvent?.promotion?.state === true && <PromotionSection />} */}
       </ScrollView>
       {/* Buttom bar section */}
       {selectedEvent?.price !== 0 && <ButtomBarSection />}
