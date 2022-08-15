@@ -141,6 +141,8 @@ const App = () => {
       .catch(err => console.error(err));
 
     const requestLocationPermission = async () => {
+
+
       if (Platform.OS === 'ios') {
         getOneTimeLocation();
         subscribeLocationLocation();

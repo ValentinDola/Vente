@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { theme } from '../Constants/index';
 import { Event } from '../Constants/dummy-data';
-import { selectData, setData } from '../Slices/app';
+import { selectData, setData } from '../Slices/data';
 import { useSelector, useDispatch } from 'react-redux';
 import { Agenda } from 'react-native-calendars';
 import { format } from 'date-fns';
@@ -88,7 +88,7 @@ const Calendrier: React.FC = ({ navigation }) => {
 
           <View style={{ backgroundColor: '#F7F272', height: 25, width: 75, justifyContent: 'center', alignItems: 'center', borderRadius: 3 }} >
             <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', textTransform: 'uppercase', fontSize: 12 }}>
-              {item?.offers?.price + ' cfa'}
+              {item?.offers?.priceFirst + ' cfa'}
             </Text>
           </View>
         </View>

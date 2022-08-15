@@ -17,6 +17,10 @@ import Reglages from '../Screens/Reglages';
 import About from '../Screens/About';
 import Termes from '../Screens/Termes';
 import Promotions from '../Screens/promotions';
+import Commande from '../Screens/Commande';
+import Cart from '../Screens/Cart';
+import Payment from '../Screens/Payment';
+import Portefeuille from '../Screens/Portefeuille';
 
 const Stack = createNativeStackNavigator();
 
@@ -62,6 +66,11 @@ const App = () => {
           <Stack.Screen name={'About'} component={About} />
           <Stack.Screen name={'Termes'} component={Termes} />
           <Stack.Screen name={'Promotions'} component={Promotions} />
+          <Stack.Screen name={'Commande'} component={Commande} />
+          <Stack.Screen name={'Cart'} component={Cart} />
+          <Stack.Screen name={'Payment'} component={Payment} />
+          <Stack.Screen name={'Portefeuille'} component={Portefeuille} />
+
 
           <Stack.Screen name={'Identification'} component={Identification} />
           <Stack.Screen name={'Inscription'} component={Inscription} />

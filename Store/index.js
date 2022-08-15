@@ -1,8 +1,22 @@
 import {configureStore} from '@reduxjs/toolkit';
-import appReducer from '../Slices/app';
+import categoriesReducer from '../Slices/categories';
+import dataReducer from '../Slices/data';
+import likeReducer from '../Slices/like';
+import loadingReducer from '../Slices/loading';
+import newsReducer from '../Slices/news';
+import userReducer from '../Slices/user';
+import followingReducer from '../Slices/follow';
+import ticketReducer from '../Slices/tickets';
 
 export const store = configureStore({
   reducer: {
-    app: appReducer,
+    categories: categoriesReducer,
+    data: dataReducer,
+    like: likeReducer,
+    loading: loadingReducer,
+    news: newsReducer,
+    user: userReducer,
+    following: followingReducer,
+    ticket: ticketReducer,
   },
 });

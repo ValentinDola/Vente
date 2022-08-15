@@ -10,6 +10,8 @@ target 'Vente' do
   # Pods for Vente
   
 
+  pod 'RNShare', :path => '../node_modules/react-native-share'
+
   target 'VenteTests' do
     inherit! :search_paths
     # Pods for testing

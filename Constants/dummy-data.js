@@ -12,6 +12,7 @@ export const Schema = [
     endDate: '2022-07-21 23:00',
     eventStatus: 'prévu',
     eventAttendanceMode: 'offline',
+    isLikable: false,
     location: {
       type: 'Place',
       name: 'Snikerpark Stadium',
@@ -25,8 +26,10 @@ export const Schema = [
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: 'offer',
-      price: '3000',
+      type: 'billet',
+      priceFirst: '3000',
+      priceSecond: '5000',
+      reservation: '10000',
       priceCurrency: 'CFA',
       availability: 'InStock',
       validFrom: '2022-07-21T23:00-05:00',
@@ -46,11 +49,12 @@ export const data = [
   {
     id: 1,
     type: 'Sortie',
-    name: 'The Sortie',
+    name: 'Principaux conservateurs noirs',
     startDate: '2022-07-22 19:00',
     endDate: '2022-07-22 23:00',
     eventStatus: 'prévu',
     eventAttendanceMode: 'offline',
+    isLikable: false,
     location: {
       type: 'Place',
       name: 'Snikerpark Stadium',
@@ -64,8 +68,10 @@ export const data = [
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: 'offer',
-      price: '3000',
+      type: 'billet',
+      priceFirst: '3000',
+      priceSecond: '5000',
+      reservation: '10000',
       priceCurrency: 'CFA',
       availability: 'InStock',
       validFrom: '2022-07-21T23:00-05:00',
@@ -82,11 +88,12 @@ export const data = [
   {
     id: 2,
     type: 'Bouffe',
-    name: 'The Bouffe Show',
+    name: 'Réalisation animée',
     startDate: '2022-07-23 19:00',
     endDate: '2022-07-23 23:00',
     eventStatus: 'prévu',
     eventAttendanceMode: 'offline',
+    isLikable: false,
     location: {
       type: 'Place',
       name: 'Snikerpark Stadium',
@@ -100,8 +107,10 @@ export const data = [
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: 'offer',
-      price: '3000',
+      type: 'billet',
+      priceFirst: '3000',
+      priceSecond: '5000',
+      reservation: '10000',
       priceCurrency: 'CFA',
       availability: 'InStock',
       validFrom: '2022-07-21T23:00-05:00',
@@ -118,11 +127,12 @@ export const data = [
   {
     id: 3,
     type: 'Party',
-    name: 'The Party',
+    name: 'Raisons de cristal',
     startDate: '2022-07-24 19:00',
     endDate: '2022-07-24 23:00',
     eventStatus: 'prévu',
     eventAttendanceMode: 'offline',
+    isLikable: false,
     location: {
       type: 'Place',
       name: 'Snikerpark Stadium',
@@ -136,8 +146,10 @@ export const data = [
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: 'offer',
-      price: '3000',
+      type: 'billet',
+      priceFirst: '3000',
+      priceSecond: '5000',
+      reservation: '10000',
       priceCurrency: 'CFA',
       availability: 'InStock',
       validFrom: '2022-07-21T23:00-05:00',
@@ -154,11 +166,12 @@ export const data = [
   {
     id: 4,
     type: 'Sport',
-    name: 'The Sport',
+    name: 'Sauge Silver Spring',
     startDate: '2022-07-25 19:00',
     endDate: '2022-07-25 23:00',
     eventStatus: 'prévu',
     eventAttendanceMode: 'offline',
+    isLikable: false,
     location: {
       type: 'Place',
       name: 'Snikerpark Stadium',
@@ -172,8 +185,10 @@ export const data = [
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: 'offer',
-      price: '3000',
+      type: 'billet',
+      priceFirst: '3000',
+      priceSecond: '5000',
+      reservation: '10000',
       priceCurrency: 'CFA',
       availability: 'InStock',
       validFrom: '2022-07-21T23:00-05:00',
@@ -190,11 +205,12 @@ export const data = [
   {
     id: 5,
     type: 'The Church',
-    name: 'The Adventure of Kira and Morrison',
+    name: 'Association Sculptée',
     startDate: '2022-07-26 19:00',
     endDate: '2022-07-26 23:00',
     eventStatus: 'prévu',
     eventAttendanceMode: 'offline',
+    isLikable: false,
     location: {
       type: 'Place',
       name: 'Snikerpark Stadium',
@@ -208,8 +224,10 @@ export const data = [
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: 'offer',
-      price: '3000',
+      type: 'billet',
+      priceFirst: '3000',
+      priceSecond: '5000',
+      reservation: '10000',
       priceCurrency: 'CFA',
       availability: 'InStock',
       validFrom: '2022-07-21T23:00-05:00',
@@ -226,11 +244,12 @@ export const data = [
   {
     id: 6,
     type: 'Fashion',
-    name: 'The Fashion Show',
+    name: 'Fêtes mouvementées',
     startDate: '2022-07-27 19:00',
     endDate: '2022-07-27 23:00',
     eventStatus: 'prévu',
     eventAttendanceMode: 'offline',
+    isLikable: false,
     location: {
       type: 'Place',
       name: 'Snikerpark Stadium',
@@ -244,8 +263,10 @@ export const data = [
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: 'offer',
-      price: '3000',
+      type: 'billet',
+      priceFirst: '3000',
+      priceSecond: '5000',
+      reservation: '10000',
       priceCurrency: 'CFA',
       availability: 'InStock',
       validFrom: '2022-07-21T23:00-05:00',
@@ -262,11 +283,12 @@ export const data = [
   {
     id: 7,
     type: 'Santé',
-    name: 'The Santé',
+    name: 'Conférences Sunset Silver',
     startDate: '2022-07-28 19:00',
     endDate: '2022-07-28 23:00',
     eventStatus: 'prévu',
     eventAttendanceMode: 'offline',
+    isLikable: false,
     location: {
       type: 'Place',
       name: 'Snikerpark Stadium',
@@ -280,8 +302,10 @@ export const data = [
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: 'offer',
-      price: '3000',
+      type: 'billet',
+      priceFirst: '3000',
+      priceSecond: '5000',
+      reservation: '10000',
       priceCurrency: 'CFA',
       availability: 'InStock',
       validFrom: '2022-07-21T23:00-05:00',
@@ -297,13 +321,13 @@ export const data = [
   },
   {
     id: 8,
-
     type: 'Affaires',
-    name: 'The Affaires',
+    name: 'Superbe célébration',
     startDate: '2022-07-29 19:00',
     endDate: '2022-07-29 23:00',
     eventStatus: 'prévu',
     eventAttendanceMode: 'offline',
+    isLikable: false,
     location: {
       type: 'Place',
       name: 'Snikerpark Stadium',
@@ -317,8 +341,10 @@ export const data = [
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: 'offer',
-      price: '3000',
+      type: 'billet',
+      priceFirst: '3000',
+      priceSecond: '5000',
+      reservation: '10000',
       priceCurrency: 'CFA',
       availability: 'InStock',
       validFrom: '2022-07-21T23:00-05:00',
@@ -515,5 +541,44 @@ export const News = [
     id: 4,
     title: 'Reouvrez en toute confiance avec le manuel de sécurité COVID-19',
     color: 'cyan',
+  },
+];
+
+export const tickets = [
+  {
+    id: 1,
+    icon: 'headset-outline',
+    color: '#9db4f5',
+    ticketID: '#096754236',
+    ticketPrice: '3000',
+    eventName: 'Principaux conservateurs noirs',
+    ticketSaleTime: '13:00',
+  },
+  {
+    id: 2,
+    icon: 'pizza-outline',
+    color: '#fbcc56',
+    ticketID: '#096754',
+    ticketPrice: '3000',
+    eventName: 'The Adventure of Kira and Morrison',
+    ticketSaleTime: '21:00',
+  },
+  {
+    id: 3,
+    icon: 'pulse',
+    color: '#e57fc2',
+    ticketID: '#0967542',
+    ticketPrice: '3000',
+    eventName: 'Fêtes mouvementées',
+    ticketSaleTime: '13:00',
+  },
+  {
+    id: 4,
+    icon: 'rose-outline',
+    color: '#000000',
+    ticketID: '#0754236',
+    ticketPrice: '3000',
+    eventName: 'Conférences Sunset Silver',
+    ticketSaleTime: '13:00',
   },
 ];
