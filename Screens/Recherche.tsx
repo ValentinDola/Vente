@@ -137,27 +137,7 @@ const Recherche = ({ navigation }: any) => {
                     )}
                     name="search"
                 />
-                {/* <View style={{ justifyContent: 'center', alignItems: 'center' }} >
-                    <View style={{
-                        
-                        marginVertical: 10,
 
-                    }} >
-                        <InteractiveTextInput
-                            textInputStyle={{
-                                color: 'black',
-                                fontFamily: 'Nunito-Bold',
-                                fontSize: 40,
-                                paddingBottom: -3,
-                                borderWidth: 0,
-                                backgroundColor: 'transparent'
-                            }}
-                            onChangeText={(text: string) => { onChangeText(text) }}
-                            placeholder={'Commencer la recherche'}
-                            placeholderTextColor={'#D1D3D4'}
-                            underlineColorAndroid='transparent' />
-                    </View>
-                </View> */}
 
 
 
@@ -177,10 +157,6 @@ const Recherche = ({ navigation }: any) => {
     );
 
     const Results = () => {
-
-        const filteredResult = ({ item, index }: any) => {
-
-        }
 
         const result = ({ item, index }: any) => (
             <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('Detail', { selectedEvent: item })} >
@@ -255,7 +231,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
 
         padding: 20,
-        // marginHorizontal: 15,
+
         marginTop: 15,
     },
 });

@@ -582,3 +582,42 @@ export const tickets = [
     ticketSaleTime: '13:00',
   },
 ];
+
+export const transactions = [
+  {
+    id: 1,
+    icon: 'trending-down-outline',
+    color: '#9db4f5',
+    actionID: '#096754236',
+    price: '3000',
+    action: 'Retrait',
+    actionTime: '13:00',
+  },
+  {
+    id: 2,
+    icon: 'trending-up-outline',
+    color: '#fbcc56',
+    actionID: '#096754',
+    price: '3000',
+    action: 'Recharge',
+    actionTime: '21:00',
+  },
+  {
+    id: 3,
+    icon: 'trending-up-outline',
+    color: '#e57fc2',
+    actionID: '#0967542',
+    price: '3000',
+    action: 'Recharge',
+    actionTime: '13:00',
+  },
+  {
+    id: 4,
+    icon: 'trending-down-outline',
+    color: '#000000',
+    actionID: '#0754236',
+    price: '3000',
+    action: 'Retrait',
+    actionTime: '13:00',
+  },
+];

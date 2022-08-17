@@ -17,15 +17,15 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { theme } from '../Constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectTicket, setTicket } from '../Slices/tickets';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import { Controller, useForm } from 'react-hook-form';
 import SwitchSelector from "react-native-switch-selector";
+import { transactions } from '../Constants/dummy-data';
 
 const { width, height } = Dimensions.get('screen');
 
 const Portefeuille = ({ navigation, route }) => {
-    const tickets = useSelector(selectTicket);
+
 
     const [rechargeModal, setRechargeModal] = useState(false);
     const [retraitModal, setRetraitModal] = useState(false);
@@ -660,7 +660,7 @@ const Portefeuille = ({ navigation, route }) => {
                                         </RNBounceable>
                                     </View>
                                 </View>
-                                <View style={{ marginTop: 20, marginHorizontal: 15 }} >
+                                <View style={{ marginVertical: 20, marginHorizontal: 15 }} >
                                     <Text style={{ fontFamily: 'Nunito-SemiBold', color: 'black', fontSize: theme.sizes.h6 }}>
                                         Réseau
                                     </Text>
@@ -794,18 +794,18 @@ const Portefeuille = ({ navigation, route }) => {
                             }}>
                             <View>
                                 <Text style={{ color: 'black', fontFamily: 'Nunito-SemiBold' }}>
-                                    {ticket?.ticketID}
+                                    {ticket?.actionID}
                                 </Text>
                                 <Text style={{ color: 'grey', fontFamily: 'Nunito-SemiBold' }}>
-                                    {ticket?.eventName?.slice(0, 25).concat('...')}
+                                    {ticket?.action}
                                 </Text>
                             </View>
                             <View>
                                 <Text style={{ color: 'black', fontFamily: 'Nunito-SemiBold' }}>
-                                    {ticket?.ticketPrice?.concat('f')}
+                                    {ticket?.price?.concat('f')}
                                 </Text>
                                 <Text style={{ color: 'grey', fontFamily: 'Nunito-SemiBold' }}>
-                                    {ticket?.ticketSaleTime}
+                                    {ticket?.actionTime}
                                 </Text>
                             </View>
                         </View>
@@ -826,10 +826,10 @@ const Portefeuille = ({ navigation, route }) => {
                     </Text>
                 </View>
                 <View>
-                    {tickets?.length > 0 ? (
-                        <ScrollView
+                    {transactions?.length > 0 ? (
+                        <ScrollView showsVerticalScrollIndicator={false}
                             style={{ height: height - 500, marginTop: 20, marginBottom: 20 }}>
-                            {mappedData(tickets)}
+                            {mappedData(transactions)}
                         </ScrollView>
                     ) : (
                         <View
@@ -878,7 +878,7 @@ const Portefeuille = ({ navigation, route }) => {
                                     width: width / 1.1,
                                     height: 40,
                                 }}
-                                onPress={() => console.log('Tickets')}>
+                                onPress={() => navigation.navigate('Tickets')}>
                                 <Text
                                     style={{
                                         color: theme.colors.white,
@@ -886,8 +886,8 @@ const Portefeuille = ({ navigation, route }) => {
 
                                         fontSize: theme.sizes.h6,
                                     }}>
-                                    {tickets?.length > 0
-                                        ? `Vous avez acheté ${tickets?.length} billets.`
+                                    {transactions?.length > 0
+                                        ? `Vous avez acheté ${transactions?.length} billets.`
                                         : `Vous n'avez pas acheté de billets.`}
                                 </Text>
                             </RNBounceable>
@@ -929,7 +929,7 @@ const styles = StyleSheet.create({
         paddingTop: 12,
         borderTopRightRadius: 10,
         borderTopLeftRadius: 10,
-        height: height / 1.5,
+        height: height / 1.3,
     },
     container: {
         backgroundColor: 'white',
