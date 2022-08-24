@@ -390,19 +390,24 @@ const Detail = ({ navigation, route }: any) => {
         <View
           style={{ marginVertical: 5, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}
         >
+
           {selectedEvent?.offers?.price?.map((item, index) => (
-            <Text
-              key={index}
-              style={{
-                color: theme.colors.black,
-                fontFamily: 'Nunito-SemiBold',
-                fontSize: theme.sizes.h8,
+            <View style={{ backgroundColor: '#B5FBDD', height: 28, width: 85, justifyContent: 'center', alignItems: 'center', marginBottom: 10, borderRadius: 3 }} >
+              <Text
+                key={index}
+                style={{
+                  color: theme.colors.black,
+                  fontFamily: 'Nunito-SemiBold',
+                  fontSize: theme.sizes.h8,
 
 
-              }}>
-              {item} fcfa
-            </Text>
+                }}>
+                {item} fcfa
+              </Text>
+            </View>
           ))}
+
+
 
         </View>
       </View>
