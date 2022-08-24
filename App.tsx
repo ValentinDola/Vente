@@ -3,9 +3,10 @@ import Navigation from './Navigation';
 import RNBootSplash from 'react-native-bootsplash';
 import { Provider } from 'react-redux';
 import { store } from './Store/index';
-import { SafeAreaView, StatusBar, PermissionsAndroid, Platform } from 'react-native';
+import { SafeAreaView, StatusBar, PermissionsAndroid, Platform, Text } from 'react-native';
 import moment from 'moment';
 import Geolocation from '@react-native-community/geolocation';
+import InternetConnectionAlert from "react-native-internet-connection-alert";
 import Geocoder from 'react-native-geocoding';
 
 import { enableLatestRenderer } from 'react-native-maps';
@@ -261,7 +262,13 @@ const App = () => {
     <Provider store={store}>
       <SafeAreaView style={{ flex: 1 }}>
         <StatusBar backgroundColor={theme.colors.black} />
+        {/* <InternetConnectionAlert
+          onChange={(connectionState) => {
+            console.log("Connection State: ", connectionState);
+          }} title={'Connection'} > */}
         <Navigation />
+        {/* </InternetConnectionAlert> */}
+
       </SafeAreaView>
     </Provider>
   );

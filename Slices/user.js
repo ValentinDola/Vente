@@ -5,6 +5,10 @@ const initialState = {
     nom: 'DOLA',
     prenom: 'Valentin',
     email: 'dolavalentino@gmail.com',
+    image: require('../assets/images/data/jakob-owens-qoFQxxuk3QY-unsplash.jpg'),
+    likes: 10,
+    billets: 5,
+    abonner: 19,
   },
 };
 

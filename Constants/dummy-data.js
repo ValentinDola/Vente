@@ -27,6 +27,7 @@ export const Schema = [
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
       type: 'billet',
+      price: ['3000', '5000', '10000'],
       priceFirst: '3000',
       priceSecond: '5000',
       reservation: '10000',
@@ -69,6 +70,7 @@ export const data = [
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
       type: 'billet',
+      price: ['3000', '5000', '10000'],
       priceFirst: '3000',
       priceSecond: '5000',
       reservation: '10000',
@@ -108,6 +110,7 @@ export const data = [
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
       type: 'billet',
+      price: ['3000', '5000', '10000'],
       priceFirst: '3000',
       priceSecond: '5000',
       reservation: '10000',
@@ -147,6 +150,7 @@ export const data = [
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
       type: 'billet',
+      price: ['3000', '5000', '10000'],
       priceFirst: '3000',
       priceSecond: '5000',
       reservation: '10000',
@@ -186,6 +190,7 @@ export const data = [
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
       type: 'billet',
+      price: ['3000', '5000', '10000'],
       priceFirst: '3000',
       priceSecond: '5000',
       reservation: '10000',
@@ -225,6 +230,7 @@ export const data = [
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
       type: 'billet',
+      price: ['3000', '5000', '10000'],
       priceFirst: '3000',
       priceSecond: '5000',
       reservation: '10000',
@@ -264,6 +270,7 @@ export const data = [
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
       type: 'billet',
+      price: ['3000', '5000', '10000'],
       priceFirst: '3000',
       priceSecond: '5000',
       reservation: '10000',
@@ -303,6 +310,7 @@ export const data = [
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
       type: 'billet',
+      price: ['3000', '5000', '10000'],
       priceFirst: '3000',
       priceSecond: '5000',
       reservation: '10000',
@@ -342,6 +350,7 @@ export const data = [
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
       type: 'billet',
+      price: ['3000', '5000', '10000'],
       priceFirst: '3000',
       priceSecond: '5000',
       reservation: '10000',

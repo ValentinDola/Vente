@@ -25,6 +25,7 @@ import {
   Dimensions,
   Image,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
 import moment from 'moment';
 // import TextInput from 'react-native-text-input-interactive';
@@ -45,6 +46,7 @@ const Detail = ({ navigation, route }: any) => {
   // const [likeCount, setLikeCount] = useState([]);
   const [follow, setFollow] = useState(false);
   const [followCount, setFollowCount] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -53,16 +55,13 @@ const Detail = ({ navigation, route }: any) => {
     setSelectedEvent(selectedEvent);
   }, []);
 
-
-  // const onShare = (item: any) => (
-  //   Share.open(item.name)
-  //     .then((res) => {
-  //       console.log(res);
-  //     })
-  //     .catch((err) => {
-  //       err && console.log(err);
-  //     })
-  // );
+  const billet = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(true);
+      navigation.navigate('Cart', { selectedEvent })
+    }, 3000);
+  }
 
   const ImageBackgroundComponent = () => {
     return (
@@ -268,7 +267,7 @@ const Detail = ({ navigation, route }: any) => {
             }} onPress={() => setFollow(!follow)} >
             <Text
               style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }}>
-              {follow === false ? "S'abonner" : 'Tu es Abonne'}
+              {follow === false ? "S'abonner" : 'Abonne'}
 
             </Text>
           </RNBounceable>
@@ -391,36 +390,19 @@ const Detail = ({ navigation, route }: any) => {
         <View
           style={{ marginVertical: 5, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}
         >
-          <Text
-            style={{
-              color: theme.colors.black,
-              fontFamily: 'Nunito-SemiBold',
-              fontSize: theme.sizes.h8,
+          {selectedEvent?.offers?.price?.map((item, index) => (
+            <Text
+              key={index}
+              style={{
+                color: theme.colors.black,
+                fontFamily: 'Nunito-SemiBold',
+                fontSize: theme.sizes.h8,
 
 
-            }}>
-            {selectedEvent?.offers?.priceFirst} fcfa
-          </Text>
-          <Text
-            style={{
-              color: theme.colors.black,
-              fontFamily: 'Nunito-SemiBold',
-              fontSize: theme.sizes.h8,
-
-
-            }}>
-            {selectedEvent?.offers?.priceSecond} fcfa
-          </Text>
-          <Text
-            style={{
-              color: theme.colors.black,
-              fontFamily: 'Nunito-SemiBold',
-              fontSize: theme.sizes.h8,
-
-
-            }}>
-            {selectedEvent?.offers?.reservation} fcfa
-          </Text>
+              }}>
+              {item} fcfa
+            </Text>
+          ))}
 
         </View>
       </View>
@@ -458,8 +440,8 @@ const Detail = ({ navigation, route }: any) => {
                   backgroundColor: theme.colors.bluetiful,
                   width: width / 1.1,
                   height: 40,
-                }} onPress={() => navigation.navigate('Cart', { selectedEvent })} >
-                <Text
+                }} onPress={() => billet()} >
+                {loading == true ? <ActivityIndicator size="small" color="#FFFFFF" animating={loading} hidesWhenStopped={loading} /> : <Text
                   style={{
                     color: theme.colors.white,
                     fontFamily: 'Nunito-Bold',
@@ -467,7 +449,8 @@ const Detail = ({ navigation, route }: any) => {
                     fontSize: theme.sizes.h6,
                   }}>
                   Billets
-                </Text>
+                </Text>}
+
               </RNBounceable>
 
             </View>

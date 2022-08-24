@@ -10,7 +10,7 @@ import {setData} from '../Slices/data';
 const Like = ({itemData}) => {
   const {id, name, isLikable} = itemData;
 
-  const [like, setLike] = useState(isLikable);
+  const [like, setLike] = useState(false);
 
   const count = useSelector(selectCount);
 
