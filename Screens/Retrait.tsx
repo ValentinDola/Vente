@@ -16,6 +16,7 @@ import { theme } from '../Constants';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import { Controller, useForm } from 'react-hook-form';
 import SwitchSelector from 'react-native-switch-selector';
+import Header from '../Components/Header';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -56,57 +57,7 @@ const Retrait = ({ navigation, route }) => {
         }
     };
 
-    const Header = () => {
-        return (
-            <View>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        marginVertical: 20,
-                        marginHorizontal: 15,
-                    }}>
-                    <TouchableOpacity
-                        onPress={() => navigation.goBack()}
-                        style={{
-                            backgroundColor: theme.colors.grey,
-                            padding: 5,
-                            borderRadius: 10,
-                            opacity: 0.7,
-                        }}>
-                        <Icon
-                            name="ios-chevron-back-outline"
-                            size={24}
-                            color={theme.colors.black}
-                        />
-                    </TouchableOpacity>
 
-                    <View>
-                        <Text
-                            style={{
-                                color: theme.colors.black,
-                                fontFamily: 'Nunito-Bold',
-                                fontSize: 20,
-                            }}>
-                            Retrait
-                        </Text>
-                    </View>
-
-                    <TouchableOpacity
-                        style={{
-                            backgroundColor: theme.colors.grey,
-                            padding: 5,
-                            borderRadius: 10,
-                            opacity: 0.7,
-                        }}
-                        onPress={() => navigation.navigate('Explorer')}>
-                        <Icon name={'close-outline'} size={24} color={theme.colors.black} />
-                    </TouchableOpacity>
-                </View>
-            </View>
-        );
-    };
 
     const Actions = () => {
         return (
@@ -455,7 +406,7 @@ const Retrait = ({ navigation, route }) => {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             enabled={false}
             style={styles.screen}>
-            <Header />
+            <Header value={'Retrait'} />
 
             <Actions />
             <BottomButtons />

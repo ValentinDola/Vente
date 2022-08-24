@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Header from '../Components/Header';
 import { theme } from '../Constants/index';
 
 const { width, height } = Dimensions.get('screen');
@@ -78,56 +79,7 @@ const Payment = ({ navigation, route }: any) => {
 
     }
 
-    const Header = () => {
-        return (
-            <View>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        marginVertical: 20,
-                        marginHorizontal: 15,
-                    }}>
-                    <TouchableOpacity
-                        onPress={() => navigation.goBack()}
-                        style={{
-                            backgroundColor: theme.colors.grey,
-                            padding: 5,
-                            borderRadius: 10,
-                            opacity: 0.7,
-                        }}>
-                        <Icon
-                            name="ios-chevron-back-outline"
-                            size={24}
-                            color={theme.colors.black}
-                        />
-                    </TouchableOpacity>
 
-                    <View>
-                        <Text
-                            style={{
-                                color: theme.colors.black,
-                                fontFamily: 'Nunito-Bold',
-                                fontSize: 20,
-                            }}>
-                            Mode de paiement
-                        </Text>
-                    </View>
-
-                    <TouchableOpacity
-                        style={{
-                            backgroundColor: theme.colors.grey,
-                            padding: 5,
-                            borderRadius: 10,
-                            opacity: 0.7,
-                        }} onPress={() => navigation.navigate('Explorer')} >
-                        <Icon name={'close-outline'} size={24} color={theme.colors.black} />
-                    </TouchableOpacity>
-                </View>
-            </View>
-        );
-    };
 
     const CoordonneesSection = () => {
         return (
@@ -410,7 +362,7 @@ const Payment = ({ navigation, route }: any) => {
             style={styles.screen} enabled={false}
             behavior={Platform.OS === "ios" ? "padding" : "height"}>
             <ScrollView showsVerticalScrollIndicator={false} >
-                <Header />
+                <Header value={'Mode de paiement'} />
                 {/* <CoordonneesSection /> */}
                 <PriceSection />
                 <DescriptionSection />

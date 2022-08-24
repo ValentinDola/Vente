@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { theme } from '../Constants';
 import RNBounceable from '@freakycoder/react-native-bounceable';
+import Header from '../Components/Header';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -26,56 +27,7 @@ const Checkout = ({ navigation, route }) => {
         }, 5000);
     }
 
-    const Header = () => {
-        return (
-            <View>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        marginVertical: 20,
-                        marginHorizontal: 15,
-                    }}>
-                    <TouchableOpacity
-                        onPress={() => navigation.goBack()}
-                        style={{
-                            backgroundColor: theme.colors.grey,
-                            padding: 5,
-                            borderRadius: 10,
-                            opacity: 0.7,
-                        }}>
-                        <Icon
-                            name="ios-chevron-back-outline"
-                            size={24}
-                            color={theme.colors.black}
-                        />
-                    </TouchableOpacity>
 
-                    <View>
-                        <Text
-                            style={{
-                                color: theme.colors.black,
-                                fontFamily: 'Nunito-Bold',
-                                fontSize: 20,
-                            }}>
-                            Vérification
-                        </Text>
-                    </View>
-
-                    <TouchableOpacity
-                        style={{
-                            backgroundColor: theme.colors.grey,
-                            padding: 5,
-                            borderRadius: 10,
-                            opacity: 0.7,
-                        }} onPress={() => navigation.navigate('Explorer')} >
-                        <Icon name={'close-outline'} size={24} color={theme.colors.black} />
-                    </TouchableOpacity>
-                </View>
-            </View>
-        );
-    };
 
     const TotalSection = () => {
         return (
@@ -198,7 +150,7 @@ const Checkout = ({ navigation, route }) => {
 
     return (
         <View style={styles.screen}>
-            <Header />
+            <Header value={'Vérification'} />
             <TotalSection />
             <ButtomBarSection />
         </View>

@@ -2,6 +2,7 @@
 // [] Build the header component
 // [] Build the menu component
 
+import RNBounceable from '@freakycoder/react-native-bounceable';
 import React from 'react';
 import {
     Platform,
@@ -19,8 +20,6 @@ const links = [
     { title: 'Reglages', to: 'Reglages' },
     { title: 'A propos', to: 'About' },
     { title: 'Termes et conditions', to: 'Termes' },
-    { title: 'Promotions', to: 'Promotions' },
-
 ];
 
 const Menu = ({ navigation }: any) => {
@@ -34,22 +33,12 @@ const Menu = ({ navigation }: any) => {
             }}>
             <TouchableOpacity
                 style={{
-                    backgroundColor: theme.colors.bluetiful,
-                    padding: 6,
+                    backgroundColor: theme.colors.grey,
+                    padding: 5,
                     borderRadius: 10,
                     opacity: 0.7,
-                }}
-                onPress={() => navigation.goBack()}>
-                <Icon
-                    name="close-outline"
-                    style={{
-                        backgroundColor: theme.colors.bluetiful,
-                        padding: 6,
-                        borderRadius: 10,
-                    }}
-                    size={20}
-                    color={theme.colors.black}
-                />
+                }} onPress={() => navigation.navigate('Explorer')} >
+                <Icon name={'close-outline'} size={24} color={theme.colors.black} />
             </TouchableOpacity>
         </View>
     );
@@ -63,10 +52,11 @@ const Menu = ({ navigation }: any) => {
                 marginVertical: 40,
             }}>
             {links.map(link => (
-                <TouchableOpacity
+                <RNBounceable
                     key={link.title}
                     style={{ marginVertical: 15 }}
                     onPress={() => navigation.navigate(link.to)}>
+
                     <Text
                         style={
 
@@ -78,7 +68,7 @@ const Menu = ({ navigation }: any) => {
                         }>
                         {link.title}
                     </Text>
-                </TouchableOpacity>
+                </RNBounceable>
             ))}
         </View>
     );

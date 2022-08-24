@@ -8,6 +8,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { selectUser } from '../Slices/user';
 import { useSelector } from 'react-redux';
 import RNBounceable from '@freakycoder/react-native-bounceable';
+import Header from '../Components/Header';
 
 
 const { width, height } = Dimensions.get('screen');
@@ -64,61 +65,7 @@ const Commande = ({ navigation, route }: any) => {
 
 
 
-    const Header = () => {
-        return (
-            <View>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        marginVertical: 20,
-                        marginHorizontal: 15,
-                    }}>
-                    <TouchableOpacity
-                        onPress={() => navigation.goBack()}
-                        style={{
-                            backgroundColor: theme.colors.grey,
-                            padding: 5,
-                            borderRadius: 10,
-                            opacity: 0.7,
-                        }}>
-                        <Icon
-                            name="ios-chevron-back-outline"
-                            size={24}
-                            color={theme.colors.black}
-                        />
-                    </TouchableOpacity>
 
-                    <View>
-                        <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-Bold', fontSize: 20 }} >
-                            Commander
-                        </Text>
-                    </View>
-
-                    <TouchableOpacity style={{
-                        backgroundColor: theme.colors.grey,
-                        padding: 5,
-                        borderRadius: 10,
-                        opacity: 0.7,
-                    }} onPress={() => navigation.navigate('Explorer')}>
-                        <Icon
-                            name={'close-outline'}
-                            size={24}
-                            color={theme.colors.black}
-                        />
-                    </TouchableOpacity>
-
-
-                </View>
-                {/* <View style={{ justifyContent: 'center', alignItems: 'center' }} >
-                    <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }} >
-                        Temps restant
-                    </Text>
-                </View> */}
-            </View>
-        )
-    }
 
     const Coordonnees = () => {
         return (
@@ -394,7 +341,7 @@ const Commande = ({ navigation, route }: any) => {
 
     return (
         <View style={styles.screen} >
-            <Header />
+            <Header value={'Commander'} />
             <ScrollView >
                 <Coordonnees />
                 <Transaction />
