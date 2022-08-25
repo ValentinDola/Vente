@@ -1,13 +1,12 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { theme } from '../Constants';
+import Header from '../Components/Header';
 
 const About = () => {
     return (
         <View style={{ flex: 1, backgroundColor: '#F6F6F7' }} >
-            <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }} >
-                A propos
-            </Text>
+            <Header value={'À propos de nous'} />
         </View>
     )
 }
