@@ -24,6 +24,7 @@ import Portefeuille from '../Screens/Portefeuille';
 import Checkout from '../Screens/Checkout';
 import Retrait from '../Screens/Retrait';
 import Recharge from '../Screens/Recharge';
+import Ticket from '../Screens/Ticket';
 
 const Stack = createNativeStackNavigator();
 
@@ -65,6 +66,7 @@ const App = () => {
           <Stack.Screen name={'Recherche'} component={Recherche} />
           <Stack.Screen name={'Menu'} component={Menu} />
           <Stack.Screen name={'Tickets'} component={Tickets} />
+          <Stack.Screen name={'Ticket'} component={Ticket} />
           <Stack.Screen name={'Reglages'} component={Reglages} />
           <Stack.Screen name={'About'} component={About} />
           <Stack.Screen name={'Termes'} component={Termes} />

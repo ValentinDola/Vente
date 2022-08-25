@@ -1,6 +1,7 @@
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import React from 'react';
 import { ScrollView, Text, View, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectTicket, setTicket } from '../Slices/tickets';
@@ -8,7 +9,9 @@ import Header from '../Components/Header';
 
 const { width, height } = Dimensions.get('screen');
 
-const Tickets = ({ navigation, route }) => {
+const Tickets = () => {
+
+    const navigation = useNavigation();
 
     const tickets = useSelector(selectTicket);
 
@@ -23,7 +26,8 @@ const Tickets = ({ navigation, route }) => {
                             justifyContent: 'space-between',
                             alignItems: 'center',
                         }}
-                        onPress={() => console.log(ticket)}>
+                        onPress={() => navigation.navigate('Ticket', { ticket })}
+                    >
                         <View
                             style={{
                                 backgroundColor: ticket?.color,
