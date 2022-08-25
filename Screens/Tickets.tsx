@@ -5,64 +5,13 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectTicket, setTicket } from '../Slices/tickets';
 import { theme } from '../Constants';
+import Header from '../Components/Header';
 
 const { width, height } = Dimensions.get('screen');
 
 const Tickets = ({ navigation, route }) => {
 
     const tickets = useSelector(selectTicket);
-
-    const Header = () => {
-        return (
-            <View>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        marginVertical: 20,
-                        marginHorizontal: 15,
-                    }}>
-                    <TouchableOpacity
-                        onPress={() => navigation.goBack()}
-                        style={{
-                            backgroundColor: theme.colors.grey,
-                            padding: 5,
-                            borderRadius: 10,
-                            opacity: 0.7,
-                        }}>
-                        <Icon
-                            name="ios-chevron-back-outline"
-                            size={24}
-                            color={theme.colors.black}
-                        />
-                    </TouchableOpacity>
-
-                    <View>
-                        <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-Bold', fontSize: 20 }} >
-                            Liste des tickets
-                        </Text>
-                    </View>
-
-                    <TouchableOpacity style={{
-                        backgroundColor: theme.colors.grey,
-                        padding: 5,
-                        borderRadius: 10,
-                        opacity: 0.7,
-                    }} onPress={() => navigation.navigate('Explorer')}>
-                        <Icon
-                            name={'close-outline'}
-                            size={24}
-                            color={theme.colors.black}
-                        />
-                    </TouchableOpacity>
-
-
-                </View>
-
-            </View>
-        )
-    }
 
     const Transactions = () => {
         const mappedData = (item: any) =>
@@ -141,7 +90,7 @@ const Tickets = ({ navigation, route }) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#F6F6F7' }} >
-            <Header />
+            <Header value={'Liste des tickets'} />
             <Transactions />
         </View>
     )
