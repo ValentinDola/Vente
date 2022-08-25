@@ -15,7 +15,7 @@ const Tickets = ({ navigation, route }) => {
 
     const Transactions = () => {
         const mappedData = (item: any) =>
-            item.map((ticket, index) => (
+            item.map((ticket: { color: any; icon: string; ticketID: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; eventName: string | any[]; ticketPrice: string | any[]; ticketSaleTime: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; }, index: React.Key | null | undefined) => (
                 <View style={{ marginTop: 15 }} key={index}>
                     <RNBounceable
                         style={{
