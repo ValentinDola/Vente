@@ -2,6 +2,7 @@ import { View, Dimensions, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Header from '../Components/Header'
 import RNBounceable from '@freakycoder/react-native-bounceable';
+import QRCode from 'react-native-qrcode-svg';
 import { theme } from '../Constants';
 
 const { width, height } = Dimensions.get('screen');
@@ -42,7 +43,7 @@ const Ticket = ({ route }) => {
                                     Prix
                                 </Text>
                                 <Text style={{ fontFamily: 'Nunito-SemiBold', color: 'white', fontSize: theme.sizes.h4, textAlign: 'center', letterSpacing: 1.2 }} >
-                                    {ticket?.ticketPrice}
+                                    {ticket?.ticketPrice}f
                                 </Text>
                             </View>
                         </View>
@@ -57,6 +58,16 @@ const Ticket = ({ route }) => {
                                 {ticket?.ticketID}
                             </Text>
                         </View>
+
+                        <RNBounceable style={{ backgroundColor: 'white', height: 250, width: 250, marginTop: 10, borderRadius: 3, justifyContent: 'center', alignItems: 'center' }} >
+                            <QRCode
+                                value={ticket?.ticketID}
+                                size={200}
+                                logo={require('../assets/images/splash/ticket.png')}
+                                logoSize={50}
+                            />
+                        </RNBounceable>
+
                     </View>
                 </RNBounceable>
             </View>
