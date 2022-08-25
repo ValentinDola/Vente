@@ -392,7 +392,7 @@ const Detail = ({ navigation, route }: any) => {
         >
 
           {selectedEvent?.offers?.price?.map((item, index) => (
-            <View style={{ backgroundColor: '#B5FBDD', height: 28, width: 85, justifyContent: 'center', alignItems: 'center', marginBottom: 10, borderRadius: 3 }} >
+            <View key={index} style={{ backgroundColor: '#B5FBDD', height: 28, width: 85, justifyContent: 'center', alignItems: 'center', marginBottom: 10, borderRadius: 3 }} >
               <Text
                 key={index}
                 style={{
