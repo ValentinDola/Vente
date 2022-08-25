@@ -1,10 +1,9 @@
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import React from 'react';
-import { ScrollView, Text, TouchableOpacity, View, Dimensions } from 'react-native';
+import { ScrollView, Text, View, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectTicket, setTicket } from '../Slices/tickets';
-import { theme } from '../Constants';
 import Header from '../Components/Header';
 
 const { width, height } = Dimensions.get('screen');
