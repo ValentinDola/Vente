@@ -25,6 +25,7 @@ import {
   Dimensions,
   Image,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
 import moment from 'moment';
 // import TextInput from 'react-native-text-input-interactive';
@@ -45,6 +46,7 @@ const Detail = ({ navigation, route }: any) => {
   // const [likeCount, setLikeCount] = useState([]);
   const [follow, setFollow] = useState(false);
   const [followCount, setFollowCount] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -53,16 +55,13 @@ const Detail = ({ navigation, route }: any) => {
     setSelectedEvent(selectedEvent);
   }, []);
 
-
-  // const onShare = (item: any) => (
-  //   Share.open(item.name)
-  //     .then((res) => {
-  //       console.log(res);
-  //     })
-  //     .catch((err) => {
-  //       err && console.log(err);
-  //     })
-  // );
+  const billet = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(true);
+      navigation.navigate('Cart', { selectedEvent });
+    }, 3000);
+  };
 
   const ImageBackgroundComponent = () => {
     return (
@@ -94,7 +93,6 @@ const Detail = ({ navigation, route }: any) => {
             </RNBounceable>
             <View
               style={{
-
                 backgroundColor: theme.colors.grey,
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -103,14 +101,7 @@ const Detail = ({ navigation, route }: any) => {
                 opacity: 0.7,
               }}>
               <Like itemData={selectedEvent} />
-              {/* <View style={{ width: 15 }} />
-              <RNBounceable onPress={() => onShare(selectedEvent)}>
-                <Icon
-                  name="ios-share-outline"
-                  size={24}
-                  color={theme.colors.black}
-                />
-              </RNBounceable> */}
+
             </View>
           </View>
         </View>
@@ -194,11 +185,15 @@ const Detail = ({ navigation, route }: any) => {
     );
   };
 
-
-
   const IntroductionComponent = () => {
     return (
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, marginVertical: 10 }} >
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginHorizontal: 20,
+          marginVertical: 10,
+        }}>
         <View style={{ marginVertical: 20, width: width / 2 }}>
           <Text
             style={{
@@ -209,21 +204,50 @@ const Detail = ({ navigation, route }: any) => {
             {selectedEvent?.name}
           </Text>
         </View>
-        <View style={{ justifyContent: 'center', alignItems: 'center' }} >
-          <View style={{ backgroundColor: '#B5FBDD', height: 25, width: 75, justifyContent: 'center', alignItems: 'center', marginBottom: 10, borderRadius: 3 }} >
-            <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', textTransform: 'uppercase', fontSize: 12, letterSpacing: 2 }}>
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <View
+            style={{
+              backgroundColor: '#B5FBDD',
+              height: 25,
+              width: 75,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginBottom: 10,
+              borderRadius: 3,
+            }}>
+            <Text
+              style={{
+                color: theme.colors.black,
+                fontFamily: 'Nunito-SemiBold',
+                textTransform: 'uppercase',
+                fontSize: 12,
+                letterSpacing: 2,
+              }}>
               {selectedEvent?.eventStatus}
             </Text>
           </View>
 
-          <View style={{ backgroundColor: '#F7F272', height: 25, width: 70, justifyContent: 'center', alignItems: 'center', borderRadius: 3 }} >
-            <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', textTransform: 'uppercase', fontSize: 12 }}>
+          <View
+            style={{
+              backgroundColor: '#F7F272',
+              height: 25,
+              width: 70,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 3,
+            }}>
+            <Text
+              style={{
+                color: theme.colors.black,
+                fontFamily: 'Nunito-SemiBold',
+                textTransform: 'uppercase',
+                fontSize: 12,
+              }}>
               {selectedEvent?.eventAttendanceMode}
             </Text>
           </View>
         </View>
       </View>
-
     );
   };
 
@@ -243,17 +267,15 @@ const Detail = ({ navigation, route }: any) => {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-
             <Text
               style={{
                 color: theme.colors.blue,
                 fontFamily: 'Nunito-Bold',
                 fontSize: theme.sizes.h6,
-                width: width / 2
+                width: width / 2,
               }}>
               {selectedEvent?.organizer?.name}
             </Text>
-
           </View>
           <RNBounceable
             style={{
@@ -265,11 +287,11 @@ const Detail = ({ navigation, route }: any) => {
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: 3,
-            }} onPress={() => setFollow(!follow)} >
+            }}
+            onPress={() => setFollow(!follow)}>
             <Text
               style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }}>
-              {follow === false ? "S'abonner" : 'Tu es Abonne'}
-
+              {follow === false ? "S'abonner" : 'Abonne'}
             </Text>
           </RNBounceable>
         </View>
@@ -289,7 +311,8 @@ const Detail = ({ navigation, route }: any) => {
               fontSize: theme.sizes.h8,
               marginTop: 5,
             }}>
-            {moment(selectedEvent?.startDate).format('D MMMM YYYY')} - {moment(selectedEvent?.endDate).format('D MMMM YYYY')}
+            {moment(selectedEvent?.startDate).format('D MMMM YYYY')} -{' '}
+            {moment(selectedEvent?.endDate).format('D MMMM YYYY')}
           </Text>
           <Text
             style={{
@@ -298,7 +321,8 @@ const Detail = ({ navigation, route }: any) => {
               fontSize: theme.sizes.h8,
               marginTop: 3,
             }}>
-            Début. {moment(selectedEvent?.startDate).format('LT')} - {moment(selectedEvent?.endDate).format('LT')}
+            Début. {moment(selectedEvent?.startDate).format('LT')} -{' '}
+            {moment(selectedEvent?.endDate).format('LT')}
           </Text>
         </View>
         <View>
@@ -307,7 +331,7 @@ const Detail = ({ navigation, route }: any) => {
               color: theme.colors.black,
               fontFamily: 'Nunito-Bold',
               fontSize: theme.sizes.h5,
-              marginBottom: 5
+              marginBottom: 5,
             }}>
             Description
           </Text>
@@ -352,16 +376,13 @@ const Detail = ({ navigation, route }: any) => {
               color: theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h8,
-              width: 250
-
+              width: 250,
             }}>
-            {selectedEvent?.location?.name} - {selectedEvent?.location?.address?.streetAddress}
+            {selectedEvent?.location?.name} -{' '}
+            {selectedEvent?.location?.address?.streetAddress}
           </Text>
-          <TouchableOpacity
-            onPress={() => console.log('Locate')}
-          >
+          <TouchableOpacity onPress={() => console.log('Locate')}>
             <Icon
-
               name="location-outline"
               size={24}
               color={theme.colors.black}
@@ -378,7 +399,7 @@ const Detail = ({ navigation, route }: any) => {
         style={{
           marginTop: 25,
           marginHorizontal: 20,
-          marginBottom: 70
+          marginBottom: 70,
         }}>
         <Text
           style={{
@@ -389,44 +410,50 @@ const Detail = ({ navigation, route }: any) => {
           Ticket
         </Text>
         <View
-          style={{ marginVertical: 5, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}
-        >
-          <Text
-            style={{
-              color: theme.colors.black,
-              fontFamily: 'Nunito-SemiBold',
-              fontSize: theme.sizes.h8,
-
-
-            }}>
-            {selectedEvent?.offers?.priceFirst} fcfa
-          </Text>
-          <Text
-            style={{
-              color: theme.colors.black,
-              fontFamily: 'Nunito-SemiBold',
-              fontSize: theme.sizes.h8,
-
-
-            }}>
-            {selectedEvent?.offers?.priceSecond} fcfa
-          </Text>
-          <Text
-            style={{
-              color: theme.colors.black,
-              fontFamily: 'Nunito-SemiBold',
-              fontSize: theme.sizes.h8,
-
-
-            }}>
-            {selectedEvent?.offers?.reservation} fcfa
-          </Text>
-
+          style={{
+            marginVertical: 5,
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+          }}>
+          {selectedEvent?.offers?.price?.map(
+            (
+              item:
+                | boolean
+                | React.ReactChild
+                | React.ReactFragment
+                | React.ReactPortal
+                | null
+                | undefined,
+              index: React.Key | null | undefined,
+            ) => (
+              <View
+                key={index}
+                style={{
+                  backgroundColor: '#B5FBDD',
+                  height: 28,
+                  width: 85,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginBottom: 10,
+                  borderRadius: 3,
+                }}>
+                <Text
+                  key={index}
+                  style={{
+                    color: theme.colors.black,
+                    fontFamily: 'Nunito-SemiBold',
+                    fontSize: theme.sizes.h8,
+                  }}>
+                  {item} fcfa
+                </Text>
+              </View>
+            ),
+          )}
         </View>
       </View>
     );
   };
-
 
   const ButtomBarSection = () => {
     return (
@@ -446,10 +473,11 @@ const Detail = ({ navigation, route }: any) => {
             marginHorizontal: 20,
           }}>
           {
-            <View style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
               <RNBounceable
                 style={{
                   borderRadius: 3,
@@ -458,18 +486,27 @@ const Detail = ({ navigation, route }: any) => {
                   backgroundColor: theme.colors.bluetiful,
                   width: width / 1.1,
                   height: 40,
-                }} onPress={() => navigation.navigate('Cart', { selectedEvent })} >
-                <Text
-                  style={{
-                    color: theme.colors.white,
-                    fontFamily: 'Nunito-Bold',
+                }}
+                onPress={() => billet()}>
+                {loading == true ? (
+                  <ActivityIndicator
+                    size="small"
+                    color="#FFFFFF"
+                    animating={loading}
+                    hidesWhenStopped={loading}
+                  />
+                ) : (
+                  <Text
+                    style={{
+                      color: theme.colors.white,
+                      fontFamily: 'Nunito-Bold',
 
-                    fontSize: theme.sizes.h6,
-                  }}>
-                  Billets
-                </Text>
+                      fontSize: theme.sizes.h6,
+                    }}>
+                    Billets
+                  </Text>
+                )}
               </RNBounceable>
-
             </View>
           }
         </View>

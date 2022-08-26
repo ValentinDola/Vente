@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { theme } from '../Constants'
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -12,12 +12,21 @@ const Cart = ({ navigation, route }: any) => {
 
 
     const [selectedEvent, setSelectedEvent]: any = useState({})
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         let { selectedEvent } = route.params;
         setSelectedEvent(selectedEvent);
 
     }, []);
+
+    const inscription = () => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+            navigation.navigate('Commande', { selectedEvent })
+        }, 3000);
+    }
 
     const Header = () => {
         return (
@@ -56,7 +65,7 @@ const Cart = ({ navigation, route }: any) => {
                         padding: 5,
                         borderRadius: 10,
                         opacity: 0.7,
-                    }} >
+                    }} onPress={() => navigation.navigate('Explorer')} >
                         <Icon
                             name={'close-outline'}
                             size={24}
@@ -153,8 +162,8 @@ const Cart = ({ navigation, route }: any) => {
                                     width: width / 1.1,
                                     height: 40,
                                     marginBottom: 20
-                                }} onPress={() => navigation.navigate('Commande', { selectedEvent })} >
-                                <Text
+                                }} onPress={() => inscription()} >
+                                {loading == true ? <ActivityIndicator size="small" color="#FFFFFF" animating={loading} hidesWhenStopped={loading} /> : <Text
                                     style={{
                                         color: theme.colors.white,
                                         fontFamily: 'Nunito-Bold',
@@ -162,7 +171,8 @@ const Cart = ({ navigation, route }: any) => {
                                         fontSize: theme.sizes.h6,
                                     }}>
                                     S'inscrire
-                                </Text>
+                                </Text>}
+
                             </RNBounceable>
 
                         </View>

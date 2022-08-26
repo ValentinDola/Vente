@@ -7,6 +7,7 @@ import newsReducer from '../Slices/news';
 import userReducer from '../Slices/user';
 import followingReducer from '../Slices/follow';
 import ticketReducer from '../Slices/tickets';
+import transitionReducer from '../Slices/transactions';
 
 export const store = configureStore({
   reducer: {
@@ -18,5 +19,6 @@ export const store = configureStore({
     user: userReducer,
     following: followingReducer,
     ticket: ticketReducer,
+    transition: transitionReducer,
   },
 });

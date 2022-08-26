@@ -27,6 +27,7 @@ export const Schema = [
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
       type: 'billet',
+      price: ['3000', '5000', '10000'],
       priceFirst: '3000',
       priceSecond: '5000',
       reservation: '10000',
@@ -69,6 +70,7 @@ export const data = [
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
       type: 'billet',
+      price: ['3000', '5000', '10000'],
       priceFirst: '3000',
       priceSecond: '5000',
       reservation: '10000',
@@ -108,6 +110,7 @@ export const data = [
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
       type: 'billet',
+      price: ['3000', '5000', '10000'],
       priceFirst: '3000',
       priceSecond: '5000',
       reservation: '10000',
@@ -147,6 +150,7 @@ export const data = [
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
       type: 'billet',
+      price: ['3000', '5000', '10000'],
       priceFirst: '3000',
       priceSecond: '5000',
       reservation: '10000',
@@ -186,6 +190,7 @@ export const data = [
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
       type: 'billet',
+      price: ['3000', '5000', '10000'],
       priceFirst: '3000',
       priceSecond: '5000',
       reservation: '10000',
@@ -225,6 +230,7 @@ export const data = [
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
       type: 'billet',
+      price: ['3000', '5000', '10000'],
       priceFirst: '3000',
       priceSecond: '5000',
       reservation: '10000',
@@ -264,6 +270,7 @@ export const data = [
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
       type: 'billet',
+      price: ['3000', '5000', '10000'],
       priceFirst: '3000',
       priceSecond: '5000',
       reservation: '10000',
@@ -303,6 +310,7 @@ export const data = [
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
       type: 'billet',
+      price: ['3000', '5000', '10000'],
       priceFirst: '3000',
       priceSecond: '5000',
       reservation: '10000',
@@ -342,6 +350,7 @@ export const data = [
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
       type: 'billet',
+      price: ['3000', '5000', '10000'],
       priceFirst: '3000',
       priceSecond: '5000',
       reservation: '10000',
@@ -559,7 +568,7 @@ export const tickets = [
     icon: 'pizza-outline',
     color: '#fbcc56',
     ticketID: '#096754',
-    ticketPrice: '3000',
+    ticketPrice: '5000',
     eventName: 'The Adventure of Kira and Morrison',
     ticketSaleTime: '21:00',
   },
@@ -568,7 +577,7 @@ export const tickets = [
     icon: 'pulse',
     color: '#e57fc2',
     ticketID: '#0967542',
-    ticketPrice: '3000',
+    ticketPrice: '13000',
     eventName: 'Fêtes mouvementées',
     ticketSaleTime: '13:00',
   },
@@ -577,8 +586,47 @@ export const tickets = [
     icon: 'rose-outline',
     color: '#000000',
     ticketID: '#0754236',
-    ticketPrice: '3000',
+    ticketPrice: '10000',
     eventName: 'Conférences Sunset Silver',
     ticketSaleTime: '13:00',
+  },
+];
+
+export const transactions = [
+  {
+    id: 1,
+    icon: 'trending-down-outline',
+    color: '#9db4f5',
+    actionID: '#096754236',
+    price: '3000',
+    action: 'Retrait',
+    actionTime: '13:00',
+  },
+  {
+    id: 2,
+    icon: 'trending-up-outline',
+    color: '#fbcc56',
+    actionID: '#096754',
+    price: '3000',
+    action: 'Recharge',
+    actionTime: '21:00',
+  },
+  {
+    id: 3,
+    icon: 'trending-up-outline',
+    color: '#e57fc2',
+    actionID: '#0967542',
+    price: '3000',
+    action: 'Recharge',
+    actionTime: '13:00',
+  },
+  {
+    id: 4,
+    icon: 'trending-down-outline',
+    color: '#000000',
+    actionID: '#0754236',
+    price: '3000',
+    action: 'Retrait',
+    actionTime: '13:00',
   },
 ];

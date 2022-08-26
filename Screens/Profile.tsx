@@ -8,8 +8,13 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { theme } from '../Constants/index';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUser, selectUser } from '../Slices/user';
 
 const Profile = ({ navigation }) => {
+
+  const user = useSelector(selectUser);
+
   return (
     <View style={styles.screen}>
 
@@ -22,7 +27,7 @@ const Profile = ({ navigation }) => {
         }}>
         <View>
           <Image
-            source={require('../assets/images/data/jakob-owens-qoFQxxuk3QY-unsplash.jpg')}
+            source={user?.image}
             style={{ width: 100, height: 100, borderRadius: 50 }}
           />
         </View>
@@ -34,10 +39,10 @@ const Profile = ({ navigation }) => {
                 fontFamily: 'Nunito-SemiBold',
                 fontSize: 20,
               }}>
-              Edward Larry
+              {user?.nom} {user?.prenom}
             </Text>
             <Text style={{ color: '#D1D3D4', fontFamily: 'Nunito-SemiBold' }}>
-              @Edward Larry
+              {user?.email}
             </Text>
           </View>
 
@@ -47,16 +52,16 @@ const Profile = ({ navigation }) => {
       </View>
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }} >
         <View style={{ justifyContent: 'center', alignItems: 'center' }} >
-          <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }} >02</Text>
+          <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }} >{user?.likes}</Text>
           <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }} >Likes</Text>
         </View>
         <View style={{ justifyContent: 'center', alignItems: 'center' }} >
-          <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }} >5</Text>
+          <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }} >{user?.billets}</Text>
           <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }} >Billets</Text>
         </View>
         <View style={{ justifyContent: 'center', alignItems: 'center' }} >
-          <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }} >19</Text>
-          <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }} >Suivre</Text>
+          <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }} >{user?.abonner}</Text>
+          <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }} >abonnee</Text>
         </View>
       </View>
       {/* Dashboard */}

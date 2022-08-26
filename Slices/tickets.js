@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {tickets} from '../Constants/dummy-data';
 
 const initialState = {
-  tickets: tickets,
+  value: tickets,
 };
 
 export const ticketSlice = createSlice({
@@ -10,13 +10,13 @@ export const ticketSlice = createSlice({
   initialState,
   reducers: {
     setTicket: (state, action) => {
-      state.tickets = [...state.tickets, action.payload];
+      state.value = [...state.value, action.payload];
     },
   },
 });
 
 export const {setTicket} = ticketSlice.actions;
 
-export const selectTicket = state => state.ticket.tickets;
+export const selectTicket = state => state.ticket.value;
 
 export default ticketSlice.reducer;

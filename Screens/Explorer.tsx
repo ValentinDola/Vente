@@ -289,7 +289,7 @@ const Explorer: React.FC = () => {
           marginHorizontal: 10,
         }}>
         {' '}
-        Categories{' '}
+        Catégories{' '}
       </Text>
       <View style={{ marginTop: 10 }}>
         <FlatList
@@ -343,7 +343,7 @@ const Explorer: React.FC = () => {
           marginVertical: 15,
         }}>
         {' '}
-        Evenements{' '}
+        Événements{' '}
       </Text>
       <View>
         <FlatList

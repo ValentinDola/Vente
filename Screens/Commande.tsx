@@ -1,12 +1,14 @@
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Pressable, ScrollView, Dimensions, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Pressable, ScrollView, Dimensions, Alert, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { theme } from '../Constants'
 import Icon from 'react-native-vector-icons/Ionicons';
 import AnimatedCheckbox from 'react-native-checkbox-reanimated';
+import CheckBox from '@react-native-community/checkbox';
 import { useForm, Controller } from 'react-hook-form';
 import { selectUser } from '../Slices/user';
 import { useSelector } from 'react-redux';
 import RNBounceable from '@freakycoder/react-native-bounceable';
+import Header from '../Components/Header';
 
 
 const { width, height } = Dimensions.get('screen');
@@ -14,6 +16,7 @@ const { width, height } = Dimensions.get('screen');
 const Commande = ({ navigation, route }: any) => {
 
     const user = useSelector(selectUser);
+    const [loading, setLoading] = useState(false);
 
     const {
         control,
@@ -44,12 +47,17 @@ const Commande = ({ navigation, route }: any) => {
 
     const onSubmit = (data: any) => {
         const newData = { data, conditions, numTicket };
-        if (newData) {
-            navigation.navigate('Payment', { newData, selectedEvent });
-            console.log(newData);
-        } else {
-            return null;
-        }
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false)
+            if (newData) {
+                navigation.navigate('Payment', { newData, selectedEvent });
+                console.log(newData, selectedEvent);
+            } else {
+                return null;
+            }
+        }, 3000);
+
 
 
 
@@ -57,61 +65,7 @@ const Commande = ({ navigation, route }: any) => {
 
 
 
-    const Header = () => {
-        return (
-            <View>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        marginVertical: 20,
-                        marginHorizontal: 15,
-                    }}>
-                    <TouchableOpacity
-                        onPress={() => navigation.goBack()}
-                        style={{
-                            backgroundColor: theme.colors.grey,
-                            padding: 5,
-                            borderRadius: 10,
-                            opacity: 0.7,
-                        }}>
-                        <Icon
-                            name="ios-chevron-back-outline"
-                            size={24}
-                            color={theme.colors.black}
-                        />
-                    </TouchableOpacity>
 
-                    <View>
-                        <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-Bold', fontSize: 20 }} >
-                            Commander
-                        </Text>
-                    </View>
-
-                    <TouchableOpacity style={{
-                        backgroundColor: theme.colors.grey,
-                        padding: 5,
-                        borderRadius: 10,
-                        opacity: 0.7,
-                    }} onPress={() => navigation.navigate('Explorer')}>
-                        <Icon
-                            name={'close-outline'}
-                            size={24}
-                            color={theme.colors.black}
-                        />
-                    </TouchableOpacity>
-
-
-                </View>
-                {/* <View style={{ justifyContent: 'center', alignItems: 'center' }} >
-                    <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }} >
-                        Temps restant
-                    </Text>
-                </View> */}
-            </View>
-        )
-    }
 
     const Coordonnees = () => {
         return (
@@ -287,6 +241,11 @@ const Commande = ({ navigation, route }: any) => {
                                 checkmarkColor="#ffffff"
                                 boxOutlineColor="#4444ff"
                             />
+                            {/* <CheckBox
+                               
+                                value={conditions}
+                                onValueChange={(newValue) => setConditions(newValue)}
+                            /> */}
                         </Pressable>
                         <Pressable style={{ marginHorizontal: 15 }} onPress={() => setConditions(!conditions)} >
                             <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', fontSize: 14 }} >
@@ -362,7 +321,7 @@ const Commande = ({ navigation, route }: any) => {
                                     height: 40,
                                     marginBottom: 20
                                 }} disabled={!conditions} onPress={handleSubmit(onSubmit)} >
-                                <Text
+                                {loading == true ? <ActivityIndicator size="small" color="#FFFFFF" animating={loading} hidesWhenStopped={loading} /> : <Text
                                     style={{
                                         color: theme.colors.white,
                                         fontFamily: 'Nunito-Bold',
@@ -370,7 +329,7 @@ const Commande = ({ navigation, route }: any) => {
                                         fontSize: theme.sizes.h6,
                                     }}>
                                     S'inscrire
-                                </Text>
+                                </Text>}
                             </RNBounceable>
 
                         </View>
@@ -382,7 +341,7 @@ const Commande = ({ navigation, route }: any) => {
 
     return (
         <View style={styles.screen} >
-            <Header />
+            <Header value={'Commander'} />
             <ScrollView >
                 <Coordonnees />
                 <Transaction />
