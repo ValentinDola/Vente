@@ -2,13 +2,12 @@ import { View, Text, TouchableOpacity, TextInput, StyleSheet, Pressable, ScrollV
 import React, { useEffect, useState } from 'react'
 import { theme } from '../Constants'
 import Icon from 'react-native-vector-icons/Ionicons';
-import AnimatedCheckbox from 'react-native-checkbox-reanimated';
-import CheckBox from '@react-native-community/checkbox';
 import { useForm, Controller } from 'react-hook-form';
 import { selectUser } from '../Slices/user';
 import { useSelector } from 'react-redux';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import Header from '../Components/Header';
+import Checkbox from '../Components/Checkbox';
 
 
 const { width, height } = Dimensions.get('screen');
@@ -206,12 +205,8 @@ const Commande = ({ navigation, route }: any) => {
                 </View>
                 <View style={{ marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
                     <Pressable style={{ width: 20, height: 20 }} onPress={() => console.log('press')} >
-                        <AnimatedCheckbox
-                            checked={true}
-                            highlightColor="#4444ff"
-                            checkmarkColor="#ffffff"
-                            boxOutlineColor="#4444ff"
-                        />
+
+                        <Checkbox isChecked={true} />
                     </Pressable>
                     <View style={{ marginHorizontal: 15 }} >
                         <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', fontSize: 14 }} >Tenez-moi au courant des autres evenements et des nouvelles de cet organisateur</Text>
@@ -219,12 +214,7 @@ const Commande = ({ navigation, route }: any) => {
                 </View>
                 <View style={{ marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} >
                     <Pressable style={{ width: 20, height: 20 }} onPress={() => console.log('press')} >
-                        <AnimatedCheckbox
-                            checked={true}
-                            highlightColor="#4444ff"
-                            checkmarkColor="#ffffff"
-                            boxOutlineColor="#4444ff"
-                        />
+                        <Checkbox isChecked={true} />
                     </Pressable>
                     <View style={{ marginHorizontal: 15 }}>
                         <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', fontSize: 14 }} >Envoyez-moi des e-mails sur les meilleurs evenements ayant lieu dans mes environs ou en ligne</Text>
@@ -235,17 +225,8 @@ const Commande = ({ navigation, route }: any) => {
 
                     <View style={{ marginTop: 25, flexDirection: 'row', alignItems: 'center' }} >
                         <Pressable style={{ width: 25, height: 25 }} onPress={() => setConditions(!conditions)} >
-                            <AnimatedCheckbox
-                                checked={conditions}
-                                highlightColor="#4444ff"
-                                checkmarkColor="#ffffff"
-                                boxOutlineColor="#4444ff"
-                            />
-                            {/* <CheckBox
-                               
-                                value={conditions}
-                                onValueChange={(newValue) => setConditions(newValue)}
-                            /> */}
+
+                            <Checkbox isChecked={conditions} isPress={() => setConditions(!conditions)} />
                         </Pressable>
                         <Pressable style={{ marginHorizontal: 15 }} onPress={() => setConditions(!conditions)} >
                             <Text style={{ color: theme.colors.black, fontFamily: 'Nunito-SemiBold', fontSize: 14 }} >
