@@ -18,8 +18,6 @@ import { theme } from '../Constants/index';
 const links = [
     { title: 'Liste des tickets', to: 'Tickets' },
     { title: 'Reglages', to: 'Reglages' },
-    { title: 'A propos', to: 'About' },
-    { title: 'Termes et conditions', to: 'Termes' },
 ];
 
 const Menu = ({ navigation }: any) => {

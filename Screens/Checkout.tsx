@@ -4,14 +4,18 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { theme } from '../Constants';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import Header from '../Components/Header';
+import { useNavigation } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('screen');
 
-const Checkout = ({ navigation, route }) => {
+const Checkout = ({ route }) => {
+
+    const navigation = useNavigation();
 
     const [selectedEvent, setSelectedEvent]: any = useState({});
     const [newData, setNewData]: any = useState({});
     const [loading, setLoading]: any = useState(false);
+    const [totalAmount, setTotalAmount]: any = useState('');
 
     useEffect(() => {
         let { selectedEvent, finalData } = route.params;
@@ -19,11 +23,18 @@ const Checkout = ({ navigation, route }) => {
         setNewData(finalData);
     }, []);
 
+    const getTotal = () => {
+        const price = parseInt(newData?.price) + parseInt(newData?.price) * 0.3;
+        if (price)
+            setTotalAmount(price);
+        return price;
+    }
+
     const proccessing = () => {
         setLoading(true)
         setTimeout(() => {
-            console.log('day')
-            setLoading(false)
+            setLoading(false);
+            navigation.navigate('Overview', { totalAmount })
         }, 5000);
     }
 
@@ -31,8 +42,8 @@ const Checkout = ({ navigation, route }) => {
 
     const TotalSection = () => {
         return (
-            <View style={{ marginHorizontal: 15, marginVertical: 15 }} >
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 15 }} >
+            <View style={{ marginHorizontal: 15, marginVertical: 5 }} >
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 5 }} >
                     <View style={{ backgroundColor: theme.colors.white, height: 200, width: width / 1.1 }} >
                         <Text style={{ fontFamily: 'Nunito-Bold', color: 'black', fontSize: theme.sizes.h4, marginHorizontal: 15, marginVertical: 15 }} >
                             {selectedEvent?.name}
@@ -80,16 +91,39 @@ const Checkout = ({ navigation, route }) => {
                             {parseInt(newData?.price) * 0.3}
                         </Text>
                     </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 25 }} >
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 15 }} >
                         <Text style={{ fontFamily: 'Nunito-Bold', color: 'black', fontSize: theme.sizes.h2 }} >
                             Total
                         </Text>
                         <Text style={{ fontFamily: 'Nunito-Bold', color: 'black', fontSize: theme.sizes.h2, letterSpacing: 0.5 }} >
-                            {parseInt(newData?.price) + parseInt(newData?.price) * 0.3} {selectedEvent?.offers?.priceCurrency}
+                            {getTotal()} {selectedEvent?.offers?.priceCurrency}
                         </Text>
                     </View>
                 </View>
 
+            </View>
+        )
+    }
+
+    const Wallet = () => {
+        return (
+            <View style={{ marginHorizontal: 15 }} >
+                <RNBounceable style={{ backgroundColor: theme.colors.white, height: 60, width: width / 1.1, borderRadius: 3, justifyContent: 'space-evenly', alignItems: 'center', flexDirection: 'row', }} >
+
+                    <Icon name={'wallet'} size={18} color={'#45D09E'} />
+
+
+
+                    <Text style={{ color: 'black', fontFamily: 'Nunito-Bold', fontSize: theme.sizes.h4 }} >
+                        Portefeuille
+                    </Text>
+                    <Text style={{ color: 'black', fontFamily: 'Nunito-Bold', fontSize: theme.sizes.h6 }} >
+                        18000cfa
+                    </Text>
+
+
+
+                </RNBounceable>
             </View>
         )
     }
@@ -135,7 +169,7 @@ const Checkout = ({ navigation, route }) => {
 
                                         fontSize: theme.sizes.h6,
                                     }}>
-                                    Continuer
+                                    Continuer avec portefeuille
                                 </Text>}
 
 
@@ -152,6 +186,7 @@ const Checkout = ({ navigation, route }) => {
         <View style={styles.screen}>
             <Header value={'Vérification'} />
             <TotalSection />
+            <Wallet />
             <ButtomBarSection />
         </View>
     )

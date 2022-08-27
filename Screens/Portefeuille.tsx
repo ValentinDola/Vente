@@ -53,7 +53,7 @@ const Portefeuille = ({ navigation, route }) => {
                                     fontSize: 40,
                                     letterSpacing: 1.4,
                                 }}>
-                                <Text style={{ fontSize: 18 }}>Total</Text> 18000
+                                <Text style={{ fontSize: 18 }}>Total</Text> 18000 CFA
                             </Text>
                         </View>
                     </View>
