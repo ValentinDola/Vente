@@ -8,11 +8,18 @@ import { useSelector } from 'react-redux';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import Header from '../Components/Header';
 import Checkbox from '../Components/Checkbox';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 
 const { width, height } = Dimensions.get('screen');
 
-const Commande = ({ navigation, route }: any) => {
+interface CommandeProps {
+    route: any
+}
+
+const Commande = (props: CommandeProps) => {
+
+    const navigation = useNavigation();
 
     const user = useSelector(selectUser);
     const [loading, setLoading] = useState(false);
@@ -40,6 +47,7 @@ const Commande = ({ navigation, route }: any) => {
 
 
     useEffect(() => {
+        const { route } = props;
         let { selectedEvent } = route.params;
         setSelectedEvent(selectedEvent);
     }, []);

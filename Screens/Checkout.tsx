@@ -8,7 +8,11 @@ import { useNavigation } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('screen');
 
-const Checkout = ({ route }) => {
+interface CheckoutProps {
+    route: any
+}
+
+const Checkout = (props: CheckoutProps) => {
 
     const navigation = useNavigation();
 
@@ -18,6 +22,7 @@ const Checkout = ({ route }) => {
     const [totalAmount, setTotalAmount]: any = useState('');
 
     useEffect(() => {
+        const { route } = props;
         let { selectedEvent, finalData } = route.params;
         setSelectedEvent(selectedEvent);
         setNewData(finalData);
