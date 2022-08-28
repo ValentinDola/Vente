@@ -23,10 +23,16 @@ const Checkout = (props: CheckoutProps) => {
 
     useEffect(() => {
         const { route } = props;
-        let { selectedEvent, finalData } = route.params;
+        let { selectedEvent } = route.params;
         setSelectedEvent(selectedEvent);
-        setNewData(finalData);
+
     }, []);
+
+    useEffect(() => {
+        const { route } = props;
+        let { finalData } = route.params;
+        setNewData(finalData);
+    })
 
     const getTotal = () => {
         const price = parseInt(newData?.price) + parseInt(newData?.price) * 0.3;

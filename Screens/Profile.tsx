@@ -4,19 +4,27 @@
 // [] Build the Posts component
 // [X] Build the account component
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image, Dimensions, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { theme } from '../Constants/index';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser, selectUser } from '../Slices/user';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, StackActions } from '@react-navigation/native';
 import { selectTicket } from '../Slices/tickets';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 
 const { width, height } = Dimensions.get('screen');
 
 const Profile = () => {
+
+
+
+  useEffect(() => {
+    if (user.value === false) {
+      StackActions.replace('Inscription')
+    }
+  })
 
   const navigation = useNavigation();
 
@@ -140,19 +148,19 @@ const Profile = () => {
         </View>
 
       </View>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }} >
-        <View style={{ justifyContent: 'center', alignItems: 'center' }} >
+      <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }} >
+        {/* <View style={{ justifyContent: 'center', alignItems: 'center' }} >
           <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-Bold' }} >{user?.likes}</Text>
           <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-Bold' }} >Likes</Text>
-        </View>
+        </View> */}
         <View style={{ justifyContent: 'center', alignItems: 'center' }} >
           <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-Bold' }} >{user?.billets}</Text>
           <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-Bold' }} >Billets</Text>
         </View>
-        <View style={{ justifyContent: 'center', alignItems: 'center' }} >
+        {/* <View style={{ justifyContent: 'center', alignItems: 'center' }} >
           <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-Bold' }} >{user?.abonner}</Text>
           <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-Bold' }} >abonnee</Text>
-        </View>
+        </View> */}
       </View>
       {/* Dashboard */}
       {/* <ScrollView style={{ height: height / 2 }} >
