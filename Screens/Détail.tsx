@@ -91,18 +91,22 @@ const Detail = ({ navigation, route }: any) => {
                 color={theme.colors.black}
               />
             </RNBounceable>
-            <View
+            {/* <View
               style={{
                 backgroundColor: theme.colors.grey,
                 alignItems: 'center',
                 justifyContent: 'center',
-                paddingHorizontal: 10,
+                paddingHorizontal: 8,
                 borderRadius: 5,
                 opacity: 0.7,
               }}>
-              <Like itemData={selectedEvent} />
+              <Icon
+                name="ios-share-outline"
+                size={24}
+                color={theme.colors.black}
+              />
 
-            </View>
+            </View> */}
           </View>
         </View>
         {/* Image footer */}
@@ -277,7 +281,7 @@ const Detail = ({ navigation, route }: any) => {
               {selectedEvent?.organizer?.name}
             </Text>
           </View>
-          <RNBounceable
+          {/* <RNBounceable
             style={{
               height: 35,
               width: 100,
@@ -293,7 +297,7 @@ const Detail = ({ navigation, route }: any) => {
               style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }}>
               {follow === false ? "S'abonner" : 'Abonne'}
             </Text>
-          </RNBounceable>
+          </RNBounceable> */}
         </View>
         <View style={{ marginBottom: 25 }}>
           <Text

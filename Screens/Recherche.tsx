@@ -19,6 +19,7 @@ import InteractiveTextInput from 'react-native-text-input-interactive';
 import { data } from '../Constants/dummy-data';
 import { useForm, Controller } from 'react-hook-form';
 import { theme } from '../Constants/index';
+import RNBounceable from '@freakycoder/react-native-bounceable';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -143,7 +144,7 @@ const Recherche = ({ navigation }: any) => {
                     name="search"
                 />
 
-                <TouchableOpacity
+                <RNBounceable
                     style={{
                         marginRight: 15,
                         backgroundColor: 'transparent',
@@ -152,7 +153,7 @@ const Recherche = ({ navigation }: any) => {
                     }}
                     onPress={handleSubmit(onChangeText)}>
                     <Icon name={'search'} size={30} color={'black'} />
-                </TouchableOpacity>
+                </RNBounceable>
             </View>
         </View>
     );
@@ -168,7 +169,7 @@ const Recherche = ({ navigation }: any) => {
             </View>
         );
         const result = ({ item, index }: any) => (
-            <TouchableOpacity
+            <RNBounceable
                 style={styles.item}
                 onPress={() => navigation.navigate('Detail', { selectedEvent: item })}>
                 <View style={{ width: width / 1.5 }}>
@@ -262,7 +263,7 @@ const Recherche = ({ navigation }: any) => {
                         </View>
                     </View>
                 </View>
-            </TouchableOpacity>
+            </RNBounceable>
         );
 
         return (

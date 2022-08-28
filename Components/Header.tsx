@@ -1,10 +1,16 @@
-import {View, Text, TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import {theme} from '../Constants/index';
+import { theme } from '../Constants/index';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const Header = ({value}) => {
+interface HeaderProps {
+  value: string
+}
+
+const Header = (props: HeaderProps) => {
+
+  const { value } = props;
   const navigation = useNavigation();
 
   return (

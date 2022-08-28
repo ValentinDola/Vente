@@ -6,53 +6,54 @@
 // [X] Navigation panel to registration page.
 
 import React from 'react';
-import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import { Text, View, StyleSheet, Image } from 'react-native';
 import Google from '../Components/svgs/google';
 import Tiktok from '../Components/svgs/tiktok';
 import Instagram from '../Components/svgs/instagram';
-import {theme} from '../Constants/index';
+import { theme } from '../Constants/index';
+import RNBounceable from '@freakycoder/react-native-bounceable';
 
 const Identification = (props: {
-  navigation: {navigate: (arg0: string) => void};
+  navigation: { navigate: (arg0: string) => void };
 }): JSX.Element => {
   return (
-    <View style={{flex: 1, backgroundColor: theme.colors.greyblack}}>
-      <View style={{flex: 0.3}}>
+    <View style={{ flex: 1, backgroundColor: theme.colors.greyblack }}>
+      <View style={{ flex: 0.3 }}>
         <Text style={[styles.introduction]}>Identification</Text>
         <Text style={[styles.int]}>
           Gérez votre compte, aimez les événements, suivez les organisateurs.
         </Text>
       </View>
 
-      <View style={{flex: 0.6, justifyContent: 'flex-start'}}>
+      <View style={{ flex: 0.6, justifyContent: 'flex-start' }}>
         <View>
-          <TouchableOpacity style={styles.btn}>
+          <RNBounceable style={styles.btn}>
             <Text style={styles.btntxt}>Continue avec Email</Text>
-          </TouchableOpacity>
+          </RNBounceable>
         </View>
 
         <View>
-          <TouchableOpacity style={styles.btn}>
+          <RNBounceable style={styles.btn}>
             <Google />
-            <View style={{width: 20}} />
+            <View style={{ width: 20 }} />
             <Text style={styles.btntxt}>Continue avec Google</Text>
-          </TouchableOpacity>
+          </RNBounceable>
         </View>
 
         <View>
-          <TouchableOpacity style={styles.btn}>
+          <RNBounceable style={styles.btn}>
             <Tiktok />
-            <View style={{width: 20}} />
+            <View style={{ width: 20 }} />
             <Text style={styles.btntxt}>Continue avec Tiktok</Text>
-          </TouchableOpacity>
+          </RNBounceable>
         </View>
 
         <View>
-          <TouchableOpacity style={styles.btn}>
+          <RNBounceable style={styles.btn}>
             <Instagram />
-            <View style={{width: 20}} />
+            <View style={{ width: 20 }} />
             <Text style={styles.btntxt}>Continue avec Instagram</Text>
-          </TouchableOpacity>
+          </RNBounceable>
         </View>
       </View>
 
@@ -77,7 +78,7 @@ const Identification = (props: {
             {' '}
             Vous n'avez pas de compte?{' '}
           </Text>
-          <TouchableOpacity
+          <RNBounceable
             onPress={() => props.navigation.navigate('Inscription')}>
             <Text
               style={{
@@ -87,7 +88,7 @@ const Identification = (props: {
               }}>
               Inscrivez-vous
             </Text>
-          </TouchableOpacity>
+          </RNBounceable>
         </View>
       </View>
     </View>

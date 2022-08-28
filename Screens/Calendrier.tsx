@@ -15,15 +15,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Agenda } from 'react-native-calendars';
 import { format } from 'date-fns';
 import moment from 'moment';
+import { useNavigation } from '@react-navigation/native';
 
 const { height, width } = Dimensions.get('screen');
 
-const timeToString = (time: string | number | Date) => {
-  const date = new Date(time);
-  return date.toISOString().split('T')[0];
-};
 
-const Calendrier: React.FC = ({ navigation }) => {
+const Calendrier: React.FC = () => {
+
+  const navigation = useNavigation();
+
   const [items, setItems] = useState({});
 
   const data = useSelector(selectData);

@@ -50,10 +50,10 @@ const Portefeuille = ({ navigation, route }) => {
                                 style={{
                                     color: 'black',
                                     fontFamily: 'Nunito-SemiBold',
-                                    fontSize: 40,
+                                    fontSize: 30,
                                     letterSpacing: 1.4,
                                 }}>
-                                <Text style={{ fontSize: 18 }}>Total</Text> 18000
+                                <Text style={{ fontSize: 18 }}>Total</Text> 18000 CFA
                             </Text>
                         </View>
                     </View>

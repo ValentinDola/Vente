@@ -1,6 +1,6 @@
 import RNBounceable from '@freakycoder/react-native-bounceable';
-import React from 'react';
-import { ScrollView, Text, View, Dimensions } from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView, Text, View, Dimensions, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,9 +11,20 @@ const { width, height } = Dimensions.get('screen');
 
 const Tickets = () => {
 
+    const [loading, setLoading] = useState(false);
+
     const navigation = useNavigation();
 
     const tickets = useSelector(selectTicket);
+
+    const toTicket = (ticket: { color: any; icon: string; ticketID: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; eventName: string | any[]; ticketPrice: string | any[]; ticketSaleTime: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; }) => (
+
+
+
+        navigation.navigate('Ticket', { ticket })
+
+
+    )
 
     const Transactions = () => {
         const mappedData = (item: any) =>
@@ -26,7 +37,7 @@ const Tickets = () => {
                             justifyContent: 'space-between',
                             alignItems: 'center',
                         }}
-                        onPress={() => navigation.navigate('Ticket', { ticket })}
+                        onPress={() => toTicket(ticket)}
                     >
                         <View
                             style={{
@@ -37,7 +48,8 @@ const Tickets = () => {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                             }}>
-                            <Icon name={ticket?.icon} color={'white'} size={30} />
+                            {<Icon name={ticket?.icon} color={'white'} size={30} />}
+
                         </View>
                         <View
                             style={{

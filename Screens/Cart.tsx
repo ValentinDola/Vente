@@ -4,17 +4,25 @@ import { theme } from '../Constants'
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import RNBounceable from '@freakycoder/react-native-bounceable';
+import { useNavigation } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('screen');
 
-const Cart = ({ navigation, route }: any) => {
+interface CartProps {
+    route: any
+}
+
+const Cart = (props: CartProps) => {
 
 
+
+    const navigation = useNavigation();
 
     const [selectedEvent, setSelectedEvent]: any = useState({})
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        const { route } = props;
         let { selectedEvent } = route.params;
         setSelectedEvent(selectedEvent);
 
