@@ -17,8 +17,10 @@ import {
 } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useDispatch, useSelector} from 'react-redux';
 import Header from '../Components/Header';
 import {theme} from '../Constants/index';
+import {selectEvent, selectPrice} from '../Slices/event';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -26,10 +28,18 @@ const Networks = ['TMONEY', 'FLOOZ'];
 
 const Payment = ({navigation, route}: any) => {
   const [clickedId, setClickedId] = useState(0);
-  const [networkId, setNetworkId] = useState(0);
   const [price, setPrice] = useState('');
 
   const [loading, setLoading] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState({});
+
+  const event = useSelector(selectEvent);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setSelectedEvent(event);
+  }, []);
 
   const {
     control,
@@ -42,34 +52,17 @@ const Payment = ({navigation, route}: any) => {
     },
   });
 
-  const [selectedEvent, setSelectedEvent]: any = useState({});
-  const [newData, setNewData]: any = useState({});
-
-  useEffect(() => {
-    let {selectedEvent, newData} = route.params;
-    setSelectedEvent(selectedEvent);
-    setNewData(newData);
-  }, []);
-
-  const handleNetwork = (item, index) => {
-    setNetworkId(index);
-    setNetwork(item);
-  };
-
   const handlePrice = (item, index) => {
     setClickedId(index);
     setPrice(item);
   };
 
   const onSubmit = (data: any) => {
-    const {phone} = data;
-    const finalData = {price};
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      if (finalData) {
-        console.log(finalData, selectedEvent);
-        navigation.navigate('Checkout', {finalData, selectedEvent});
+      if (price) {
+        navigation.navigate('Checkout', {price});
       }
     }, 3000);
   };
@@ -393,7 +386,7 @@ const Payment = ({navigation, route}: any) => {
       enabled={false}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Header value={'Mode de paiement'} />
+        <Header value={'Prix'} />
         {/* <CoordonneesSection /> */}
         <PriceSection />
         <DescriptionSection />

@@ -15,11 +15,12 @@ import {theme} from '../Constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useForm, Controller} from 'react-hook-form';
 import {selectUser} from '../Slices/user';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import Header from '../Components/Header';
 import Checkbox from '../Components/Checkbox';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import {setIV} from '../Slices/event';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -45,17 +46,10 @@ const Commande = (props: CommandeProps) => {
     },
   });
 
-  const [selectedEvent, setSelectedEvent]: any = useState({});
-  const [isYesChecked, setIsYesChecked] = useState(false);
-  const [isNoChecked, setIsNoChecked] = useState(false);
+  const dispatch = useDispatch();
+
   const [conditions, setConditions] = useState(false);
   const [numTicket, setNumTickets] = useState('1');
-
-  useEffect(() => {
-    const {route} = props;
-    let {selectedEvent} = route.params;
-    setSelectedEvent(selectedEvent);
-  }, []);
 
   const onSubmit = (data: any) => {
     const newData = {data, conditions, numTicket};
@@ -63,8 +57,8 @@ const Commande = (props: CommandeProps) => {
     setTimeout(() => {
       setLoading(false);
       if (newData) {
-        navigation.navigate('Payment', {newData, selectedEvent});
-        console.log(newData, selectedEvent);
+        dispatch(setIV(newData));
+        navigation.navigate('Payment');
       } else {
         return null;
       }

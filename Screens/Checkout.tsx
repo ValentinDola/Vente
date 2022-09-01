@@ -12,6 +12,8 @@ import {theme} from '../Constants';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import Header from '../Components/Header';
 import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+import {selectEvent, selectIV, selectPrice} from '../Slices/event';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -19,39 +21,33 @@ interface CheckoutProps {
   route: any;
 }
 
-const Checkout = (props: CheckoutProps) => {
+const Checkout = ({route}: any) => {
   const navigation = useNavigation();
 
   const [selectedEvent, setSelectedEvent]: any = useState({});
-  const [newData, setNewData]: any = useState({});
+  const [price, setPrice]: any = useState('');
   const [loading, setLoading]: any = useState(false);
-  const [totalAmount, setTotalAmount]: any = useState('');
+  const [amount, setAmount]: any = useState('');
+
+  const event = useSelector(selectEvent);
 
   useEffect(() => {
-    const {route} = props;
-    let {selectedEvent} = route.params;
-    setSelectedEvent(selectedEvent);
+    const {price} = route.params;
+    setSelectedEvent(event);
+    setPrice(price);
   }, []);
 
-  useEffect(() => {
-    const {route} = props;
-    let {finalData} = route.params;
-    setTimeout(() => {
-      setNewData(finalData);
-    }, 2000);
-  });
-
   const getTotal = () => {
-    const price = parseInt(newData?.price) + parseInt(newData?.price) * 0.3;
-    if (price) setTotalAmount(price);
-    return price;
+    const price_ = parseInt(price) + parseInt(price) * 0.3;
+    if (price_) setAmount(price_);
+    return price_;
   };
 
   const proccessing = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      navigation.navigate('Overview', {totalAmount});
+      navigation.navigate('Overview', {amount});
     }, 10000);
   };
 
@@ -127,7 +123,7 @@ const Checkout = (props: CheckoutProps) => {
                     textTransform: 'uppercase',
                     fontSize: 12,
                   }}>
-                  {newData ? `${newData?.price} cfa` : 'loading'}
+                  {price ? `${price} cfa` : 'loading'}
                 </Text>
               </View>
             </View>
@@ -138,7 +134,7 @@ const Checkout = (props: CheckoutProps) => {
                 marginHorizontal: 15,
                 fontSize: theme.sizes.h6,
               }}>
-              - Ticket : {newData?.price}
+              - Ticket : {price}
             </Text>
             <Text
               style={{
@@ -147,7 +143,7 @@ const Checkout = (props: CheckoutProps) => {
                 marginHorizontal: 15,
                 fontSize: theme.sizes.h6,
               }}>
-              - Frais de système : {parseInt(newData?.price) * 0.15}
+              - Frais de système : {parseInt(price) * 0.15}
             </Text>
             <Text
               style={{
@@ -156,7 +152,7 @@ const Checkout = (props: CheckoutProps) => {
                 marginHorizontal: 15,
                 fontSize: theme.sizes.h6,
               }}>
-              - Frais de transaction : {parseInt(newData?.price) * 0.15}
+              - Frais de transaction : {parseInt(price) * 0.15}
             </Text>
           </View>
         </View>
@@ -192,7 +188,7 @@ const Checkout = (props: CheckoutProps) => {
                 fontSize: theme.sizes.h6,
                 letterSpacing: 0.5,
               }}>
-              {newData?.price}
+              {price}
             </Text>
           </View>
           <View
@@ -216,7 +212,7 @@ const Checkout = (props: CheckoutProps) => {
                 fontSize: theme.sizes.h6,
                 letterSpacing: 0.5,
               }}>
-              {parseInt(newData?.price) * 0.3}
+              {parseInt(price) * 0.3}
             </Text>
           </View>
           <View
@@ -348,7 +344,7 @@ const Checkout = (props: CheckoutProps) => {
 
   return (
     <View style={styles.screen}>
-      <Header value={'Vérification'} />
+      <Header value={'Vérification'} left={true} />
       <TotalSection />
       <Wallet />
       <ButtomBarSection />

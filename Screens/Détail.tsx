@@ -13,7 +13,7 @@
  * [X] Build the fixed bottom bar
  */
 
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -31,15 +31,16 @@ import moment from 'moment';
 // import TextInput from 'react-native-text-input-interactive';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Share from 'react-native-share';
-import { theme } from '../Constants/index';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { useSelector, useDispatch } from 'react-redux';
+import {theme} from '../Constants/index';
+import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+import {useSelector, useDispatch} from 'react-redux';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import Like from '../Constants/like';
+import {setEvent} from '../Slices/event';
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
-const Detail = ({ navigation, route }: any) => {
+const Detail = ({navigation, route}: any) => {
   const [selectedEvent, setSelectedEvent]: any = useState({});
   const [ticket, setTicket]: any = useState('1');
   // const [liked, setLiked] = useState(false);
@@ -51,7 +52,7 @@ const Detail = ({ navigation, route }: any) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    let { selectedEvent } = route.params;
+    let {selectedEvent} = route.params;
     setSelectedEvent(selectedEvent);
   }, []);
 
@@ -59,7 +60,8 @@ const Detail = ({ navigation, route }: any) => {
     setLoading(true);
     setTimeout(() => {
       setLoading(true);
-      navigation.navigate('Cart', { selectedEvent });
+      dispatch(setEvent(selectedEvent));
+      navigation.navigate('Cart', {selectedEvent});
     }, 3000);
   };
 
@@ -67,9 +69,9 @@ const Detail = ({ navigation, route }: any) => {
     return (
       <ImageBackground
         source={selectedEvent?.image}
-        style={{ width: '100%', height: height / 2.2 }}>
+        style={{width: '100%', height: height / 2.2}}>
         {/* Image Header */}
-        <View style={{ flex: 1 }}>
+        <View style={{flex: 1}}>
           <View
             style={{
               flexDirection: 'row',
@@ -198,7 +200,7 @@ const Detail = ({ navigation, route }: any) => {
           marginHorizontal: 20,
           marginVertical: 10,
         }}>
-        <View style={{ marginVertical: 20, width: width / 2 }}>
+        <View style={{marginVertical: 20, width: width / 2}}>
           <Text
             style={{
               color: theme.colors.black,
@@ -208,7 +210,7 @@ const Detail = ({ navigation, route }: any) => {
             {selectedEvent?.name}
           </Text>
         </View>
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <View
             style={{
               backgroundColor: '#B5FBDD',
@@ -257,7 +259,7 @@ const Detail = ({ navigation, route }: any) => {
 
   const DescriptionSection = () => {
     return (
-      <View style={{ marginHorizontal: 20 }}>
+      <View style={{marginHorizontal: 20}}>
         <View
           style={{
             marginBottom: 30,
@@ -299,7 +301,7 @@ const Detail = ({ navigation, route }: any) => {
             </Text>
           </RNBounceable> */}
         </View>
-        <View style={{ marginBottom: 25 }}>
+        <View style={{marginBottom: 25}}>
           <Text
             style={{
               color: theme.colors.black,
@@ -522,8 +524,8 @@ const Detail = ({ navigation, route }: any) => {
     <View style={styles.container}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: 1, backgroundColor: '#F6F6F7' }}
-        style={{ backgroundColor: '#F6F6F7' }}>
+        contentContainerStyle={{flexGrow: 1, backgroundColor: '#F6F6F7'}}
+        style={{backgroundColor: '#F6F6F7'}}>
         {/* ImageBackground */}
         <ImageBackgroundComponent />
 
