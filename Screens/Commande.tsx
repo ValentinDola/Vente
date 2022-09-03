@@ -19,8 +19,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import Header from '../Components/Header';
 import Checkbox from '../Components/Checkbox';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {setIV} from '../Slices/event';
+import {useNavigation} from '@react-navigation/native';
+import {selectEvent} from '../Slices/event';
+import {setCordonne} from '../Slices/cordonne';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -32,6 +33,7 @@ const Commande = (props: CommandeProps) => {
   const navigation = useNavigation();
 
   const user = useSelector(selectUser);
+  const event = useSelector(selectEvent);
   const [loading, setLoading] = useState(false);
 
   const {
@@ -57,7 +59,8 @@ const Commande = (props: CommandeProps) => {
     setTimeout(() => {
       setLoading(false);
       if (newData) {
-        dispatch(setIV(newData));
+        dispatch(setCordonne(newData));
+
         navigation.navigate('Payment');
       } else {
         return null;

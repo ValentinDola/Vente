@@ -9,6 +9,8 @@ import followingReducer from '../Slices/follow';
 import ticketReducer from '../Slices/tickets';
 import transitionReducer from '../Slices/transactions';
 import eventReducer from '../Slices/event';
+import cordonneReducer from '../Slices/cordonne';
+import priceReducer from '../Slices/price';
 
 export const store = configureStore({
   reducer: {
@@ -22,5 +24,7 @@ export const store = configureStore({
     ticket: ticketReducer,
     transition: transitionReducer,
     event: eventReducer,
+    cordonne: cordonneReducer,
+    price: priceReducer,
   },
 });

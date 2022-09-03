@@ -6,14 +6,14 @@ import {
   Dimensions,
   ActivityIndicator,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {theme} from '../Constants';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import Header from '../Components/Header';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
-import {selectEvent, selectIV, selectPrice} from '../Slices/event';
+import {useDispatch, useSelector} from 'react-redux';
+import {selectEvent} from '../Slices/event';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -23,6 +23,7 @@ interface CheckoutProps {
 
 const Checkout = ({route}: any) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const [selectedEvent, setSelectedEvent]: any = useState({});
   const [price, setPrice]: any = useState('');
@@ -45,6 +46,7 @@ const Checkout = ({route}: any) => {
 
   const proccessing = () => {
     setLoading(true);
+    dispatch(setPrice(amount));
     setTimeout(() => {
       setLoading(false);
       navigation.navigate('Overview', {amount});

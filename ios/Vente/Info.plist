@@ -86,5 +86,9 @@
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
 	</array>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app would like to save images to your devices</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app would like to save images to your devices</string>
 </dict>
 </plist>

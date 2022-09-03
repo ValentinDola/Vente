@@ -155,7 +155,6 @@ const Detail = ({navigation, route}: any) => {
                   color: theme.colors.white,
                 }}>
                 Début. {moment(selectedEvent?.startDate).format('LT')}
-                {/* {selectedEvent?.startTime} */}
               </Text>
             </View>
             <View
@@ -384,8 +383,8 @@ const Detail = ({navigation, route}: any) => {
               fontSize: theme.sizes.h8,
               width: 250,
             }}>
-            {selectedEvent?.location?.name} -{' '}
-            {selectedEvent?.location?.address?.streetAddress}
+            {selectedEvent?.location?.address?.addressLocality} -{' '}
+            {selectedEvent?.location?.name}
           </Text>
           <TouchableOpacity onPress={() => console.log('Locate')}>
             <Icon
@@ -537,8 +536,11 @@ const Detail = ({navigation, route}: any) => {
         {/* Location section */}
         <LocationSection />
         {/* Promotion section */}
-        <PriceSection />
-        {/* {selectedEvent?.promotion?.state === true && <PromotionSection />} */}
+        {selectedEvent?.offers?.type === true ? (
+          <PriceSection />
+        ) : (
+          <View style={{marginBottom: 70}} />
+        )}
       </ScrollView>
       {/* Buttom bar section */}
       {<ButtomBarSection />}

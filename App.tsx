@@ -9,6 +9,7 @@ import {
   StatusBar,
   PermissionsAndroid,
   Platform,
+  Alert,
 } from 'react-native';
 import moment from 'moment';
 import Geolocation from '@react-native-community/geolocation';
@@ -154,6 +155,8 @@ const App = () => {
             {
               title: "Accès à l'emplacement requis",
               message: 'Cette application doit accéder à votre position',
+              buttonNegative: 'Annuler',
+              buttonPositive: 'OK',
             },
           );
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -247,20 +250,20 @@ const App = () => {
   };
 
   return (
-    <ApolloProvider client={client}>
-      <SafeAreaView style={{flex: 1}}>
-        <StatusBar backgroundColor={theme.colors.black} />
+    <Provider store={store}>
+      <ApolloProvider client={client}>
+        <SafeAreaView style={{flex: 1}}>
+          <StatusBar backgroundColor={theme.colors.black} />
 
-        <Provider store={store}>
           {/* <InternetConnectionAlert
           onChange={(connectionState) => {
             console.log("Connection State: ", connectionState);
           }} title={'Connection'} > */}
           <Navigation />
           {/* </InternetConnectionAlert> */}
-        </Provider>
-      </SafeAreaView>
-    </ApolloProvider>
+        </SafeAreaView>
+      </ApolloProvider>
+    </Provider>
   );
 };
 
