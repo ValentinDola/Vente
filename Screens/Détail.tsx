@@ -30,24 +30,21 @@ import {
 import moment from 'moment';
 // import TextInput from 'react-native-text-input-interactive';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Share from 'react-native-share';
 import {theme} from '../Constants/index';
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import {useSelector, useDispatch} from 'react-redux';
 import RNBounceable from '@freakycoder/react-native-bounceable';
-import Like from '../Constants/like';
-import {setEvent} from '../Slices/event';
+import {setEvent, selectPrice, setPrice} from '../Slices/event';
 
-const {width, height} = Dimensions.get('window');
+const {width, height} = Dimensions.get('screen');
 
 const Detail = ({navigation, route}: any) => {
   const [selectedEvent, setSelectedEvent]: any = useState({});
-  const [ticket, setTicket]: any = useState('1');
-  // const [liked, setLiked] = useState(false);
-  // const [likeCount, setLikeCount] = useState([]);
-  const [follow, setFollow] = useState(false);
-  const [followCount, setFollowCount] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [clickedId, setClickedId] = useState(null);
+  const [price_, setPrice_] = useState('');
+
+  const price = useSelector(selectPrice);
 
   const dispatch = useDispatch();
 
@@ -56,12 +53,18 @@ const Detail = ({navigation, route}: any) => {
     setSelectedEvent(selectedEvent);
   }, []);
 
+  const handlePrice = (item, index) => {
+    setClickedId(index);
+    dispatch(setPrice(item));
+    console.log(item, index);
+  };
+
   const billet = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(true);
       dispatch(setEvent(selectedEvent));
-      navigation.navigate('Cart', {selectedEvent});
+      navigation.navigate('Cart');
     }, 3000);
   };
 
@@ -399,6 +402,43 @@ const Detail = ({navigation, route}: any) => {
   };
 
   const PriceSection = () => {
+    const renderPrice = () =>
+      selectedEvent?.offers?.price?.map(
+        (
+          item:
+            | boolean
+            | React.ReactChild
+            | React.ReactFragment
+            | React.ReactPortal
+            | null
+            | undefined,
+          index: React.Key | null | undefined,
+        ) => (
+          <RNBounceable
+            key={index}
+            style={{
+              backgroundColor: clickedId === index ? 'white' : '#B5FBDD',
+              height: 30,
+              width: 85,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginBottom: 10,
+              borderRadius: 3,
+            }}
+            onPress={() => handlePrice(item, index)}>
+            <Text
+              key={index}
+              style={{
+                color: theme.colors.black,
+                fontFamily: 'Nunito-SemiBold',
+                fontSize: theme.sizes.h8,
+              }}>
+              {`${item} fcfa`}
+            </Text>
+          </RNBounceable>
+        ),
+      );
+
     return (
       <View
         style={{
@@ -421,39 +461,28 @@ const Detail = ({navigation, route}: any) => {
             justifyContent: 'space-around',
             alignItems: 'center',
           }}>
-          {selectedEvent?.offers?.price?.map(
-            (
-              item:
-                | boolean
-                | React.ReactChild
-                | React.ReactFragment
-                | React.ReactPortal
-                | null
-                | undefined,
-              index: React.Key | null | undefined,
-            ) => (
-              <View
-                key={index}
+          {selectedEvent?.offers?.type === false ? (
+            <View
+              style={{
+                backgroundColor: '#B5FBDD',
+                height: 28,
+                width: 85,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginBottom: 10,
+                borderRadius: 3,
+              }}>
+              <Text
                 style={{
-                  backgroundColor: '#B5FBDD',
-                  height: 28,
-                  width: 85,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginBottom: 10,
-                  borderRadius: 3,
+                  color: theme.colors.black,
+                  fontFamily: 'Nunito-SemiBold',
+                  fontSize: theme.sizes.h8,
                 }}>
-                <Text
-                  key={index}
-                  style={{
-                    color: theme.colors.black,
-                    fontFamily: 'Nunito-SemiBold',
-                    fontSize: theme.sizes.h8,
-                  }}>
-                  {item} fcfa
-                </Text>
-              </View>
-            ),
+                {price}
+              </Text>
+            </View>
+          ) : (
+            renderPrice()
           )}
         </View>
       </View>
@@ -536,11 +565,8 @@ const Detail = ({navigation, route}: any) => {
         {/* Location section */}
         <LocationSection />
         {/* Promotion section */}
-        {selectedEvent?.offers?.type === true ? (
-          <PriceSection />
-        ) : (
-          <View style={{marginBottom: 70}} />
-        )}
+
+        <PriceSection />
       </ScrollView>
       {/* Buttom bar section */}
       {<ButtomBarSection />}

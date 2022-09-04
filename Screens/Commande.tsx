@@ -20,8 +20,7 @@ import RNBounceable from '@freakycoder/react-native-bounceable';
 import Header from '../Components/Header';
 import Checkbox from '../Components/Checkbox';
 import {useNavigation} from '@react-navigation/native';
-import {selectEvent} from '../Slices/event';
-import {setCordonne} from '../Slices/cordonne';
+import {selectEvent, setCordonnee} from '../Slices/event';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -59,9 +58,9 @@ const Commande = (props: CommandeProps) => {
     setTimeout(() => {
       setLoading(false);
       if (newData) {
-        dispatch(setCordonne(newData));
+        dispatch(setCordonnee(newData));
 
-        navigation.navigate('Payment');
+        navigation.navigate('Overview');
       } else {
         return null;
       }

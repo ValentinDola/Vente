@@ -111,21 +111,21 @@ const Explorer: React.FC = () => {
   );
 
   const renderEvents = ({item, index}: any) => (
-    <TouchableWithoutFeedback
+    <RNBounceable
       onPress={() => navigation.navigate('Detail', {selectedEvent: item})}>
       <View
         style={{
-          marginLeft: index === 0 ? 15 : 20,
-          marginRight: index === event.length - 1 ? 15 : 0,
+          marginTop: index === 0 ? 15 : 0,
+          marginBottom: index === event.length - 1 ? width : 0,
         }}>
         <ImageBackground
           source={item.image}
           style={{
-            width: width / 2 + 70,
-            height: width / 2 + 30,
+            width: width,
+            height: width / 2,
             justifyContent: 'space-between',
           }}
-          imageStyle={{borderRadius: 5}}
+          imageStyle={{borderRadius: 2}}
           resizeMode="cover">
           <View
             style={{
@@ -185,7 +185,7 @@ const Explorer: React.FC = () => {
           {/* </View> */}
         </ImageBackground>
       </View>
-    </TouchableWithoutFeedback>
+    </RNBounceable>
   );
 
   const renderItem = ({item, index}: any) => (
@@ -249,21 +249,9 @@ const Explorer: React.FC = () => {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
-          width: 140,
+          width: 100,
           marginTop: 20,
         }}>
-        <TouchableOpacity
-          style={{
-            backgroundColor: theme.colors.antiFlashWhite,
-            height: 40,
-            width: 40,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 5,
-          }}
-          onPress={() => navigation.navigate('Portefeuille')}>
-          <Icon name="md-wallet-outline" size={22} color={theme.colors.black} />
-        </TouchableOpacity>
         <TouchableOpacity
           style={{
             backgroundColor: theme.colors.antiFlashWhite,
@@ -276,7 +264,7 @@ const Explorer: React.FC = () => {
           onPress={() => navigation.navigate('Recherche')}>
           <Icon name="search-outline" size={22} color={theme.colors.black} />
         </TouchableOpacity>
-        {/* <View style={{ width: 20 }} /> */}
+
         <TouchableOpacity
           style={{
             backgroundColor: theme.colors.antiFlashWhite,
@@ -286,8 +274,8 @@ const Explorer: React.FC = () => {
             justifyContent: 'center',
             borderRadius: 5,
           }}
-          onPress={() => navigation.navigate('Menu')}>
-          <Icon name="options-outline" size={22} color={theme.colors.black} />
+          onPress={() => navigation.navigate('Portefeuille')}>
+          <Icon name="md-wallet-outline" size={22} color={theme.colors.black} />
         </TouchableOpacity>
       </View>
     </View>
@@ -387,8 +375,7 @@ const Explorer: React.FC = () => {
       </Text>
       <View>
         <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           data={event}
           renderItem={renderEvents}
           keyExtractor={item => item.id}
@@ -398,7 +385,7 @@ const Explorer: React.FC = () => {
   );
 
   const News = () => (
-    <View style={{marginBottom: 50}}>
+    <View>
       <Text
         style={{
           textDecorationLine: 'line-through',
@@ -424,17 +411,11 @@ const Explorer: React.FC = () => {
   );
 
   return (
-    <ScrollView>
-      <View style={{flex: 1, backgroundColor: '#F6F6F7'}}>
-        <Header />
-        {/* <HeaderSkeleton /> */}
-        {/* <ExplorerSkeleton /> */}
-        <Categories />
-        {/* <CategoriesSkeleton /> */}
-        <EventNearby />
-        <News />
-      </View>
-    </ScrollView>
+    <View style={{flex: 1, backgroundColor: '#F6F6F7'}}>
+      <Header />
+      <Categories />
+      <EventNearby />
+    </View>
   );
 };
 

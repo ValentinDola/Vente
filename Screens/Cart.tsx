@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Dimensions,
   ActivityIndicator,
+  Modal,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {theme} from '../Constants';
@@ -12,8 +13,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import {useNavigation} from '@react-navigation/native';
-import {selectEvent} from '../Slices/event';
-import {useSelector} from 'react-redux';
+import {selectEvent, selectPrice, setTotal} from '../Slices/event';
+import {useDispatch, useSelector} from 'react-redux';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -26,17 +27,24 @@ const Cart = (props: CartProps) => {
 
   const [selectedEvent, setSelectedEvent]: any = useState({});
   const [loading, setLoading] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [ticket, setTicket] = useState('1');
 
   const event = useSelector(selectEvent);
+  const price = useSelector(selectPrice);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setSelectedEvent(event);
   }, []);
 
   const inscription = () => {
+    const total = parseInt(price) + parseInt(price) * 0.15;
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      dispatch(setTotal(total));
       navigation.navigate('Commande');
     }, 3000);
   };
@@ -71,7 +79,7 @@ const Cart = (props: CartProps) => {
             <Text
               style={{
                 color: theme.colors.black,
-                fontFamily: 'Nunito-Bold',
+                fontFamily: 'Nunito-Light',
                 fontSize: 16,
               }}>
               {selectedEvent?.name}
@@ -95,10 +103,8 @@ const Cart = (props: CartProps) => {
             alignItems: 'center',
             marginHorizontal: 15,
           }}>
-          <Text
-            style={{color: theme.colors.blue, fontFamily: 'Nunito-SemiBold'}}>
-            {moment(selectedEvent?.startDate).format('LLL')} -{' '}
-            {moment(selectedEvent?.endDate).format('LLL')}
+          <Text style={{color: theme.colors.black, fontFamily: 'Nunito-Light'}}>
+            {moment(selectedEvent?.startDate).format('LLL')}
           </Text>
         </View>
       </View>
@@ -120,16 +126,17 @@ const Cart = (props: CartProps) => {
                 color: theme.colors.black,
                 fontFamily: 'Nunito-Bold',
                 fontSize: theme.sizes.h3,
+                marginBottom: 5,
               }}>
-              Admission générale
+              Nom du ticket
             </Text>
             <Text
               style={{
                 color: theme.colors.black,
-                fontFamily: 'Nunito-SemiBold',
+                fontFamily: 'Nunito-Bold',
                 fontSize: theme.sizes.h6,
               }}>
-              Libre
+              {price === 'Gratuit' ? 'Gratuit' : `${price} cfa`}
             </Text>
           </View>
 
@@ -159,7 +166,7 @@ const Cart = (props: CartProps) => {
           <Text
             style={{
               color: theme.colors.black,
-              fontFamily: 'Nunito-SemiBold',
+              fontFamily: 'Nunito-Light',
               fontSize: theme.sizes.h8,
             }}>
             Les ventes se terminent dans 10 heures.
@@ -170,9 +177,9 @@ const Cart = (props: CartProps) => {
   };
 
   const Outro = () => (
-    <View style={{margin: 15}}>
-      <Text style={{color: theme.colors.black, fontFamily: 'Nunito-SemiBold'}}>
-        Realise par {<Text style={{fontFamily: 'Nunito-Bold'}}>Fast</Text>}{' '}
+    <View style={{margin: 15, marginTop: 30}}>
+      <Text style={{color: theme.colors.black, fontFamily: 'Nunito-Light'}}>
+        Alimenté par {<Text style={{fontFamily: 'Nunito-Bold'}}>Vente</Text>}{' '}
       </Text>
     </View>
   );
@@ -190,13 +197,14 @@ const Cart = (props: CartProps) => {
           bottom: 0,
           justifyContent: 'center',
         }}>
-        <View
+        <RNBounceable
           style={{
             margin: 20,
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-          }}>
+          }}
+          onPress={() => setModal(!modal)}>
           <View>
             <Icon name={'cart-outline'} color="black" size={20} />
           </View>
@@ -218,19 +226,22 @@ const Cart = (props: CartProps) => {
                 fontFamily: 'Nunito-SemiBold',
                 fontSize: theme.sizes.h10,
               }}>
-              1
+              {ticket}
             </Text>
           </View>
           <View>
             <Text
               style={{
                 color: theme.colors.black,
-                fontFamily: 'Nunito-SemiBold',
+                fontFamily: 'Nunito-Bold',
+                fontSize: theme.sizes.h4,
               }}>
-              Libre
+              {price === 'Gratuit'
+                ? 'Gratuit'
+                : `${parseInt(price) + parseInt(price) * 0.15} cfa`}
             </Text>
           </View>
-        </View>
+        </RNBounceable>
         <View
           style={{
             marginHorizontal: 20,
@@ -278,11 +289,126 @@ const Cart = (props: CartProps) => {
     );
   };
 
+  const OrderSummary = () => (
+    <View style={{marginHorizontal: 15, marginVertical: 15}}>
+      <Text
+        style={{
+          color: theme.colors.black,
+          fontFamily: 'Nunito-SemiBold',
+          fontSize: theme.sizes.h5,
+        }}>
+        {' '}
+        Récapitulatif de la commande{' '}
+      </Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginHorizontal: 15,
+          marginTop: 20,
+          marginBottom: 15,
+        }}>
+        <Text style={{color: 'black', fontFamily: 'Nunito-SemiBold'}}>
+          {`${ticket} x Nom`}
+        </Text>
+        <Text style={{color: 'black', fontFamily: 'Nunito-SemiBold'}}>
+          {`${price} cfa`}
+        </Text>
+      </View>
+
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginHorizontal: 15,
+          marginTop: 20,
+          marginBottom: 15,
+        }}>
+        <Text style={{color: 'black', fontFamily: 'Nunito-SemiBold'}}>
+          {`Frais`}
+        </Text>
+        <Text style={{color: 'black', fontFamily: 'Nunito-SemiBold'}}>
+          {`${parseInt(price) * 0.15} cfa`}
+        </Text>
+      </View>
+
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginHorizontal: 15,
+          marginVertical: 15,
+        }}>
+        <Text
+          style={{
+            color: 'black',
+            fontFamily: 'Nunito-SemiBold',
+            fontSize: theme.sizes.h4,
+          }}>
+          {`Total`}
+        </Text>
+        <Text
+          style={{
+            color: 'black',
+            fontFamily: 'Nunito-Bold',
+            fontSize: theme.sizes.h4,
+          }}>
+          {`${parseInt(price) + parseInt(price) * 0.15} cfa`}
+        </Text>
+      </View>
+    </View>
+  );
+
+  const Wallet = () => {
+    return (
+      <View>
+        <RNBounceable
+          style={{
+            backgroundColor: theme.colors.white,
+            height: 50,
+            width: width,
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexDirection: 'row',
+          }}>
+          <Icon
+            name={'wallet'}
+            size={20}
+            color={'#45D09E'}
+            style={{marginLeft: 20}}
+          />
+
+          <Text
+            style={{
+              color: 'black',
+              fontFamily: 'Nunito-Bold',
+              fontSize: theme.sizes.h4,
+              marginRight: 20,
+            }}>
+            18000 cfa
+          </Text>
+        </RNBounceable>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.screen}>
       <Header />
       <Information />
       <Outro />
+      {price === 'Gratuit' ? (
+        <View />
+      ) : (
+        <View>
+          <OrderSummary />
+          <Wallet />
+        </View>
+      )}
+
       <ButtomBarSection />
     </View>
   );

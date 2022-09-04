@@ -19,21 +19,24 @@ import Icon from 'react-native-vector-icons/Entypo';
 import {theme} from '../Constants';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
-import {selectEvent} from '../Slices/event';
-import {selectCordonne} from '../Slices/cordonne';
-import {selectPrice} from '../Slices/price';
+import {
+  selectEvent,
+  selectCordonnee,
+  selectPrice,
+  selectTotal,
+} from '../Slices/event';
 import moment from 'moment';
 
 const {width, height} = Dimensions.get('screen');
 
 const Overview = ({route}: any) => {
-  const [amount, setAmount] = useState('');
   const [modal, setModal] = useState(false);
   const [saving, setSaving]: any = useState(false);
 
   const event = useSelector(selectEvent);
-  const user = useSelector(selectCordonne);
+  const user = useSelector(selectCordonnee);
   const price = useSelector(selectPrice);
+  const total = useSelector(selectTotal);
 
   const navigation = useNavigation();
 
@@ -63,7 +66,6 @@ const Overview = ({route}: any) => {
   };
 
   useEffect(() => {
-    setAmount(price);
     setTimeout(() => {
       setModal(true);
     }, 10000);
@@ -169,7 +171,7 @@ const Overview = ({route}: any) => {
                     textAlign: 'center',
                     marginTop: 10,
                   }}>
-                  {amount}cfa
+                  {price === 'Gratuit' ? 'Gratuit' : `${total} cfa`}
                 </Text>
                 <Text
                   style={{
@@ -357,7 +359,7 @@ const Overview = ({route}: any) => {
                           fontFamily: 'Nunito-Bold',
                           fontSize: theme.sizes.h8,
                         }}>
-                        {amount}cfa
+                        {price === 'Gratuit' ? 'Gratuit' : `${total} cfa`}
                       </Text>
                     </View>
                   </View>
