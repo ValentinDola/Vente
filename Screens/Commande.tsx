@@ -1,7 +1,14 @@
+/**
+ * TODO
+ * [X] Header
+ * [X] Coordonnees
+ * [X] Transaction
+ * [X] Buttom Bar
+ */
+
 import {
   View,
   Text,
-  TouchableOpacity,
   TextInput,
   StyleSheet,
   Pressable,
@@ -22,6 +29,7 @@ import Checkbox from '../Components/Checkbox';
 import {useNavigation} from '@react-navigation/native';
 import {selectEvent} from '../Slices/event';
 import {setCordonne} from '../Slices/cordonne';
+import {selectPrice} from '../Slices/price';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -30,12 +38,19 @@ interface CommandeProps {
 }
 
 const Commande = (props: CommandeProps) => {
+  // React navigation hook
   const navigation = useNavigation();
 
+  // React redux selector
   const user = useSelector(selectUser);
-  const event = useSelector(selectEvent);
-  const [loading, setLoading] = useState(false);
+  const price = useSelector(selectPrice);
 
+  // Locale state
+  const [loading, setLoading] = useState(false);
+  const [conditions, setConditions] = useState(false);
+  const [numTicket, setNumTickets] = useState('1');
+
+  // React hook form
   const {
     control,
     handleSubmit,
@@ -48,20 +63,20 @@ const Commande = (props: CommandeProps) => {
     },
   });
 
+  // React redux hook
   const dispatch = useDispatch();
 
-  const [conditions, setConditions] = useState(false);
-  const [numTicket, setNumTickets] = useState('1');
-
   const onSubmit = (data: any) => {
-    const newData = {data, conditions, numTicket};
+    const {name, prenom, email} = data;
+    const newData = {name, prenom, email, conditions, numTicket};
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       if (newData) {
         dispatch(setCordonne(newData));
-
-        navigation.navigate('Payment');
+        price === '0'
+          ? navigation.navigate('Checkout')
+          : navigation.navigate('Payment');
       } else {
         return null;
       }
@@ -98,7 +113,6 @@ const Commande = (props: CommandeProps) => {
 
                 alignItems: 'center',
               }}>
-              {/* Type */}
               <View>
                 <Controller
                   control={control}
@@ -135,7 +149,7 @@ const Commande = (props: CommandeProps) => {
                   name="nom"
                 />
               </View>
-              {/* Categorie */}
+
               <View>
                 <Controller
                   control={control}
@@ -304,7 +318,7 @@ const Commande = (props: CommandeProps) => {
                     confidentialite
                   </Text>
                 }{' '}
-                de Fast.
+                de Vente.
               </Text>
             </Pressable>
           </View>

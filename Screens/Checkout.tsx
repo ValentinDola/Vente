@@ -14,6 +14,7 @@ import Header from '../Components/Header';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectEvent} from '../Slices/event';
+import {selectPrice} from '../Slices/price';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -26,16 +27,15 @@ const Checkout = ({route}: any) => {
   const dispatch = useDispatch();
 
   const [selectedEvent, setSelectedEvent]: any = useState({});
-  const [price, setPrice]: any = useState('');
+  // const [price, setPrice]: any = useState('');
   const [loading, setLoading]: any = useState(false);
   const [amount, setAmount]: any = useState('');
 
   const event = useSelector(selectEvent);
+  const price = useSelector(selectPrice);
 
   useEffect(() => {
-    const {price} = route.params;
     setSelectedEvent(event);
-    setPrice(price);
   }, []);
 
   const getTotal = () => {

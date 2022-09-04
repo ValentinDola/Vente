@@ -1,3 +1,11 @@
+/**
+ * TODO
+ * [X] Header
+ * [X] Infromation
+ * [X] Outro
+ * [X] ButtomBar
+ */
+
 import {
   View,
   Text,
@@ -13,7 +21,8 @@ import moment from 'moment';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import {useNavigation} from '@react-navigation/native';
 import {selectEvent} from '../Slices/event';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {selectPrice, setPrice} from '../Slices/price';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -22,12 +31,18 @@ interface CartProps {
 }
 
 const Cart = (props: CartProps) => {
+  // React navigation hook
   const navigation = useNavigation();
 
+  // Locales States
   const [selectedEvent, setSelectedEvent]: any = useState({});
   const [loading, setLoading] = useState(false);
 
+  // React redux slice
   const event = useSelector(selectEvent);
+
+  // React redux hook
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setSelectedEvent(event);
@@ -37,6 +52,7 @@ const Cart = (props: CartProps) => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      dispatch(setPrice('0'));
       navigation.navigate('Commande');
     }, 3000);
   };

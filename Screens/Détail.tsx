@@ -1,5 +1,5 @@
 /**
- *  - Event Detail Screnn
+ *  - Event Detail Screens
  * -> The screen can be seperated 4 sections
  *
  * TODO:
@@ -30,28 +30,23 @@ import {
 import moment from 'moment';
 // import TextInput from 'react-native-text-input-interactive';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Share from 'react-native-share';
 import {theme} from '../Constants/index';
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import RNBounceable from '@freakycoder/react-native-bounceable';
-import Like from '../Constants/like';
 import {setEvent} from '../Slices/event';
 
-const {width, height} = Dimensions.get('window');
+const {width, height} = Dimensions.get('screen');
 
 const Detail = ({navigation, route}: any) => {
+  // Locales States
   const [selectedEvent, setSelectedEvent]: any = useState({});
-  const [ticket, setTicket]: any = useState('1');
-  // const [liked, setLiked] = useState(false);
-  // const [likeCount, setLikeCount] = useState([]);
-  const [follow, setFollow] = useState(false);
-  const [followCount, setFollowCount] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // React redux hook
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // Fetching from the route
     let {selectedEvent} = route.params;
     setSelectedEvent(selectedEvent);
   }, []);
@@ -527,7 +522,7 @@ const Detail = ({navigation, route}: any) => {
         style={{backgroundColor: '#F6F6F7'}}>
         {/* ImageBackground */}
         <ImageBackgroundComponent />
-
+        {/* Introduction section */}
         <IntroductionComponent />
 
         {/* Description section */}

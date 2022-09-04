@@ -1,3 +1,12 @@
+// TODOS
+// [X] Position
+// [X] Wallet
+// [X] Search
+// [X] Menu
+// [X] Categories
+// [X] Events
+// [X] News
+
 import React, {useEffect} from 'react';
 import {
   Dimensions,
@@ -16,10 +25,8 @@ import {useNavigation} from '@react-navigation/native';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import ContentLoader, {Rect, Circle, Path} from 'react-content-loader/native';
 import {useSelector, useDispatch} from 'react-redux';
-import ExplorerSkeleton from '../Skeleton/Explorer';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
-// import { events } from '../Constants/dummy-data';
 import {theme} from '../Constants/index';
 import {selectData, setData} from '../Slices/data';
 import {selectCategories, setCategories} from '../Slices/categories';
@@ -64,19 +71,25 @@ const MY_DATA = gql`
 const {width, height} = Dimensions.get('window');
 
 const Explorer: React.FC = () => {
+  // Navigation hooks
   const navigation = useNavigation();
 
+  // Apollo client
   const {data, loading, error} = useQuery(MY_DATA);
 
-  useEffect(() => {
-    if (data) console.log(data.data);
-  }, [data]);
-
+  // React redux slices
   const user = useSelector(selectUser);
   const event = useSelector(selectData);
   const categories = useSelector(selectCategories);
   const news = useSelector(selectNews);
+
+  // React redux hook
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Data from the database
+    if (data) console.log(data.data);
+  }, [data]);
 
   const renderCategories = ({item}: any) => (
     <View
@@ -93,8 +106,6 @@ const Explorer: React.FC = () => {
           width: 50,
           justifyContent: 'center',
           alignItems: 'center',
-          // borderWidth: 2,
-          // borderColor: theme.colors.black
         }}
         onPress={() => console.log(`You select ${item.title}`)}>
         <Image source={item.image} style={{width: 25, height: 25}} />
@@ -293,30 +304,6 @@ const Explorer: React.FC = () => {
     </View>
   );
 
-  const HeaderSkeleton = () => (
-    <View
-      style={{
-        marginHorizontal: 15,
-        marginVertical: 25,
-      }}>
-      <ContentLoader
-        speed={3}
-        width={width}
-        height={124}
-        viewBox="0 0 476 124"
-        // backgroundColor="#F6F6F7"
-        foregroundColor="#ecebeb"
-        {...props}>
-        <Rect x="48" y="8" rx="3" ry="3" width="88" height="6" />
-        <Rect x="48" y="26" rx="3" ry="3" width="52" height="6" />
-        <Rect x="0" y="56" rx="3" ry="3" width="410" height="6" />
-        <Rect x="0" y="72" rx="3" ry="3" width="380" height="6" />
-        <Rect x="0" y="88" rx="3" ry="3" width="178" height="6" />
-        <Circle cx="20" cy="20" r="20" />
-      </ContentLoader>
-    </View>
-  );
-
   const Categories = () => (
     <View>
       <Text
@@ -340,34 +327,6 @@ const Explorer: React.FC = () => {
           keyExtractor={item => item.id}
         />
       </View>
-    </View>
-  );
-
-  const CategoriesSkeleton = () => (
-    <View
-      style={{
-        margin: 15,
-      }}>
-      <ContentLoader
-        width={width}
-        height={100}
-        viewBox="0 0 500 100"
-        backgroundColor="#f3f3f3"
-        foregroundColor="#ecebeb"
-        {...props}>
-        <Circle cx="46" cy="38" r="38" />
-        <Rect x="34" y="83" rx="5" ry="5" width="25" height="10" />
-        <Rect x="547" y="222" rx="5" ry="5" width="220" height="10" />
-        <Rect x="82" y="150" rx="5" ry="5" width="220" height="10" />
-        <Circle cx="137" cy="38" r="38" />
-        <Rect x="124" y="83" rx="5" ry="5" width="25" height="10" />
-        <Circle cx="228" cy="38" r="38" />
-        <Rect x="215" y="83" rx="5" ry="5" width="25" height="10" />
-        <Circle cx="320" cy="38" r="38" />
-        <Rect x="307" y="83" rx="5" ry="5" width="25" height="10" />
-        <Circle cx="410" cy="38" r="38" />
-        <Rect x="398" y="83" rx="5" ry="5" width="25" height="10" />
-      </ContentLoader>
     </View>
   );
 
@@ -426,12 +385,13 @@ const Explorer: React.FC = () => {
   return (
     <ScrollView>
       <View style={{flex: 1, backgroundColor: '#F6F6F7'}}>
+        {/* Header[position wallet search menu] */}
         <Header />
-        {/* <HeaderSkeleton /> */}
-        {/* <ExplorerSkeleton /> */}
+        {/* Categories */}
         <Categories />
-        {/* <CategoriesSkeleton /> */}
+        {/* Event */}
         <EventNearby />
+        {/* News */}
         <News />
       </View>
     </ScrollView>

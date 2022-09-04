@@ -22,6 +22,7 @@ import {theme} from './Constants';
 import {LocaleConfig} from 'react-native-calendars';
 import {client} from './Components/Apollo';
 
+// React Native Calendars locales configuration.
 LocaleConfig.locales['fr'] = {
   monthNames: [
     'Janvier',
@@ -65,8 +66,10 @@ LocaleConfig.locales['fr'] = {
 };
 LocaleConfig.defaultLocale = 'fr';
 
+// React Native Maps configuration.
 enableLatestRenderer();
 
+// Moment locales configuration.
 moment.updateLocale('fr', {
   months:
     'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split(
@@ -133,13 +136,12 @@ moment.updateLocale('fr', {
 });
 
 const App = () => {
+  // Local state
   const [currentLongitude, setCurrentLongitude] = useState('...');
   const [currentLatitude, setCurrentLatitude] = useState('...');
   const [locationStatus, setLocationStatus] = useState('');
 
   useEffect(() => {
-    // let watchID: number;
-
     RNBootSplash.hide({fade: true})
       .then(r => console.log(r, 'Bootsplash has been hidden successfully'))
       .catch(err => console.error(err));

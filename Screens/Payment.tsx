@@ -1,4 +1,5 @@
 import RNBounceable from '@freakycoder/react-native-bounceable';
+import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {
@@ -15,25 +16,27 @@ import {
   Animated,
   ActivityIndicator,
 } from 'react-native';
-import SwitchSelector from 'react-native-switch-selector';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import Header from '../Components/Header';
 import {theme} from '../Constants/index';
-import {selectEvent, selectPrice} from '../Slices/event';
+import {selectEvent} from '../Slices/event';
+import {setPrice} from '../Slices/price';
 
 const {width, height} = Dimensions.get('screen');
 
-const Networks = ['TMONEY', 'FLOOZ'];
-
-const Payment = ({navigation, route}: any) => {
+const Payment = () => {
+  // Locale state
   const [clickedId, setClickedId] = useState(0);
-  const [price, setPrice] = useState('');
-
+  const [price_, setPrice_] = useState('');
   const [loading, setLoading] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState({});
 
+  // React redux selector
   const event = useSelector(selectEvent);
+
+  // React navigation hook
+  const navigation = useNavigation();
 
   const dispatch = useDispatch();
 
@@ -54,15 +57,16 @@ const Payment = ({navigation, route}: any) => {
 
   const handlePrice = (item, index) => {
     setClickedId(index);
-    setPrice(item);
+    dispatch(setPrice(item));
+    setPrice_(item);
   };
 
   const onSubmit = (data: any) => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      if (price) {
-        navigation.navigate('Checkout', {price});
+      if (price_) {
+        navigation.navigate('Checkout');
       }
     }, 3000);
   };
