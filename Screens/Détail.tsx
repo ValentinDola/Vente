@@ -402,43 +402,6 @@ const Detail = ({navigation, route}: any) => {
   };
 
   const PriceSection = () => {
-    const renderPrice = () =>
-      selectedEvent?.offers?.price?.map(
-        (
-          item:
-            | boolean
-            | React.ReactChild
-            | React.ReactFragment
-            | React.ReactPortal
-            | null
-            | undefined,
-          index: React.Key | null | undefined,
-        ) => (
-          <RNBounceable
-            key={index}
-            style={{
-              backgroundColor: clickedId === index ? 'white' : '#B5FBDD',
-              height: 30,
-              width: 85,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginBottom: 10,
-              borderRadius: 3,
-            }}
-            onPress={() => handlePrice(item, index)}>
-            <Text
-              key={index}
-              style={{
-                color: theme.colors.black,
-                fontFamily: 'Nunito-SemiBold',
-                fontSize: theme.sizes.h8,
-              }}>
-              {`${item} fcfa`}
-            </Text>
-          </RNBounceable>
-        ),
-      );
-
     return (
       <View
         style={{
@@ -454,23 +417,16 @@ const Detail = ({navigation, route}: any) => {
           }}>
           Ticket
         </Text>
-        <View
-          style={{
-            marginVertical: 5,
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            alignItems: 'center',
-          }}>
-          {selectedEvent?.offers?.type === false ? (
+
+        {selectedEvent?.offers?.type === false ? (
+          <View
+            style={{
+              marginVertical: 5,
+              marginHorizontal: 5,
+            }}>
             <View
               style={{
-                backgroundColor: '#B5FBDD',
-                height: 28,
-                width: 85,
-                justifyContent: 'center',
-                alignItems: 'center',
                 marginBottom: 10,
-                borderRadius: 3,
               }}>
               <Text
                 style={{
@@ -478,13 +434,56 @@ const Detail = ({navigation, route}: any) => {
                   fontFamily: 'Nunito-SemiBold',
                   fontSize: theme.sizes.h8,
                 }}>
-                {price}
+                {price === 'Gratuit' ? '0 fcfa' : null}
               </Text>
             </View>
-          ) : (
-            renderPrice()
-          )}
-        </View>
+          </View>
+        ) : (
+          selectedEvent?.offers?.price?.map(
+            (
+              item:
+                | boolean
+                | React.ReactChild
+                | React.ReactFragment
+                | React.ReactPortal
+                | null
+                | undefined,
+              index: React.Key | null | undefined,
+            ) => (
+              <View
+                key={index}
+                style={{
+                  marginVertical: 5,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <RNBounceable
+                  key={index}
+                  style={{
+                    backgroundColor: clickedId === index ? 'white' : '#B5FBDD',
+                    height: 30,
+                    width: 85,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginBottom: 10,
+                    borderRadius: 3,
+                  }}
+                  onPress={() => handlePrice(item, index)}>
+                  <Text
+                    key={index}
+                    style={{
+                      color: theme.colors.black,
+                      fontFamily: 'Nunito-SemiBold',
+                      fontSize: theme.sizes.h8,
+                    }}>
+                    {`${item} fcfa`}
+                  </Text>
+                </RNBounceable>
+              </View>
+            ),
+          )
+        )}
       </View>
     );
   };
@@ -550,10 +549,7 @@ const Detail = ({navigation, route}: any) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1, backgroundColor: '#F6F6F7'}}
-        style={{backgroundColor: '#F6F6F7'}}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {/* ImageBackground */}
         <ImageBackgroundComponent />
 

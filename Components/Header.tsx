@@ -41,7 +41,7 @@ const Header = (props: HeaderProps) => {
           <Text
             style={{
               color: theme.colors.black,
-              fontFamily: 'Nunito-Bold',
+              fontFamily: 'Nunito-Light',
               fontSize: 20,
             }}>
             {value}

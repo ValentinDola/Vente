@@ -67,8 +67,9 @@ export const data = [
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: 'billet',
+      type: false,
       price: ['3000', '5000', '10000'],
+      priceCurrency: 'CFA',
       availability: 'InStock',
       validFrom: '2022-07-21T23:00-05:00',
     },
@@ -234,8 +235,8 @@ export const data = [
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: false,
-      price: ['3000', '5000', '10000'],
+      type: true,
+      price: ['500', '1000', '5000'],
       priceCurrency: 'CFA',
       availability: 'InStock',
       validFrom: '2022-07-21T23:00-05:00',
@@ -266,8 +267,8 @@ export const data = [
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: false,
-      price: ['3000', '5000', '10000'],
+      type: true,
+      price: ['1500'],
       priceCurrency: 'CFA',
       availability: 'InStock',
       validFrom: '2022-07-21T23:00-05:00',
