@@ -14,12 +14,11 @@ import {
   Dimensions,
   ScrollView,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import OctIcon from 'react-native-vector-icons/Octicons';
 import {theme} from '../Constants/index';
 import {useSelector, useDispatch} from 'react-redux';
 import {setUser, selectUser} from '../Slices/user';
 import {useNavigation, StackActions} from '@react-navigation/native';
-import {selectTicket} from '../Slices/tickets';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 
 const {width, height} = Dimensions.get('screen');
@@ -83,23 +82,49 @@ const Profile = () => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <View>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Image
             source={user?.image}
             style={{width: 100, height: 100, borderRadius: 50}}
           />
+          <View style={{width: 20}} />
+          <RNBounceable
+            style={{
+              height: 40,
+              width: 40,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onPress={() => navigation.navigate('Edit')}>
+            <OctIcon name={'pencil'} size={20} color={'black'} />
+          </RNBounceable>
         </View>
-        <View style={{marginVertical: 15}}>
-          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        <View
+          style={{
+            marginVertical: 15,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginRight: 30,
+            }}>
             <Text
               style={{
                 color: theme.colors.black,
-                fontFamily: 'Nunito-Bold',
-                fontSize: 20,
+                fontFamily: 'Nunito-Black',
+                fontSize: 30,
               }}>
               {user?.nom} {user?.prenom}
             </Text>
-            <Text style={{color: '#D1D3D4', fontFamily: 'Nunito-Bold'}}>
+            <Text
+              style={{
+                color: '#D1D3D4',
+                fontFamily: 'Nunito-Bold',
+                fontSize: 18,
+              }}>
               {user?.email}
             </Text>
           </View>

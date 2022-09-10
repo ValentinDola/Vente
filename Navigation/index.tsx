@@ -27,6 +27,10 @@ import Overview from '../Screens/Overview';
 import Compte from '../Screens/Compte';
 import Gérance from '../Screens/Gérance';
 import Notification from '../Screens/Notification';
+import Edit from '../Screens/Profile_/Edit';
+import EditNomEtPrenom from '../Screens/Profile_/EditNomEtPrenom';
+import EditMotDePasse from '../Screens/Profile_/EditMotDePasse';
+import NotificationSettings from '../Screens/Profile_/NotificationSettings';
 
 const Stack = createNativeStackNavigator();
 
@@ -83,6 +87,13 @@ const App = () => {
           <Stack.Screen name={'Recharge'} component={Recharge} />
           <Stack.Screen name={'Gérance'} component={Gérance} />
           <Stack.Screen name={'Notification'} component={Notification} />
+          <Stack.Screen name={'Edit'} component={Edit} />
+          <Stack.Screen name={'EditNomEtPrenom'} component={EditNomEtPrenom} />
+          <Stack.Screen name={'EditMotDePasse'} component={EditMotDePasse} />
+          <Stack.Screen
+            name={'NotificationSettings'}
+            component={NotificationSettings}
+          />
 
           <Stack.Screen name={'Identification'} component={Identification} />
           <Stack.Screen name={'Inscription'} component={Inscription} />

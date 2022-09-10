@@ -54,7 +54,7 @@ const Reglages = () => {
             alignItems: 'flex-start',
             borderRadius: 3,
           }}
-          onPress={() => navigation.navigate('Notification')}>
+          onPress={() => navigation.navigate('NotificationSettings')}>
           <Text
             style={{
               color: theme.colors.black,
