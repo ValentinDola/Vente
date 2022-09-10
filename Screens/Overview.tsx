@@ -78,6 +78,7 @@ const Overview = ({route}: any) => {
     try {
       // react-native-view-shot captures component
       const uri = await captureRef(viewRef, {
+        fileName: event?.name,
         format: 'png',
         quality: 1,
       });

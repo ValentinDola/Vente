@@ -3,7 +3,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 const initialState = {
   value: [],
   inputValue: {},
-  priceValue: 'Gratuit',
+  priceValue: '0',
   totalValue: '0',
 };
 

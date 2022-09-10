@@ -6,6 +6,7 @@ import {
   Dimensions,
   ActivityIndicator,
   Modal,
+  ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {theme} from '../Constants';
@@ -136,11 +137,11 @@ const Cart = (props: CartProps) => {
                 fontFamily: 'Nunito-Bold',
                 fontSize: theme.sizes.h6,
               }}>
-              {price === 'Gratuit' ? 'Gratuit' : `${price} cfa`}
+              {price === '0' ? 'Gratuit' : `${price} cfa`}
             </Text>
           </View>
 
-          <TouchableOpacity
+          <RNBounceable
             style={{
               backgroundColor: theme.colors.greyblack,
               height: 30,
@@ -160,7 +161,7 @@ const Cart = (props: CartProps) => {
               }}>
               1
             </Text>
-          </TouchableOpacity>
+          </RNBounceable>
         </View>
         <View style={{marginTop: 10}}>
           <Text
@@ -204,7 +205,8 @@ const Cart = (props: CartProps) => {
             justifyContent: 'space-between',
             alignItems: 'center',
           }}
-          onPress={() => setModal(!modal)}>
+          onPress={() => setModal(!modal)}
+          disabled={price === '0'}>
           <View>
             <Icon name={'cart-outline'} color="black" size={20} />
           </View>
@@ -236,7 +238,7 @@ const Cart = (props: CartProps) => {
                 fontFamily: 'Nunito-Bold',
                 fontSize: theme.sizes.h4,
               }}>
-              {price === 'Gratuit'
+              {price === '0'
                 ? 'Gratuit'
                 : `${parseInt(price) + parseInt(price) * 0.15} cfa`}
             </Text>
@@ -362,6 +364,29 @@ const Cart = (props: CartProps) => {
     </View>
   );
 
+  const ModalBottomSection = () => (
+    <View
+      style={{
+        height: 200,
+        width,
+        borderRadius: 10,
+        opacity: 0.9,
+        position: 'absolute',
+        // backgroundColor: theme.colors.white,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <RNBounceable
+        style={{
+          margin: 20,
+        }}
+        onLongPress={() => setModal(!modal)}>
+        <Icon name={'finger-print-outline'} color={'black'} size={60} />
+      </RNBounceable>
+    </View>
+  );
+
   const Wallet = () => {
     return (
       <View>
@@ -395,20 +420,71 @@ const Cart = (props: CartProps) => {
     );
   };
 
+  const Wallt = () => {
+    return (
+      <View style={{marginHorizontal: 15, marginVertical: 15}}>
+        <View
+          style={{
+            backgroundColor: '#fff0c5',
+            height: 140,
+            width: width / 1.1,
+            borderRadius: 5,
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+          }}>
+          <View style={{marginHorizontal: 25}}>
+            <Text
+              style={{
+                color: 'black',
+                fontFamily: 'Nunito-SemiBold',
+                letterSpacing: 1.2,
+              }}>
+              Portefeuille (FCFA)
+            </Text>
+            <View style={{marginTop: 15}}>
+              <Text
+                style={{
+                  color: 'black',
+                  fontFamily: 'Nunito-SemiBold',
+                  fontSize: 30,
+                  letterSpacing: 1.4,
+                }}>
+                <Text style={{fontSize: 18}}>Total</Text> 18000 CFA
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
+  const SummaryModal = () => (
+    <Modal
+      animated
+      animationType="slide"
+      visible={modal}
+      transparent
+      onRequestClose={() => setModal(false)}>
+      <View style={styles.screen}>
+        {/* <Header /> */}
+        <View style={{marginVertical: 20}}>
+          <Wallt />
+          <OrderSummary />
+        </View>
+
+        <ModalBottomSection />
+      </View>
+    </Modal>
+  );
+
   return (
     <View style={styles.screen}>
       <Header />
+
       <Information />
       <Outro />
-      {price === 'Gratuit' ? (
-        <View />
-      ) : (
-        <View>
-          <OrderSummary />
-          <Wallet />
-        </View>
-      )}
 
+      <SummaryModal />
       <ButtomBarSection />
     </View>
   );

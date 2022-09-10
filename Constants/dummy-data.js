@@ -203,7 +203,7 @@ export const data = [
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: false,
+      type: true,
       price: ['3000', '5000', '10000'],
       priceCurrency: 'CFA',
       availability: 'InStock',

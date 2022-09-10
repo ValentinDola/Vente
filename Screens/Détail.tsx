@@ -55,7 +55,9 @@ const Detail = ({navigation, route}: any) => {
 
   const handlePrice = (item, index) => {
     setClickedId(index);
-    dispatch(setPrice(item));
+    dispatch(
+      selectedEvent?.offers?.type === false ? setPrice('0') : setPrice(item),
+    );
     console.log(item, index);
   };
 
@@ -434,30 +436,29 @@ const Detail = ({navigation, route}: any) => {
                   fontFamily: 'Nunito-SemiBold',
                   fontSize: theme.sizes.h8,
                 }}>
-                {price === 'Gratuit' ? '0 fcfa' : null}
+                0 fcfa
               </Text>
             </View>
           </View>
         ) : (
-          selectedEvent?.offers?.price?.map(
-            (
-              item:
-                | boolean
-                | React.ReactChild
-                | React.ReactFragment
-                | React.ReactPortal
-                | null
-                | undefined,
-              index: React.Key | null | undefined,
-            ) => (
-              <View
-                key={index}
-                style={{
-                  marginVertical: 5,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}>
+          <View
+            style={{
+              marginVertical: 5,
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              alignItems: 'center',
+            }}>
+            {selectedEvent?.offers?.price?.map(
+              (
+                item:
+                  | boolean
+                  | React.ReactChild
+                  | React.ReactFragment
+                  | React.ReactPortal
+                  | null
+                  | undefined,
+                index: React.Key | null | undefined,
+              ) => (
                 <RNBounceable
                   key={index}
                   style={{
@@ -480,9 +481,9 @@ const Detail = ({navigation, route}: any) => {
                     {`${item} fcfa`}
                   </Text>
                 </RNBounceable>
-              </View>
-            ),
-          )
+              ),
+            )}
+          </View>
         )}
       </View>
     );
@@ -520,6 +521,9 @@ const Detail = ({navigation, route}: any) => {
                   width: width / 1.1,
                   height: 40,
                 }}
+                disabled={
+                  clickedId === null && selectedEvent?.offers?.type !== false
+                }
                 onPress={() => billet()}>
                 {loading == true ? (
                   <ActivityIndicator
