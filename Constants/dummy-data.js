@@ -12,7 +12,6 @@ export const Schema = [
     endDate: '2022-07-21 23:00',
     eventStatus: 'prévu',
     eventAttendanceMode: 'offline',
-    isLikable: false,
     location: {
       type: 'Place',
       name: 'Snikerpark Stadium',
@@ -55,25 +54,21 @@ export const data = [
     endDate: '2022-07-22 23:00',
     eventStatus: 'prévu',
     eventAttendanceMode: 'offline',
-    isLikable: false,
     location: {
       type: 'Place',
-      name: 'Snikerpark Stadium',
+      name: 'Lome',
       address: {
         type: 'PostalAddress',
-        streetAddress: '100 West Snikerpark Dr',
-        addressLocality: 'Snikertown',
+
+        addressLocality: 'Hotel Adesko',
       },
     },
     image: require('../assets/images/data/cassie-gallegos-6wCWCPwmRJY-unsplash.jpg'),
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: 'billet',
+      type: false,
       price: ['3000', '5000', '10000'],
-      priceFirst: '3000',
-      priceSecond: '5000',
-      reservation: '10000',
       priceCurrency: 'CFA',
       availability: 'InStock',
       validFrom: '2022-07-21T23:00-05:00',
@@ -95,32 +90,24 @@ export const data = [
     endDate: '2022-07-23 23:00',
     eventStatus: 'prévu',
     eventAttendanceMode: 'offline',
-    isLikable: false,
     location: {
       type: 'Place',
-      name: 'Snikerpark Stadium',
+      name: 'Lome',
       address: {
         type: 'PostalAddress',
-        streetAddress: '100 West Snikerpark Dr',
-        addressLocality: 'Snikertown',
+
+        addressLocality: 'Hotel Adesko',
       },
     },
     image: require('../assets/images/data/adam-whitlock-I9j8Rk-JYFM-unsplash.jpg'),
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: 'billet',
+      type: false,
       price: ['3000', '5000', '10000'],
-      priceFirst: '3000',
-      priceSecond: '5000',
-      reservation: '10000',
       priceCurrency: 'CFA',
       availability: 'InStock',
       validFrom: '2022-07-21T23:00-05:00',
-    },
-    performer: {
-      type: 'PerforminGroup',
-      name: 'kira and Morrison',
     },
     organizer: {
       type: 'Organization',
@@ -135,25 +122,21 @@ export const data = [
     endDate: '2022-07-24 23:00',
     eventStatus: 'prévu',
     eventAttendanceMode: 'offline',
-    isLikable: false,
     location: {
       type: 'Place',
-      name: 'Snikerpark Stadium',
+      name: 'Lome',
       address: {
         type: 'PostalAddress',
-        streetAddress: '100 West Snikerpark Dr',
-        addressLocality: 'Snikertown',
+
+        addressLocality: 'Hotel Adesko',
       },
     },
     image: require('../assets/images/data/jakob-owens-qoFQxxuk3QY-unsplash.jpg'),
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: 'billet',
+      type: true,
       price: ['3000', '5000', '10000'],
-      priceFirst: '3000',
-      priceSecond: '5000',
-      reservation: '10000',
       priceCurrency: 'CFA',
       availability: 'InStock',
       validFrom: '2022-07-21T23:00-05:00',
@@ -175,32 +158,24 @@ export const data = [
     endDate: '2022-07-25 23:00',
     eventStatus: 'prévu',
     eventAttendanceMode: 'offline',
-    isLikable: false,
     location: {
       type: 'Place',
-      name: 'Snikerpark Stadium',
+      name: 'Lome',
       address: {
         type: 'PostalAddress',
-        streetAddress: '100 West Snikerpark Dr',
-        addressLocality: 'Snikertown',
+
+        addressLocality: 'Hotel Adesko',
       },
     },
     image: require('../assets/images/data/lee-blanchflower-1dW1vEJLlCQ-unsplash.jpg'),
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: 'billet',
+      type: true,
       price: ['3000', '5000', '10000'],
-      priceFirst: '3000',
-      priceSecond: '5000',
-      reservation: '10000',
       priceCurrency: 'CFA',
       availability: 'InStock',
       validFrom: '2022-07-21T23:00-05:00',
-    },
-    performer: {
-      type: 'PerforminGroup',
-      name: 'kira and Morrison',
     },
     organizer: {
       type: 'Organization',
@@ -215,32 +190,24 @@ export const data = [
     endDate: '2022-07-26 23:00',
     eventStatus: 'prévu',
     eventAttendanceMode: 'offline',
-    isLikable: false,
     location: {
       type: 'Place',
-      name: 'Snikerpark Stadium',
+      name: 'Lome',
       address: {
         type: 'PostalAddress',
-        streetAddress: '100 West Snikerpark Dr',
-        addressLocality: 'Snikertown',
+
+        addressLocality: 'Hotel Adesko',
       },
     },
     image: require('../assets/images/data/joshua-eckstein-nkUioaswtvM-unsplash.jpg'),
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: 'billet',
+      type: true,
       price: ['3000', '5000', '10000'],
-      priceFirst: '3000',
-      priceSecond: '5000',
-      reservation: '10000',
       priceCurrency: 'CFA',
       availability: 'InStock',
       validFrom: '2022-07-21T23:00-05:00',
-    },
-    performer: {
-      type: 'PerforminGroup',
-      name: 'kira and Morrison',
     },
     organizer: {
       type: 'Organization',
@@ -255,32 +222,24 @@ export const data = [
     endDate: '2022-07-27 23:00',
     eventStatus: 'prévu',
     eventAttendanceMode: 'offline',
-    isLikable: false,
     location: {
       type: 'Place',
-      name: 'Snikerpark Stadium',
+      name: 'Lome',
       address: {
         type: 'PostalAddress',
-        streetAddress: '100 West Snikerpark Dr',
-        addressLocality: 'Snikertown',
+
+        addressLocality: 'Hotel Adesko',
       },
     },
     image: require('../assets/images/data/raul-de-los-santos-yf50syI_Dwg-unsplash.jpg'),
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: 'billet',
-      price: ['3000', '5000', '10000'],
-      priceFirst: '3000',
-      priceSecond: '5000',
-      reservation: '10000',
+      type: true,
+      price: ['500', '1000', '5000'],
       priceCurrency: 'CFA',
       availability: 'InStock',
       validFrom: '2022-07-21T23:00-05:00',
-    },
-    performer: {
-      type: 'PerforminGroup',
-      name: 'kira and Morrison',
     },
     organizer: {
       type: 'Organization',
@@ -295,38 +254,31 @@ export const data = [
     endDate: '2022-07-28 23:00',
     eventStatus: 'prévu',
     eventAttendanceMode: 'offline',
-    isLikable: false,
     location: {
       type: 'Place',
-      name: 'Snikerpark Stadium',
+      name: 'Lome',
       address: {
         type: 'PostalAddress',
-        streetAddress: '100 West Snikerpark Dr',
-        addressLocality: 'Snikertown',
+
+        addressLocality: 'Hotel Adesko',
       },
     },
     image: require('../assets/images/data/hush-naidoo-jade-photography-yo01Z-9HQAw-unsplash.jpg'),
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: 'billet',
-      price: ['3000', '5000', '10000'],
-      priceFirst: '3000',
-      priceSecond: '5000',
-      reservation: '10000',
+      type: true,
+      price: ['1500'],
       priceCurrency: 'CFA',
       availability: 'InStock',
       validFrom: '2022-07-21T23:00-05:00',
-    },
-    performer: {
-      type: 'PerforminGroup',
-      name: 'kira and Morrison',
     },
     organizer: {
       type: 'Organization',
       name: 'Kira and Morrison Music',
     },
   },
+
   {
     id: 8,
     type: 'Affaires',
@@ -335,32 +287,24 @@ export const data = [
     endDate: '2022-07-29 23:00',
     eventStatus: 'prévu',
     eventAttendanceMode: 'offline',
-    isLikable: false,
     location: {
       type: 'Place',
-      name: 'Snikerpark Stadium',
+      name: 'Lome',
       address: {
         type: 'PostalAddress',
-        streetAddress: '100 West Snikerpark Dr',
-        addressLocality: 'Snikertown',
+
+        addressLocality: 'Hotel Adesko',
       },
     },
     image: require('../assets/images/data/alexander-londono-_u5dfeo2UuY-unsplash.jpg'),
     description:
       "The Adventure of Kira and Morrison is coming to Snikertown in a can't miss performance",
     offers: {
-      type: 'billet',
+      type: false,
       price: ['3000', '5000', '10000'],
-      priceFirst: '3000',
-      priceSecond: '5000',
-      reservation: '10000',
       priceCurrency: 'CFA',
       availability: 'InStock',
       validFrom: '2022-07-21T23:00-05:00',
-    },
-    performer: {
-      type: 'PerforminGroup',
-      name: 'kira and Morrison',
     },
     organizer: {
       type: 'Organization',

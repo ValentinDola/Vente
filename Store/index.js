@@ -8,6 +8,7 @@ import userReducer from '../Slices/user';
 import followingReducer from '../Slices/follow';
 import ticketReducer from '../Slices/tickets';
 import transitionReducer from '../Slices/transactions';
+import eventReducer from '../Slices/event';
 
 export const store = configureStore({
   reducer: {
@@ -20,5 +21,6 @@ export const store = configureStore({
     following: followingReducer,
     ticket: ticketReducer,
     transition: transitionReducer,
+    event: eventReducer,
   },
 });

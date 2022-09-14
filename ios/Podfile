@@ -10,6 +10,12 @@ target 'Vente' do
   # Pods for Vente
 
 
+  pod 'react-native-view-shot', :path => '../node_modules/react-native-view-shot'
+
+  pod 'react-native-get-app-name', :path => '../node_modules/react-native-get-app-name'
+
+  pod 'react-native-version-info', :path => '../node_modules/react-native-version-info'
+
   target 'VenteTests' do
     inherit! :search_paths
     # Pods for testing

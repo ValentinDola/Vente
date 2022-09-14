@@ -20,10 +20,16 @@ export const userSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
+    setNom: (state, action) => {
+      state.user.nom = action.payload;
+    },
+    setPrenom: (state, action) => {
+      state.user.prenom = action.payload;
+    },
   },
 });
 
-export const {setUser} = userSlice.actions;
+export const {setUser, setPrenom, setNom} = userSlice.actions;
 
 export const selectUser = state => state.user.user;
 

@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {data} from '../Constants/dummy-data';
 
 const initialState = {
-  events: data,
+  value: data,
 };
 
 export const dataSlice = createSlice({
@@ -10,13 +10,13 @@ export const dataSlice = createSlice({
   initialState,
   reducers: {
     setData: (state, action) => {
-      state.data = [...state.data, action.payload];
+      state.value = [...state.value, action.payload];
     },
   },
 });
 
 export const {setData} = dataSlice.actions;
 
-export const selectData = state => state.data.events;
+export const selectData = state => state.data.value;
 
 export default dataSlice.reducer;

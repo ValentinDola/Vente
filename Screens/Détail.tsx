@@ -13,7 +13,7 @@
  * [X] Build the fixed bottom bar
  */
 
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -26,40 +26,50 @@ import {
   Image,
   TextInput,
   ActivityIndicator,
+  useColorScheme,
 } from 'react-native';
 import moment from 'moment';
 // import TextInput from 'react-native-text-input-interactive';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Share from 'react-native-share';
-import { theme } from '../Constants/index';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { useSelector, useDispatch } from 'react-redux';
+import {theme} from '../Constants/index';
+import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+import {useSelector, useDispatch} from 'react-redux';
 import RNBounceable from '@freakycoder/react-native-bounceable';
-import Like from '../Constants/like';
+import {setEvent, selectPrice, setPrice} from '../Slices/event';
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('screen');
 
-const Detail = ({ navigation, route }: any) => {
+const Detail = ({navigation, route}: any) => {
+  const isDarkMode = useColorScheme() === 'dark';
+
   const [selectedEvent, setSelectedEvent]: any = useState({});
-  const [ticket, setTicket]: any = useState('1');
-  // const [liked, setLiked] = useState(false);
-  // const [likeCount, setLikeCount] = useState([]);
-  const [follow, setFollow] = useState(false);
-  const [followCount, setFollowCount] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [clickedId, setClickedId] = useState(null);
+  const [price_, setPrice_] = useState('');
+
+  const price = useSelector(selectPrice);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    let { selectedEvent } = route.params;
+    let {selectedEvent} = route.params;
     setSelectedEvent(selectedEvent);
   }, []);
+
+  const handlePrice = (item, index) => {
+    setClickedId(index);
+    dispatch(
+      selectedEvent?.offers?.type === false ? setPrice('0') : setPrice(item),
+    );
+    console.log(item, index);
+  };
 
   const billet = () => {
     setLoading(true);
     setTimeout(() => {
-      setLoading(true);
-      navigation.navigate('Cart', { selectedEvent });
+      setLoading(false);
+      dispatch(setEvent(selectedEvent));
+      navigation.navigate('Cart');
     }, 3000);
   };
 
@@ -67,9 +77,9 @@ const Detail = ({ navigation, route }: any) => {
     return (
       <ImageBackground
         source={selectedEvent?.image}
-        style={{ width: '100%', height: height / 2.2 }}>
+        style={{width: '100%', height: height / 2.2}}>
         {/* Image Header */}
-        <View style={{ flex: 1 }}>
+        <View style={{flex: 1}}>
           <View
             style={{
               flexDirection: 'row',
@@ -153,7 +163,6 @@ const Detail = ({ navigation, route }: any) => {
                   color: theme.colors.white,
                 }}>
                 Début. {moment(selectedEvent?.startDate).format('LT')}
-                {/* {selectedEvent?.startTime} */}
               </Text>
             </View>
             <View
@@ -198,17 +207,19 @@ const Detail = ({ navigation, route }: any) => {
           marginHorizontal: 20,
           marginVertical: 10,
         }}>
-        <View style={{ marginVertical: 20, width: width / 2 }}>
+        <View style={{marginVertical: 20, width: width / 2}}>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-Bold',
               fontSize: theme.sizes.h5,
             }}>
             {selectedEvent?.name}
           </Text>
         </View>
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <View
             style={{
               backgroundColor: '#B5FBDD',
@@ -257,7 +268,7 @@ const Detail = ({ navigation, route }: any) => {
 
   const DescriptionSection = () => {
     return (
-      <View style={{ marginHorizontal: 20 }}>
+      <View style={{marginHorizontal: 20}}>
         <View
           style={{
             marginBottom: 30,
@@ -273,7 +284,7 @@ const Detail = ({ navigation, route }: any) => {
             }}>
             <Text
               style={{
-                color: theme.colors.blue,
+                color: isDarkMode ? '#EEEDEA' : theme.colors.blue,
                 fontFamily: 'Nunito-Bold',
                 fontSize: theme.sizes.h6,
                 width: width / 2,
@@ -299,10 +310,12 @@ const Detail = ({ navigation, route }: any) => {
             </Text>
           </RNBounceable> */}
         </View>
-        <View style={{ marginBottom: 25 }}>
+        <View style={{marginBottom: 25}}>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-Bold',
               fontSize: theme.sizes.h5,
             }}>
@@ -310,7 +323,9 @@ const Detail = ({ navigation, route }: any) => {
           </Text>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h8,
               marginTop: 5,
@@ -320,7 +335,9 @@ const Detail = ({ navigation, route }: any) => {
           </Text>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h8,
               marginTop: 3,
@@ -332,7 +349,9 @@ const Detail = ({ navigation, route }: any) => {
         <View>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-Bold',
               fontSize: theme.sizes.h5,
               marginBottom: 5,
@@ -341,7 +360,9 @@ const Detail = ({ navigation, route }: any) => {
           </Text>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h8,
               letterSpacing: 0.5,
@@ -362,7 +383,9 @@ const Detail = ({ navigation, route }: any) => {
         }}>
         <Text
           style={{
-            color: theme.colors.black,
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
             fontFamily: 'Nunito-Bold',
             fontSize: theme.sizes.h5,
           }}>
@@ -377,19 +400,23 @@ const Detail = ({ navigation, route }: any) => {
           }}>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h8,
               width: 250,
             }}>
-            {selectedEvent?.location?.name} -{' '}
-            {selectedEvent?.location?.address?.streetAddress}
+            {selectedEvent?.location?.address?.addressLocality} -{' '}
+            {selectedEvent?.location?.name}
           </Text>
           <TouchableOpacity onPress={() => console.log('Locate')}>
             <Icon
               name="location-outline"
               size={24}
-              color={theme.colors.black}
+              color={
+                isDarkMode ? theme.colors.antiFlashWhite : theme.colors.black
+              }
             />
           </TouchableOpacity>
         </View>
@@ -407,54 +434,82 @@ const Detail = ({ navigation, route }: any) => {
         }}>
         <Text
           style={{
-            color: theme.colors.black,
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
             fontFamily: 'Nunito-Bold',
             fontSize: theme.sizes.h5,
           }}>
           Ticket
         </Text>
-        <View
-          style={{
-            marginVertical: 5,
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            alignItems: 'center',
-          }}>
-          {selectedEvent?.offers?.price?.map(
-            (
-              item:
-                | boolean
-                | React.ReactChild
-                | React.ReactFragment
-                | React.ReactPortal
-                | null
-                | undefined,
-              index: React.Key | null | undefined,
-            ) => (
-              <View
-                key={index}
+
+        {selectedEvent?.offers?.type === false ? (
+          <View
+            style={{
+              marginVertical: 5,
+              marginHorizontal: 5,
+            }}>
+            <View
+              style={{
+                marginBottom: 10,
+              }}>
+              <Text
                 style={{
-                  backgroundColor: '#B5FBDD',
-                  height: 28,
-                  width: 85,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginBottom: 10,
-                  borderRadius: 3,
+                  color: isDarkMode
+                    ? theme.colors.antiFlashWhite
+                    : theme.colors.black,
+                  fontFamily: 'Nunito-SemiBold',
+                  fontSize: theme.sizes.h8,
                 }}>
-                <Text
+                0 fcfa
+              </Text>
+            </View>
+          </View>
+        ) : (
+          <View
+            style={{
+              marginVertical: 5,
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              alignItems: 'center',
+            }}>
+            {selectedEvent?.offers?.price?.map(
+              (
+                item:
+                  | boolean
+                  | React.ReactChild
+                  | React.ReactFragment
+                  | React.ReactPortal
+                  | null
+                  | undefined,
+                index: React.Key | null | undefined,
+              ) => (
+                <RNBounceable
                   key={index}
                   style={{
-                    color: theme.colors.black,
-                    fontFamily: 'Nunito-SemiBold',
-                    fontSize: theme.sizes.h8,
-                  }}>
-                  {item} fcfa
-                </Text>
-              </View>
-            ),
-          )}
-        </View>
+                    backgroundColor: clickedId === index ? 'white' : '#B5FBDD',
+                    height: 30,
+                    width: 85,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginBottom: 10,
+                    borderRadius: 3,
+                  }}
+                  onPress={() => handlePrice(item, index)}>
+                  <Text
+                    key={index}
+                    style={{
+                      color: theme.colors.black,
+                      fontFamily: 'Nunito-SemiBold',
+                      fontSize: theme.sizes.h8,
+                    }}>
+                    {`${item} fcfa`}
+                  </Text>
+                </RNBounceable>
+              ),
+            )}
+          </View>
+        )}
       </View>
     );
   };
@@ -465,10 +520,10 @@ const Detail = ({ navigation, route }: any) => {
         style={{
           height: 60,
           width,
-          borderRadius: 10,
+          // borderRadius: 10,
           opacity: 0.9,
           position: 'absolute',
-          backgroundColor: theme.colors.white,
+          backgroundColor: isDarkMode ? '#1A2026' : theme.colors.white,
           bottom: 0,
           justifyContent: 'center',
         }}>
@@ -487,22 +542,29 @@ const Detail = ({ navigation, route }: any) => {
                   borderRadius: 3,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: theme.colors.bluetiful,
+                  backgroundColor: isDarkMode
+                    ? theme.colors.antiFlashWhite
+                    : theme.colors.bluetiful,
                   width: width / 1.1,
                   height: 40,
                 }}
+                disabled={
+                  clickedId === null && selectedEvent?.offers?.type !== false
+                }
                 onPress={() => billet()}>
-                {loading == true ? (
+                {loading === true ? (
                   <ActivityIndicator
                     size="small"
-                    color="#FFFFFF"
+                    color={isDarkMode ? theme.colors.dark : '#FFFFFF'}
                     animating={loading}
                     hidesWhenStopped={loading}
                   />
                 ) : (
                   <Text
                     style={{
-                      color: theme.colors.white,
+                      color: isDarkMode
+                        ? theme.colors.dark
+                        : theme.colors.white,
                       fontFamily: 'Nunito-Bold',
 
                       fontSize: theme.sizes.h6,
@@ -519,11 +581,12 @@ const Detail = ({ navigation, route }: any) => {
   };
 
   return (
-    <View style={styles.container}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flexGrow: 1, backgroundColor: '#F6F6F7' }}
-        style={{ backgroundColor: '#F6F6F7' }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7',
+      }}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {/* ImageBackground */}
         <ImageBackgroundComponent />
 
@@ -535,20 +598,13 @@ const Detail = ({ navigation, route }: any) => {
         {/* Location section */}
         <LocationSection />
         {/* Promotion section */}
+
         <PriceSection />
-        {/* {selectedEvent?.promotion?.state === true && <PromotionSection />} */}
       </ScrollView>
       {/* Buttom bar section */}
       {<ButtomBarSection />}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F6F6F7',
-  },
-});
 
 export default Detail;

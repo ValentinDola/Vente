@@ -1,4 +1,10 @@
 rootProject.name = 'Vente'
+include ':react-native-version-info'
+project(':react-native-version-info').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-version-info/android')
+include ':react-native-get-app-name'
+project(':react-native-get-app-name').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-get-app-name/android')
+include ':react-native-view-shot'
+project(':react-native-view-shot').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-view-shot/android')
 include ':react-native-share'
 project(':react-native-share').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-share/android')
 include ':lottie-react-native'

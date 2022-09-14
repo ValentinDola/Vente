@@ -1,20 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Navigation from './Navigation';
 import RNBootSplash from 'react-native-bootsplash';
-import { Provider } from 'react-redux';
-import { store } from './Store/index';
-import { SafeAreaView, StatusBar, PermissionsAndroid, Platform, Text } from 'react-native';
+import {ApolloProvider} from '@apollo/client';
+import {Provider} from 'react-redux';
+import {store} from './Store/index';
+import {
+  SafeAreaView,
+  StatusBar,
+  PermissionsAndroid,
+  Platform,
+  Alert,
+  useColorScheme,
+} from 'react-native';
 import moment from 'moment';
 import Geolocation from '@react-native-community/geolocation';
-import InternetConnectionAlert from "react-native-internet-connection-alert";
+import InternetConnectionAlert from 'react-native-internet-connection-alert';
 import Geocoder from 'react-native-geocoding';
 
-import { enableLatestRenderer } from 'react-native-maps';
-import { theme } from './Constants';
+import {enableLatestRenderer} from 'react-native-maps';
+import {theme} from './Constants';
 
-import { LocaleConfig } from 'react-native-calendars';
-
-
+import {LocaleConfig} from 'react-native-calendars';
+import {client} from './Components/Apollo';
 
 LocaleConfig.locales['fr'] = {
   monthNames: [
@@ -131,29 +138,32 @@ const App = () => {
   const [currentLatitude, setCurrentLatitude] = useState('...');
   const [locationStatus, setLocationStatus] = useState('');
 
-
+  const isDarkMode = useColorScheme() === 'dark';
 
   useEffect(() => {
-
     // let watchID: number;
 
-    RNBootSplash.hide({ fade: true })
+    RNBootSplash.hide({fade: true})
       .then(r => console.log(r, 'Bootsplash has been hidden successfully'))
       .catch(err => console.error(err));
 
+    // Geolocation.getCurrentPosition(info => console.log(info));
+
     const requestLocationPermission = async () => {
-
-
       if (Platform.OS === 'ios') {
         getOneTimeLocation();
         subscribeLocationLocation();
       } else {
         try {
-          const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
             {
               title: "Accès à l'emplacement requis",
               message: 'Cette application doit accéder à votre position',
-            });
+              buttonNegative: 'Annuler',
+              buttonPositive: 'OK',
+            },
+          );
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
             //To Check, If Permission is granted
             getOneTimeLocation();
@@ -162,84 +172,87 @@ const App = () => {
             setLocationStatus('Permission Denied');
           }
         } catch (err) {
-          console.log(err)
+          console.log(err);
         }
       }
     };
 
+    const getCurrentPosition = () =>
+      Geolocation.getCurrentPosition(info => {
+        const longitude = JSON.stringify(info.coords.longitude);
+        const latitude = JSON.stringify(info.coords.latitude);
 
-
+        return (
+          setCurrentLongitude(longitude),
+          setCurrentLatitude(latitude),
+          console.log(currentLatitude, currentLongitude)
+        );
+      });
 
     requestLocationPermission();
 
     // const getCurrentAddress = () => (
-    //   Geocoder.init('AIzaSyCls3Fj2pMSWh1eCySiZUEbFor4gHPbykQ', { language: 'fr' }),
-    //   Geocoder.from(6.1692454, 1.3050853).then(json => {
-    //     let address = json.results[0].address_components[0];
-    //     console.log(address);
-    //   }).catch(error => console.warn(error))
+    //   Geocoder.init('AIzaSyCls3Fj2pMSWh1eCySiZUEbFor4gHPbykQ', {
+    //     language: 'fr',
+    //   }),
+    //   Geocoder.from(currentLongitude, currentLatitude)
+    //     .then(json => {
+    //       let address = json.results[0].address_components[0];
+    //       console.log(address);
+    //     })
+    //     .catch(error => console.warn(error))
     // );
 
     // getCurrentAddress();
 
-
-
-
-    return () => {
-      Geolocation.clearWatch(watchID);
-    };
-
-
-
+    return () => Geolocation.clearWatch(watchID);
   }, []);
 
   const getOneTimeLocation = () => {
     setLocationStatus('Getting Location ...');
     Geolocation.getCurrentPosition(
       //Will give you the current location
-      (position) => {
+      position => {
         setLocationStatus('You are Here');
 
         //getting the Longitude from the location json
-        const currentLongitude =
-          JSON.stringify(position.coords.longitude);
+        const longitude = JSON.stringify(position.coords.longitude);
 
         //getting the Latitude from the location json
-        const currentLatitude =
-          JSON.stringify(position.coords.latitude);
+        const latitude = JSON.stringify(position.coords.latitude);
 
         //Setting Longitude state
-        setCurrentLongitude(currentLongitude);
+        setCurrentLongitude(longitude);
 
         //Setting Longitude state
-        setCurrentLatitude(currentLatitude);
+        setCurrentLatitude(latitude);
       },
-      (error) => {
+      error => {
         setLocationStatus(error.message);
       },
       {
         enableHighAccuracy: false,
         timeout: 30000,
-        maximumAge: 1000
+        maximumAge: 1000,
       },
     );
+
+    return null;
   };
 
   const subscribeLocationLocation = () => {
-    watchID = Geolocation.watchPosition(
-      (position) => {
+    Geolocation.watchPosition(
+      position => {
         //Will give you the location on location change
 
         setLocationStatus('You are Here');
         console.log(position);
 
-        //getting the Longitude from the location json        
-        const currentLongitude =
-          JSON.stringify(position.coords.longitude);
+        //getting the Longitude from the location json
+        const currentLongitude = JSON.stringify(position.coords.longitude);
 
         //getting the Latitude from the location json
-        const currentLatitude =
-          JSON.stringify(position.coords.latitude);
+        const currentLatitude = JSON.stringify(position.coords.latitude);
 
         //Setting Longitude state
         setCurrentLongitude(currentLongitude);
@@ -247,31 +260,39 @@ const App = () => {
         //Setting Latitude state
         setCurrentLatitude(currentLatitude);
       },
-      (error) => {
+      error => {
         setLocationStatus(error.message);
       },
       {
         enableHighAccuracy: false,
-        maximumAge: 1000
+        maximumAge: 1000,
       },
     );
-  };
 
+    return watchID;
+  };
 
   return (
     <Provider store={store}>
-      <SafeAreaView style={{ flex: 1 }}>
-        <StatusBar backgroundColor={theme.colors.black} />
-        {/* <InternetConnectionAlert
+      <ApolloProvider client={client}>
+        <SafeAreaView style={{flex: 1}}>
+          <StatusBar
+            backgroundColor={isDarkMode ? theme.colors.dark : 'black'}
+          />
+
+          {/* <InternetConnectionAlert
           onChange={(connectionState) => {
             console.log("Connection State: ", connectionState);
           }} title={'Connection'} > */}
-        <Navigation />
-        {/* </InternetConnectionAlert> */}
-
-      </SafeAreaView>
+          <Navigation />
+          {/* </InternetConnectionAlert> */}
+        </SafeAreaView>
+      </ApolloProvider>
     </Provider>
   );
 };
 
 export default App;
+function watchID(watchID: any): void | {[UNDEFINED_VOID_ONLY]: never} {
+  throw new Error('Function not implemented.');
+}

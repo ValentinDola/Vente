@@ -4,6 +4,7 @@ const colors = {
   antiFlashWhite: '#F1F5F9',
   grey: '#f1f1f1',
   black: '#000000',
+  dark: '#212529',
   // Opacity 50%
   bluetiful: 'rgba(2,96,232,0.5)',
   // Opacity 71%

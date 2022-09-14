@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
-import React, { useEffect, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, {useEffect, useState} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Integration from '../Screens/Integration';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Identification from '../Screens/Identification';
@@ -9,14 +9,12 @@ import Inscription from '../Screens/Inscription';
 import Maison from './Maison';
 
 import Detail from '../Screens/Détail';
-import Loader from '../Components/svgs/loader';
 import Recherche from '../Screens/Recherche';
 import Menu from '../Screens/Menu';
 import Tickets from '../Screens/Tickets';
 import Reglages from '../Screens/Reglages';
 import About from '../Screens/About';
 import Termes from '../Screens/Termes';
-import Promotions from '../Screens/promotions';
 import Commande from '../Screens/Commande';
 import Cart from '../Screens/Cart';
 import Payment from '../Screens/Payment';
@@ -26,6 +24,13 @@ import Retrait from '../Screens/Retrait';
 import Recharge from '../Screens/Recharge';
 import Ticket from '../Screens/Ticket';
 import Overview from '../Screens/Overview';
+import Compte from '../Screens/Compte';
+import Gérance from '../Screens/Gérance';
+import Notification from '../Screens/Notification';
+import Edit from '../Screens/Profile_/Edit';
+import EditNomEtPrenom from '../Screens/Profile_/EditNomEtPrenom';
+import EditMotDePasse from '../Screens/Profile_/EditMotDePasse';
+import NotificationSettings from '../Screens/Profile_/NotificationSettings';
 
 const Stack = createNativeStackNavigator();
 
@@ -71,7 +76,7 @@ const App = () => {
           <Stack.Screen name={'Reglages'} component={Reglages} />
           <Stack.Screen name={'About'} component={About} />
           <Stack.Screen name={'Termes'} component={Termes} />
-          <Stack.Screen name={'Promotions'} component={Promotions} />
+          <Stack.Screen name={'Compte'} component={Compte} />
           <Stack.Screen name={'Commande'} component={Commande} />
           <Stack.Screen name={'Cart'} component={Cart} />
           <Stack.Screen name={'Payment'} component={Payment} />
@@ -80,8 +85,15 @@ const App = () => {
           <Stack.Screen name={'Overview'} component={Overview} />
           <Stack.Screen name={'Retrait'} component={Retrait} />
           <Stack.Screen name={'Recharge'} component={Recharge} />
-
-
+          <Stack.Screen name={'Gérance'} component={Gérance} />
+          <Stack.Screen name={'Notification'} component={Notification} />
+          <Stack.Screen name={'Edit'} component={Edit} />
+          <Stack.Screen name={'EditNomEtPrenom'} component={EditNomEtPrenom} />
+          <Stack.Screen name={'EditMotDePasse'} component={EditMotDePasse} />
+          <Stack.Screen
+            name={'NotificationSettings'}
+            component={NotificationSettings}
+          />
 
           <Stack.Screen name={'Identification'} component={Identification} />
           <Stack.Screen name={'Inscription'} component={Inscription} />
