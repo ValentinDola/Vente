@@ -5,6 +5,7 @@ import {
   Dimensions,
   ActivityIndicator,
   TextInput,
+  useColorScheme,
 } from 'react-native';
 import React, {useState} from 'react';
 import Header from '../../Components/Header';
@@ -18,6 +19,8 @@ import {useNavigation} from '@react-navigation/native';
 const {width, height} = Dimensions.get('screen');
 
 const EditNomEtPrenom = () => {
+  const isDarkMode = useColorScheme() === 'dark';
+
   const [loading, setLoading] = useState(false);
 
   const user = useSelector(selectUser);
@@ -55,7 +58,7 @@ const EditNomEtPrenom = () => {
       <Text
         style={{
           fontFamily: 'Nunito-Bold',
-          color: 'black',
+          color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
           fontSize: theme.sizes.h3,
         }}>
         Editer le profil
@@ -72,7 +75,7 @@ const EditNomEtPrenom = () => {
           borderRadius: 10,
           opacity: 0.9,
           position: 'absolute',
-          backgroundColor: theme.colors.white,
+          backgroundColor: isDarkMode ? theme.colors.dark : theme.colors.white,
           bottom: 0,
           justifyContent: 'center',
         }}>
@@ -141,7 +144,7 @@ const EditNomEtPrenom = () => {
                 <Text
                   style={{
                     fontFamily: 'Nunito-SemiBold',
-                    color: 'black',
+                    color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
                     marginHorizontal: 25,
                   }}>
                   Nom
@@ -151,7 +154,9 @@ const EditNomEtPrenom = () => {
                     <TextInput
                       style={{
                         fontSize: 17,
-                        color: 'black',
+                        color: isDarkMode
+                          ? theme.colors.antiFlashWhite
+                          : 'black',
                         fontFamily: 'Nunito-SemiBold',
                       }}
                       onBlur={onBlur}
@@ -180,7 +185,7 @@ const EditNomEtPrenom = () => {
                 <Text
                   style={{
                     fontFamily: 'Nunito-SemiBold',
-                    color: 'black',
+                    color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
                     marginHorizontal: 25,
                   }}>
                   Prenom
@@ -190,7 +195,9 @@ const EditNomEtPrenom = () => {
                     <TextInput
                       style={{
                         fontSize: 17,
-                        color: 'black',
+                        color: isDarkMode
+                          ? theme.colors.antiFlashWhite
+                          : 'black',
                         fontFamily: 'Nunito-SemiBold',
                       }}
                       onBlur={onBlur}
@@ -209,7 +216,11 @@ const EditNomEtPrenom = () => {
   };
 
   return (
-    <View style={styles.screen}>
+    <View
+      style={[
+        styles.screen,
+        {backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7'},
+      ]}>
       <Header value={'Nom et Prenom'} />
       <Introduction />
       <Form />

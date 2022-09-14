@@ -13,6 +13,7 @@ import {
   Image,
   Dimensions,
   ScrollView,
+  useColorScheme,
 } from 'react-native';
 import OctIcon from 'react-native-vector-icons/Octicons';
 import {theme} from '../Constants/index';
@@ -31,6 +32,8 @@ const Menu = [
 ];
 
 const Profile = () => {
+  const isDarkMode = useColorScheme() === 'dark';
+
   useEffect(() => {
     if (user.value === false) {
       StackActions.replace('Inscription');
@@ -60,7 +63,9 @@ const Profile = () => {
             onPress={() => navigation.navigate(item?.to)}>
             <Text
               style={{
-                color: theme.colors.black,
+                color: isDarkMode
+                  ? theme.colors.antiFlashWhite
+                  : theme.colors.black,
                 fontFamily: 'Nunito-SemiBold',
                 fontSize: theme.sizes.h6,
               }}>
@@ -74,7 +79,11 @@ const Profile = () => {
   );
 
   return (
-    <View style={styles.screen}>
+    <View
+      style={[
+        styles.screen,
+        {backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7'},
+      ]}>
       {/* User detail */}
       <View
         style={{
@@ -96,7 +105,11 @@ const Profile = () => {
               justifyContent: 'center',
             }}
             onPress={() => navigation.navigate('Edit')}>
-            <OctIcon name={'pencil'} size={20} color={'black'} />
+            <OctIcon
+              name={'pencil'}
+              size={20}
+              color={isDarkMode ? theme.colors.antiFlashWhite : 'black'}
+            />
           </RNBounceable>
         </View>
         <View
@@ -113,7 +126,9 @@ const Profile = () => {
             }}>
             <Text
               style={{
-                color: theme.colors.black,
+                color: isDarkMode
+                  ? theme.colors.antiFlashWhite
+                  : theme.colors.black,
                 fontFamily: 'Nunito-Black',
                 fontSize: 30,
               }}>
@@ -158,17 +173,17 @@ const Profile = () => {
       {/* My account */}
       <View
         style={{
-          backgroundColor: theme.colors.white,
+          backgroundColor: isDarkMode ? theme.colors.dark : theme.colors.white,
           height: 60,
           width,
-          marginHorizontal: 15,
+
           marginTop: 5,
           position: 'absolute',
           bottom: 0,
           justifyContent: 'center',
           alignItems: 'flex-start',
         }}>
-        <RNBounceable style={{marginTop: 10}}>
+        <RNBounceable style={{marginTop: 10, marginHorizontal: 15}}>
           <Text
             style={{
               color: 'red',

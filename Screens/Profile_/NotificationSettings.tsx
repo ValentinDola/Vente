@@ -1,9 +1,18 @@
-import {View, Text, StyleSheet, Switch, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Switch,
+  ScrollView,
+  useColorScheme,
+} from 'react-native';
 import React, {useState} from 'react';
 import Header from '../../Components/Header';
 import {theme} from '../../Constants';
 
 const NotificationSettings = () => {
+  const isDarkMode = useColorScheme() === 'dark';
+
   const [on, setOn] = useState(true);
   const [one, setOne] = useState(true);
   const [two, setTwo] = useState(true);
@@ -32,7 +41,7 @@ const NotificationSettings = () => {
       <View>
         <Text
           style={{
-            color: 'black',
+            color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
             fontFamily: 'Nunito-SemiBold',
             fontSize: theme.sizes.h5,
           }}>
@@ -60,7 +69,7 @@ const NotificationSettings = () => {
         <View style={{width: 300}}>
           <Text
             style={{
-              color: 'black',
+              color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h7,
             }}>
@@ -68,7 +77,7 @@ const NotificationSettings = () => {
           </Text>
           <Text
             style={{
-              color: 'black',
+              color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h7,
               marginTop: 5,
@@ -97,7 +106,7 @@ const NotificationSettings = () => {
         <View style={{width: 300}}>
           <Text
             style={{
-              color: 'black',
+              color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h7,
             }}>
@@ -105,7 +114,7 @@ const NotificationSettings = () => {
           </Text>
           <Text
             style={{
-              color: 'black',
+              color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h7,
               marginTop: 5,
@@ -134,7 +143,7 @@ const NotificationSettings = () => {
         <View style={{width: 300}}>
           <Text
             style={{
-              color: 'black',
+              color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h7,
             }}>
@@ -142,7 +151,7 @@ const NotificationSettings = () => {
           </Text>
           <Text
             style={{
-              color: 'black',
+              color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h7,
               marginTop: 5,
@@ -171,7 +180,7 @@ const NotificationSettings = () => {
         <View style={{width: 300}}>
           <Text
             style={{
-              color: 'black',
+              color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h7,
             }}>
@@ -179,7 +188,7 @@ const NotificationSettings = () => {
           </Text>
           <Text
             style={{
-              color: 'black',
+              color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h7,
               marginTop: 5,
@@ -208,7 +217,7 @@ const NotificationSettings = () => {
         <View style={{width: 300}}>
           <Text
             style={{
-              color: 'black',
+              color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h7,
             }}>
@@ -216,7 +225,7 @@ const NotificationSettings = () => {
           </Text>
           <Text
             style={{
-              color: 'black',
+              color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h7,
               marginTop: 5,
@@ -245,7 +254,7 @@ const NotificationSettings = () => {
         <View style={{width: 300}}>
           <Text
             style={{
-              color: 'black',
+              color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h7,
             }}>
@@ -253,7 +262,7 @@ const NotificationSettings = () => {
           </Text>
           <Text
             style={{
-              color: 'black',
+              color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h7,
               marginTop: 5,
@@ -273,7 +282,11 @@ const NotificationSettings = () => {
   );
 
   return (
-    <View style={styles.screen}>
+    <View
+      style={[
+        styles.screen,
+        {backgroundColor: isDarkMode ? theme.colors.dark : '#f4f3f4'},
+      ]}>
       <Header value={'Notification Push'} />
       <Switch_ />
       <ScrollView>{on ? <Options /> : <View />}</ScrollView>

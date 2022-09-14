@@ -11,6 +11,7 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
   Alert,
+  useColorScheme,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import RNBounceable from '@freakycoder/react-native-bounceable';
@@ -64,6 +65,8 @@ const MY_DATA = gql`
 const {width, height} = Dimensions.get('window');
 
 const Explorer: React.FC = () => {
+  const isDarkMode = useColorScheme() === 'dark';
+
   const navigation = useNavigation();
 
   const {data, loading, error} = useQuery(MY_DATA);
@@ -93,15 +96,13 @@ const Explorer: React.FC = () => {
           width: 50,
           justifyContent: 'center',
           alignItems: 'center',
-          // borderWidth: 2,
-          // borderColor: theme.colors.black
         }}
         onPress={() => console.log(`You select ${item.title}`)}>
         <Image source={item.image} style={{width: 25, height: 25}} />
       </RNBounceable>
       <Text
         style={{
-          color: theme.colors.black,
+          color: isDarkMode ? theme.colors.antiFlashWhite : theme.colors.black,
           fontFamily: 'Nunito-SemiBold',
           marginVertical: 10,
         }}>
@@ -228,7 +229,7 @@ const Explorer: React.FC = () => {
       <View>
         <Text
           style={{
-            color: theme.colors.black,
+            color: isDarkMode ? theme.colors.white : theme.colors.black,
             fontFamily: 'Nunito-SemiBold',
             fontSize: theme.sizes.h10,
           }}>
@@ -236,7 +237,9 @@ const Explorer: React.FC = () => {
         </Text>
         <Text
           style={{
-            color: theme.colors.black,
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
             fontFamily: 'Nunito-SemiBold',
             fontSize: theme.sizes.h1,
           }}>
@@ -254,7 +257,9 @@ const Explorer: React.FC = () => {
         }}>
         <TouchableOpacity
           style={{
-            backgroundColor: theme.colors.antiFlashWhite,
+            backgroundColor: isDarkMode
+              ? '#2F3538'
+              : theme.colors.antiFlashWhite,
             height: 40,
             width: 40,
             alignItems: 'center',
@@ -262,12 +267,20 @@ const Explorer: React.FC = () => {
             borderRadius: 5,
           }}
           onPress={() => navigation.navigate('Recherche')}>
-          <Icon name="search-outline" size={22} color={theme.colors.black} />
+          <Icon
+            name="search-outline"
+            size={22}
+            color={
+              isDarkMode ? theme.colors.antiFlashWhite : theme.colors.black
+            }
+          />
         </TouchableOpacity>
 
         <TouchableOpacity
           style={{
-            backgroundColor: theme.colors.antiFlashWhite,
+            backgroundColor: isDarkMode
+              ? '#2F3538'
+              : theme.colors.antiFlashWhite,
             height: 40,
             width: 40,
             alignItems: 'center',
@@ -275,7 +288,13 @@ const Explorer: React.FC = () => {
             borderRadius: 5,
           }}
           onPress={() => navigation.navigate('Portefeuille')}>
-          <Icon name="md-wallet-outline" size={22} color={theme.colors.black} />
+          <Icon
+            name="md-wallet-outline"
+            size={22}
+            color={
+              isDarkMode ? theme.colors.antiFlashWhite : theme.colors.black
+            }
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -310,7 +329,7 @@ const Explorer: React.FC = () => {
       <Text
         style={{
           textDecorationLine: 'line-through',
-          color: theme.colors.blue,
+          color: isDarkMode ? theme.colors.antiFlashWhite : theme.colors.blue,
           // color: theme.colors.black,
           fontFamily: 'Nunito-SemiBold',
           fontSize: theme.sizes.h5,
@@ -364,7 +383,7 @@ const Explorer: React.FC = () => {
       <Text
         style={{
           textDecorationLine: 'line-through',
-          color: theme.colors.blue,
+          color: isDarkMode ? theme.colors.antiFlashWhite : theme.colors.blue,
           fontFamily: 'Nunito-SemiBold',
           fontSize: theme.sizes.h5,
           marginHorizontal: 10,
@@ -411,7 +430,8 @@ const Explorer: React.FC = () => {
   );
 
   return (
-    <View style={{flex: 1, backgroundColor: '#F6F6F7'}}>
+    <View
+      style={{flex: 1, backgroundColor: isDarkMode ? '#212529' : '#F6F6F7'}}>
       <Header />
       <Categories />
       <EventNearby />

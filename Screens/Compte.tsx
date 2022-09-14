@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Image, Text, View, Switch} from 'react-native';
+import {Image, Text, View, Switch, useColorScheme} from 'react-native';
 import {useSelector} from 'react-redux';
 import Header from '../Components/Header';
 import {theme} from '../Constants';
@@ -12,6 +12,8 @@ const Comptes = [
 ];
 
 const Compte = () => {
+  const isDarkMode = useColorScheme() === 'dark';
+
   const [google, setGoogle] = useState(true);
   const [tiktok, setTiktok] = useState(false);
   const [instagram, setInstagram] = useState(false);
@@ -39,7 +41,9 @@ const Compte = () => {
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-Bold',
               fontSize: 16,
             }}>
@@ -63,7 +67,7 @@ const Compte = () => {
     <View style={{paddingVertical: 10}}>
       <View
         style={{
-          backgroundColor: theme.colors.white,
+          backgroundColor: isDarkMode ? 'transparent' : theme.colors.white,
           paddingVertical: 15,
           paddingHorizontal: 15,
           flexDirection: 'row',
@@ -73,7 +77,9 @@ const Compte = () => {
         }}>
         <Text
           style={{
-            color: theme.colors.black,
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
             fontFamily: 'Nunito-SemiBold',
             fontSize: theme.sizes.h6,
           }}>
@@ -93,7 +99,7 @@ const Compte = () => {
     <View style={{paddingVertical: 10}}>
       <View
         style={{
-          backgroundColor: theme.colors.white,
+          backgroundColor: isDarkMode ? 'transparent' : theme.colors.white,
           paddingVertical: 15,
           paddingHorizontal: 15,
           flexDirection: 'row',
@@ -103,7 +109,9 @@ const Compte = () => {
         }}>
         <Text
           style={{
-            color: theme.colors.black,
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
             fontFamily: 'Nunito-SemiBold',
             fontSize: theme.sizes.h6,
           }}>
@@ -123,7 +131,7 @@ const Compte = () => {
     <View style={{paddingVertical: 10}}>
       <View
         style={{
-          backgroundColor: theme.colors.white,
+          backgroundColor: isDarkMode ? 'transparent' : theme.colors.white,
           paddingVertical: 15,
           paddingHorizontal: 15,
           flexDirection: 'row',
@@ -133,7 +141,9 @@ const Compte = () => {
         }}>
         <Text
           style={{
-            color: theme.colors.black,
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
             fontFamily: 'Nunito-SemiBold',
             fontSize: theme.sizes.h6,
           }}>
@@ -150,7 +160,11 @@ const Compte = () => {
   );
 
   return (
-    <View style={{flex: 1, backgroundColor: '#F6F6F7'}}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7',
+      }}>
       <Header value={'Compte lié'} />
       <User />
       <GoogleSwitch />

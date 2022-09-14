@@ -26,6 +26,7 @@ import {
   Image,
   TextInput,
   ActivityIndicator,
+  useColorScheme,
 } from 'react-native';
 import moment from 'moment';
 // import TextInput from 'react-native-text-input-interactive';
@@ -39,6 +40,8 @@ import {setEvent, selectPrice, setPrice} from '../Slices/event';
 const {width, height} = Dimensions.get('screen');
 
 const Detail = ({navigation, route}: any) => {
+  const isDarkMode = useColorScheme() === 'dark';
+
   const [selectedEvent, setSelectedEvent]: any = useState({});
   const [loading, setLoading] = useState(false);
   const [clickedId, setClickedId] = useState(null);
@@ -64,7 +67,7 @@ const Detail = ({navigation, route}: any) => {
   const billet = () => {
     setLoading(true);
     setTimeout(() => {
-      setLoading(true);
+      setLoading(false);
       dispatch(setEvent(selectedEvent));
       navigation.navigate('Cart');
     }, 3000);
@@ -207,7 +210,9 @@ const Detail = ({navigation, route}: any) => {
         <View style={{marginVertical: 20, width: width / 2}}>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-Bold',
               fontSize: theme.sizes.h5,
             }}>
@@ -279,7 +284,7 @@ const Detail = ({navigation, route}: any) => {
             }}>
             <Text
               style={{
-                color: theme.colors.blue,
+                color: isDarkMode ? '#EEEDEA' : theme.colors.blue,
                 fontFamily: 'Nunito-Bold',
                 fontSize: theme.sizes.h6,
                 width: width / 2,
@@ -308,7 +313,9 @@ const Detail = ({navigation, route}: any) => {
         <View style={{marginBottom: 25}}>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-Bold',
               fontSize: theme.sizes.h5,
             }}>
@@ -316,7 +323,9 @@ const Detail = ({navigation, route}: any) => {
           </Text>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h8,
               marginTop: 5,
@@ -326,7 +335,9 @@ const Detail = ({navigation, route}: any) => {
           </Text>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h8,
               marginTop: 3,
@@ -338,7 +349,9 @@ const Detail = ({navigation, route}: any) => {
         <View>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-Bold',
               fontSize: theme.sizes.h5,
               marginBottom: 5,
@@ -347,7 +360,9 @@ const Detail = ({navigation, route}: any) => {
           </Text>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h8,
               letterSpacing: 0.5,
@@ -368,7 +383,9 @@ const Detail = ({navigation, route}: any) => {
         }}>
         <Text
           style={{
-            color: theme.colors.black,
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
             fontFamily: 'Nunito-Bold',
             fontSize: theme.sizes.h5,
           }}>
@@ -383,7 +400,9 @@ const Detail = ({navigation, route}: any) => {
           }}>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h8,
               width: 250,
@@ -395,7 +414,9 @@ const Detail = ({navigation, route}: any) => {
             <Icon
               name="location-outline"
               size={24}
-              color={theme.colors.black}
+              color={
+                isDarkMode ? theme.colors.antiFlashWhite : theme.colors.black
+              }
             />
           </TouchableOpacity>
         </View>
@@ -413,7 +434,9 @@ const Detail = ({navigation, route}: any) => {
         }}>
         <Text
           style={{
-            color: theme.colors.black,
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
             fontFamily: 'Nunito-Bold',
             fontSize: theme.sizes.h5,
           }}>
@@ -432,7 +455,9 @@ const Detail = ({navigation, route}: any) => {
               }}>
               <Text
                 style={{
-                  color: theme.colors.black,
+                  color: isDarkMode
+                    ? theme.colors.antiFlashWhite
+                    : theme.colors.black,
                   fontFamily: 'Nunito-SemiBold',
                   fontSize: theme.sizes.h8,
                 }}>
@@ -495,10 +520,10 @@ const Detail = ({navigation, route}: any) => {
         style={{
           height: 60,
           width,
-          borderRadius: 10,
+          // borderRadius: 10,
           opacity: 0.9,
           position: 'absolute',
-          backgroundColor: theme.colors.white,
+          backgroundColor: isDarkMode ? '#1A2026' : theme.colors.white,
           bottom: 0,
           justifyContent: 'center',
         }}>
@@ -517,7 +542,9 @@ const Detail = ({navigation, route}: any) => {
                   borderRadius: 3,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: theme.colors.bluetiful,
+                  backgroundColor: isDarkMode
+                    ? theme.colors.antiFlashWhite
+                    : theme.colors.bluetiful,
                   width: width / 1.1,
                   height: 40,
                 }}
@@ -525,17 +552,19 @@ const Detail = ({navigation, route}: any) => {
                   clickedId === null && selectedEvent?.offers?.type !== false
                 }
                 onPress={() => billet()}>
-                {loading == true ? (
+                {loading === true ? (
                   <ActivityIndicator
                     size="small"
-                    color="#FFFFFF"
+                    color={isDarkMode ? theme.colors.dark : '#FFFFFF'}
                     animating={loading}
                     hidesWhenStopped={loading}
                   />
                 ) : (
                   <Text
                     style={{
-                      color: theme.colors.white,
+                      color: isDarkMode
+                        ? theme.colors.dark
+                        : theme.colors.white,
                       fontFamily: 'Nunito-Bold',
 
                       fontSize: theme.sizes.h6,
@@ -552,7 +581,11 @@ const Detail = ({navigation, route}: any) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7',
+      }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* ImageBackground */}
         <ImageBackgroundComponent />
@@ -573,12 +606,5 @@ const Detail = ({navigation, route}: any) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F6F6F7',
-  },
-});
 
 export default Detail;

@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, useColorScheme} from 'react-native';
 import React from 'react';
 import Header from '../../Components/Header';
 import {useSelector} from 'react-redux';
@@ -8,6 +8,8 @@ import {theme} from '../../Constants';
 import {useNavigation} from '@react-navigation/native';
 
 const Edit = () => {
+  const isDarkMode = useColorScheme() === 'dark';
+
   const navigation = useNavigation();
   const user = useSelector(selectUser);
 
@@ -48,7 +50,7 @@ const Edit = () => {
         <View>
           <Text
             style={{
-              color: 'black',
+              color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h6,
             }}>
@@ -77,7 +79,7 @@ const Edit = () => {
         <View>
           <Text
             style={{
-              color: 'black',
+              color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h6,
             }}>
@@ -87,7 +89,7 @@ const Edit = () => {
         <View>
           <Text
             style={{
-              color: 'black',
+              color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h6,
             }}>
@@ -106,7 +108,7 @@ const Edit = () => {
         <View>
           <Text
             style={{
-              color: 'black',
+              color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h6,
             }}>
@@ -128,7 +130,11 @@ const Edit = () => {
   );
 
   return (
-    <View style={styles.screen}>
+    <View
+      style={[
+        styles.screen,
+        {backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7'},
+      ]}>
       <Header value={'Paramètres du compte'} />
       <Image_ />
       <UserInfromation />

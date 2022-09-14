@@ -9,6 +9,7 @@ import {
   Dimensions,
   Alert,
   ActivityIndicator,
+  useColorScheme,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {theme} from '../Constants';
@@ -29,6 +30,8 @@ interface CommandeProps {
 }
 
 const Commande = (props: CommandeProps) => {
+  const isDarkMode = useColorScheme() === 'dark';
+
   const navigation = useNavigation();
 
   const user = useSelector(selectUser);
@@ -73,7 +76,9 @@ const Commande = (props: CommandeProps) => {
         <View>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
               fontSize: 30,
             }}>
@@ -83,7 +88,9 @@ const Commande = (props: CommandeProps) => {
         <View style={{marginTop: 10}}>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
               fontSize: 12,
             }}>
@@ -114,12 +121,20 @@ const Commande = (props: CommandeProps) => {
                         style={[
                           styles.container,
 
-                          {borderColor: theme.colors.blue, width: 160},
+                          {
+                            borderColor: theme.colors.blue,
+                            width: 160,
+                            backgroundColor: isDarkMode
+                              ? theme.colors.dark
+                              : 'white',
+                          },
                         ]}>
                         <TextInput
                           style={{
                             fontSize: 17,
-                            color: 'black',
+                            color: isDarkMode
+                              ? theme.colors.antiFlashWhite
+                              : theme.colors.black,
                             fontFamily: 'Nunito-SemiBold',
                           }}
                           onBlur={onBlur}
@@ -156,7 +171,9 @@ const Commande = (props: CommandeProps) => {
                         <TextInput
                           style={{
                             fontSize: 17,
-                            color: 'black',
+                            color: isDarkMode
+                              ? theme.colors.antiFlashWhite
+                              : theme.colors.black,
                             fontFamily: 'Nunito-SemiBold',
                           }}
                           onBlur={onBlur}
@@ -189,14 +206,18 @@ const Commande = (props: CommandeProps) => {
                       styles.container,
                       {
                         borderColor: theme.colors.blue,
-                        backgroundColor: theme.colors.grey,
+                        backgroundColor: isDarkMode
+                          ? theme.colors.dark
+                          : 'white',
                       },
                     ]}>
                     <TextInput
                       style={{
                         fontSize: 17,
                         paddingRight: 40,
-                        color: 'black',
+                        color: isDarkMode
+                          ? theme.colors.antiFlashWhite
+                          : theme.colors.black,
                         fontFamily: 'Nunito-SemiBold',
                       }}
                       onBlur={onBlur}
@@ -228,7 +249,9 @@ const Commande = (props: CommandeProps) => {
           <View style={{marginHorizontal: 15}}>
             <Text
               style={{
-                color: theme.colors.black,
+                color: isDarkMode
+                  ? theme.colors.antiFlashWhite
+                  : theme.colors.black,
                 fontFamily: 'Nunito-SemiBold',
                 fontSize: 14,
               }}>
@@ -252,7 +275,9 @@ const Commande = (props: CommandeProps) => {
           <View style={{marginHorizontal: 15}}>
             <Text
               style={{
-                color: theme.colors.black,
+                color: isDarkMode
+                  ? theme.colors.antiFlashWhite
+                  : theme.colors.black,
                 fontFamily: 'Nunito-SemiBold',
                 fontSize: 14,
               }}>
@@ -278,7 +303,9 @@ const Commande = (props: CommandeProps) => {
               onPress={() => setConditions(!conditions)}>
               <Text
                 style={{
-                  color: theme.colors.black,
+                  color: isDarkMode
+                    ? theme.colors.antiFlashWhite
+                    : theme.colors.black,
                   fontFamily: 'Nunito-SemiBold',
                   fontSize: 14,
                 }}>
@@ -315,7 +342,7 @@ const Commande = (props: CommandeProps) => {
   const Transaction = () => (
     <View
       style={{
-        backgroundColor: theme.colors.grey,
+        backgroundColor: isDarkMode ? '#1A2026' : theme.colors.grey,
         width,
         height: 150,
         marginBottom: 130,
@@ -327,10 +354,16 @@ const Commande = (props: CommandeProps) => {
           justifyContent: 'center',
           marginVertical: 15,
         }}>
-        <Icon name={'md-lock-open'} color={'black'} size={18} />
+        <Icon
+          name={'md-lock-open'}
+          color={isDarkMode ? theme.colors.antiFlashWhite : theme.colors.black}
+          size={18}
+        />
         <Text
           style={{
-            color: theme.colors.black,
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
             fontFamily: 'Nunito-SemiBold',
             marginLeft: 5,
           }}>
@@ -345,7 +378,12 @@ const Commande = (props: CommandeProps) => {
           paddingBottom: 20,
         }}>
         <Text
-          style={{color: theme.colors.black, fontFamily: 'Nunito-SemiBold'}}>
+          style={{
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
+            fontFamily: 'Nunito-SemiBold',
+          }}>
           Fast n'est pas responsable des questions de sante et de securite de
           cet evenement. Veuillez suivre les politiques de securite de
           l'organisateur ainsi que les lois et restrictions locales.
@@ -363,7 +401,7 @@ const Commande = (props: CommandeProps) => {
           borderRadius: 10,
           opacity: 0.9,
           position: 'absolute',
-          backgroundColor: theme.colors.white,
+          backgroundColor: isDarkMode ? '#1A2026' : theme.colors.white,
           bottom: 0,
           justifyContent: 'center',
         }}>
@@ -375,11 +413,19 @@ const Commande = (props: CommandeProps) => {
             alignItems: 'center',
           }}>
           <View>
-            <Icon name={'cart-outline'} color="black" size={20} />
+            <Icon
+              name={'cart-outline'}
+              color={
+                isDarkMode ? theme.colors.antiFlashWhite : theme.colors.black
+              }
+              size={20}
+            />
           </View>
           <View
             style={{
-              backgroundColor: theme.colors.blue,
+              backgroundColor: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.blue,
               borderRadius: 50,
               height: 18,
               width: 18,
@@ -391,7 +437,7 @@ const Commande = (props: CommandeProps) => {
             }}>
             <Text
               style={{
-                color: theme.colors.white,
+                color: isDarkMode ? theme.colors.dark : theme.colors.white,
                 fontFamily: 'Nunito-SemiBold',
                 fontSize: theme.sizes.h10,
               }}>
@@ -401,7 +447,9 @@ const Commande = (props: CommandeProps) => {
           <View>
             <Text
               style={{
-                color: theme.colors.black,
+                color: isDarkMode
+                  ? theme.colors.antiFlashWhite
+                  : theme.colors.black,
                 fontFamily: 'Nunito-SemiBold',
               }}>
               Libre
@@ -423,7 +471,9 @@ const Commande = (props: CommandeProps) => {
                   borderRadius: 3,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: theme.colors.bluetiful,
+                  backgroundColor: isDarkMode
+                    ? theme.colors.antiFlashWhite
+                    : theme.colors.bluetiful,
                   width: width / 1.1,
                   height: 40,
                   marginBottom: 20,
@@ -433,14 +483,16 @@ const Commande = (props: CommandeProps) => {
                 {loading == true ? (
                   <ActivityIndicator
                     size="small"
-                    color="#FFFFFF"
+                    color={isDarkMode ? theme.colors.dark : '#FFFFFF'}
                     animating={loading}
                     hidesWhenStopped={loading}
                   />
                 ) : (
                   <Text
                     style={{
-                      color: theme.colors.white,
+                      color: isDarkMode
+                        ? theme.colors.dark
+                        : theme.colors.white,
                       fontFamily: 'Nunito-Bold',
 
                       fontSize: theme.sizes.h6,
@@ -457,7 +509,11 @@ const Commande = (props: CommandeProps) => {
   };
 
   return (
-    <View style={styles.screen}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7',
+      }}>
       <Header value={'Commander'} />
       <ScrollView>
         <Coordonnees />
@@ -474,7 +530,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6F6F7',
   },
   container: {
-    backgroundColor: 'white',
     width: '100%',
     height: 50,
     borderColor: '#e8e8e8',

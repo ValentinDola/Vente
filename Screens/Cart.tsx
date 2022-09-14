@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   Modal,
   ScrollView,
+  useColorScheme,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {theme} from '../Constants';
@@ -25,6 +26,8 @@ interface CartProps {
 
 const Cart = (props: CartProps) => {
   const navigation = useNavigation();
+
+  const isDarkMode = useColorScheme() === 'dark';
 
   const [selectedEvent, setSelectedEvent]: any = useState({});
   const [loading, setLoading] = useState(false);
@@ -64,7 +67,9 @@ const Cart = (props: CartProps) => {
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             style={{
-              backgroundColor: theme.colors.grey,
+              backgroundColor: isDarkMode
+                ? theme.colors.white
+                : theme.colors.grey,
               padding: 5,
               borderRadius: 10,
               opacity: 0.7,
@@ -79,7 +84,9 @@ const Cart = (props: CartProps) => {
           <View>
             <Text
               style={{
-                color: theme.colors.black,
+                color: isDarkMode
+                  ? theme.colors.antiFlashWhite
+                  : theme.colors.black,
                 fontFamily: 'Nunito-Light',
                 fontSize: 16,
               }}>
@@ -89,7 +96,9 @@ const Cart = (props: CartProps) => {
 
           <TouchableOpacity
             style={{
-              backgroundColor: theme.colors.grey,
+              backgroundColor: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.grey,
               padding: 5,
               borderRadius: 10,
               opacity: 0.7,
@@ -104,7 +113,13 @@ const Cart = (props: CartProps) => {
             alignItems: 'center',
             marginHorizontal: 15,
           }}>
-          <Text style={{color: theme.colors.black, fontFamily: 'Nunito-Light'}}>
+          <Text
+            style={{
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
+              fontFamily: 'Nunito-Light',
+            }}>
             {moment(selectedEvent?.startDate).format('LLL')}
           </Text>
         </View>
@@ -124,7 +139,9 @@ const Cart = (props: CartProps) => {
           <View>
             <Text
               style={{
-                color: theme.colors.black,
+                color: isDarkMode
+                  ? theme.colors.antiFlashWhite
+                  : theme.colors.black,
                 fontFamily: 'Nunito-Bold',
                 fontSize: theme.sizes.h3,
                 marginBottom: 5,
@@ -133,7 +150,9 @@ const Cart = (props: CartProps) => {
             </Text>
             <Text
               style={{
-                color: theme.colors.black,
+                color: isDarkMode
+                  ? theme.colors.antiFlashWhite
+                  : theme.colors.black,
                 fontFamily: 'Nunito-Bold',
                 fontSize: theme.sizes.h6,
               }}>
@@ -149,9 +168,9 @@ const Cart = (props: CartProps) => {
               justifyContent: 'center',
               alignItems: 'flex-start',
               paddingLeft: 10,
-              borderRadius: 3,
+              borderRadius: 5,
               borderWidth: 3,
-              borderColor: theme.colors.blue,
+              borderColor: isDarkMode ? '#1A2026' : theme.colors.blue,
             }}>
             <Text
               style={{
@@ -159,14 +178,16 @@ const Cart = (props: CartProps) => {
                 fontFamily: 'Nunito-SemiBold',
                 fontSize: theme.sizes.h6,
               }}>
-              1
+              {ticket}
             </Text>
           </RNBounceable>
         </View>
         <View style={{marginTop: 10}}>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-Light',
               fontSize: theme.sizes.h8,
             }}>
@@ -179,7 +200,11 @@ const Cart = (props: CartProps) => {
 
   const Outro = () => (
     <View style={{margin: 15, marginTop: 30}}>
-      <Text style={{color: theme.colors.black, fontFamily: 'Nunito-Light'}}>
+      <Text
+        style={{
+          color: isDarkMode ? theme.colors.antiFlashWhite : theme.colors.black,
+          fontFamily: 'Nunito-Light',
+        }}>
         Alimenté par {<Text style={{fontFamily: 'Nunito-Bold'}}>Vente</Text>}{' '}
       </Text>
     </View>
@@ -194,7 +219,7 @@ const Cart = (props: CartProps) => {
           borderRadius: 10,
           opacity: 0.9,
           position: 'absolute',
-          backgroundColor: theme.colors.white,
+          backgroundColor: isDarkMode ? '#1A2026' : theme.colors.white,
           bottom: 0,
           justifyContent: 'center',
         }}>
@@ -208,11 +233,19 @@ const Cart = (props: CartProps) => {
           onPress={() => setModal(!modal)}
           disabled={price === '0'}>
           <View>
-            <Icon name={'cart-outline'} color="black" size={20} />
+            <Icon
+              name={'cart-outline'}
+              color={
+                isDarkMode ? theme.colors.antiFlashWhite : theme.colors.black
+              }
+              size={20}
+            />
           </View>
           <View
             style={{
-              backgroundColor: theme.colors.blue,
+              backgroundColor: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.blue,
               borderRadius: 50,
               height: 18,
               width: 18,
@@ -224,7 +257,7 @@ const Cart = (props: CartProps) => {
             }}>
             <Text
               style={{
-                color: theme.colors.white,
+                color: isDarkMode ? theme.colors.dark : theme.colors.white,
                 fontFamily: 'Nunito-SemiBold',
                 fontSize: theme.sizes.h10,
               }}>
@@ -234,7 +267,9 @@ const Cart = (props: CartProps) => {
           <View>
             <Text
               style={{
-                color: theme.colors.black,
+                color: isDarkMode
+                  ? theme.colors.antiFlashWhite
+                  : theme.colors.black,
                 fontFamily: 'Nunito-Bold',
                 fontSize: theme.sizes.h4,
               }}>
@@ -259,7 +294,9 @@ const Cart = (props: CartProps) => {
                   borderRadius: 3,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  backgroundColor: theme.colors.bluetiful,
+                  backgroundColor: isDarkMode
+                    ? theme.colors.antiFlashWhite
+                    : theme.colors.bluetiful,
                   width: width / 1.1,
                   height: 40,
                   marginBottom: 20,
@@ -268,14 +305,16 @@ const Cart = (props: CartProps) => {
                 {loading == true ? (
                   <ActivityIndicator
                     size="small"
-                    color="#FFFFFF"
+                    color={isDarkMode ? theme.colors.dark : '#FFFFFF'}
                     animating={loading}
                     hidesWhenStopped={loading}
                   />
                 ) : (
                   <Text
                     style={{
-                      color: theme.colors.white,
+                      color: isDarkMode
+                        ? theme.colors.dark
+                        : theme.colors.white,
                       fontFamily: 'Nunito-Bold',
 
                       fontSize: theme.sizes.h6,
@@ -295,7 +334,7 @@ const Cart = (props: CartProps) => {
     <View style={{marginHorizontal: 15, marginVertical: 15}}>
       <Text
         style={{
-          color: theme.colors.black,
+          color: isDarkMode ? theme.colors.antiFlashWhite : theme.colors.black,
           fontFamily: 'Nunito-SemiBold',
           fontSize: theme.sizes.h5,
         }}>
@@ -311,10 +350,22 @@ const Cart = (props: CartProps) => {
           marginTop: 20,
           marginBottom: 15,
         }}>
-        <Text style={{color: 'black', fontFamily: 'Nunito-SemiBold'}}>
+        <Text
+          style={{
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
+            fontFamily: 'Nunito-SemiBold',
+          }}>
           {`${ticket} x Nom`}
         </Text>
-        <Text style={{color: 'black', fontFamily: 'Nunito-SemiBold'}}>
+        <Text
+          style={{
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
+            fontFamily: 'Nunito-SemiBold',
+          }}>
           {`${price} cfa`}
         </Text>
       </View>
@@ -328,10 +379,22 @@ const Cart = (props: CartProps) => {
           marginTop: 20,
           marginBottom: 15,
         }}>
-        <Text style={{color: 'black', fontFamily: 'Nunito-SemiBold'}}>
+        <Text
+          style={{
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
+            fontFamily: 'Nunito-SemiBold',
+          }}>
           {`Frais`}
         </Text>
-        <Text style={{color: 'black', fontFamily: 'Nunito-SemiBold'}}>
+        <Text
+          style={{
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
+            fontFamily: 'Nunito-SemiBold',
+          }}>
           {`${parseInt(price) * 0.15} cfa`}
         </Text>
       </View>
@@ -346,7 +409,9 @@ const Cart = (props: CartProps) => {
         }}>
         <Text
           style={{
-            color: 'black',
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
             fontFamily: 'Nunito-SemiBold',
             fontSize: theme.sizes.h4,
           }}>
@@ -354,7 +419,9 @@ const Cart = (props: CartProps) => {
         </Text>
         <Text
           style={{
-            color: 'black',
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
             fontFamily: 'Nunito-Bold',
             fontSize: theme.sizes.h4,
           }}>
@@ -367,22 +434,43 @@ const Cart = (props: CartProps) => {
   const ModalBottomSection = () => (
     <View
       style={{
-        height: 200,
+        height: 100,
         width,
         borderRadius: 10,
         opacity: 0.9,
         position: 'absolute',
-        // backgroundColor: theme.colors.white,
+        backgroundColor: isDarkMode ? '#1A2026' : theme.colors.white,
         bottom: 0,
         justifyContent: 'center',
         alignItems: 'center',
       }}>
       <RNBounceable
         style={{
-          margin: 20,
+          borderRadius: 3,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: isDarkMode
+            ? theme.colors.antiFlashWhite
+            : theme.colors.bluetiful,
+          width: width / 1.1,
+          height: 40,
+          marginBottom: 10,
         }}
-        onLongPress={() => setModal(!modal)}>
-        <Icon name={'finger-print-outline'} color={'black'} size={60} />
+        onPress={() => setModal(!modal)}>
+        {/* <Icon
+          name={'finger-print-outline'}
+          color={isDarkMode ? theme.colors.antiFlashWhite : theme.colors.black}
+          size={60}
+        /> */}
+        <Text
+          style={{
+            color: isDarkMode ? theme.colors.dark : theme.colors.white,
+            fontFamily: 'Nunito-Bold',
+
+            fontSize: theme.sizes.h6,
+          }}>
+          Continuer
+        </Text>
       </RNBounceable>
     </View>
   );
@@ -465,7 +553,11 @@ const Cart = (props: CartProps) => {
       visible={modal}
       transparent
       onRequestClose={() => setModal(false)}>
-      <View style={styles.screen}>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7',
+        }}>
         {/* <Header /> */}
         <View style={{marginVertical: 20}}>
           <Wallt />
@@ -478,7 +570,11 @@ const Cart = (props: CartProps) => {
   );
 
   return (
-    <View style={styles.screen}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7',
+      }}>
       <Header />
 
       <Information />

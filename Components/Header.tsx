@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, useColorScheme} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {theme} from '../Constants/index';
@@ -9,6 +9,8 @@ interface HeaderProps {
 }
 
 const Header = (props: HeaderProps) => {
+  const isDarkMode = useColorScheme() === 'dark';
+
   const {value} = props;
   const navigation = useNavigation();
 
@@ -27,8 +29,8 @@ const Header = (props: HeaderProps) => {
           style={{
             backgroundColor: theme.colors.grey,
             padding: 5,
-            borderRadius: 10,
-            opacity: 0.7,
+            borderRadius: 5,
+            opacity: 0.8,
           }}>
           <Icon
             name="ios-chevron-back-outline"
@@ -40,9 +42,11 @@ const Header = (props: HeaderProps) => {
         <View>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-Light',
-              fontSize: 20,
+              fontSize: 24,
             }}>
             {value}
           </Text>
@@ -52,8 +56,8 @@ const Header = (props: HeaderProps) => {
           style={{
             backgroundColor: theme.colors.grey,
             padding: 5,
-            borderRadius: 10,
-            opacity: 0.7,
+            borderRadius: 5,
+            opacity: 0.8,
           }}
           onPress={() => navigation.navigate('Explorer')}>
           <Icon name={'close-outline'} size={24} color={theme.colors.black} />

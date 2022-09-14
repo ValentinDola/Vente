@@ -13,6 +13,7 @@ import {
   TextInput,
   Dimensions,
   FlatList,
+  useColorScheme,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import InteractiveTextInput from 'react-native-text-input-interactive';
@@ -20,10 +21,13 @@ import {data} from '../Constants/dummy-data';
 import {useForm, Controller} from 'react-hook-form';
 import {theme} from '../Constants/index';
 import RNBounceable from '@freakycoder/react-native-bounceable';
+import {tapHandlerName} from 'react-native-gesture-handler/lib/typescript/handlers/TapGestureHandler';
 
 const {width, height} = Dimensions.get('screen');
 
 const Recherche = ({navigation}: any) => {
+  const isDarkMode = useColorScheme() === 'dark';
+
   const [event, setEvent] = useState(data);
   const [notFound] = useState([]);
 
@@ -76,7 +80,9 @@ const Recherche = ({navigation}: any) => {
       <View style={{marginHorizontal: 30, marginTop: 20}}>
         <Text
           style={{
-            color: theme.colors.black,
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
             fontFamily: 'Nunito-SemiBold',
             fontSize: theme.sizes.h10,
           }}>
@@ -84,7 +90,9 @@ const Recherche = ({navigation}: any) => {
         </Text>
         <Text
           style={{
-            color: theme.colors.black,
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
             fontFamily: 'Nunito-SemiBold',
             fontSize: theme.sizes.h1,
           }}>
@@ -152,7 +160,11 @@ const Recherche = ({navigation}: any) => {
             borderRadius: 3,
           }}
           onPress={handleSubmit(onChangeText)}>
-          <Icon name={'search'} size={30} color={'black'} />
+          <Icon
+            name={'search'}
+            size={30}
+            color={isDarkMode ? theme.colors.antiFlashWhite : 'black'}
+          />
         </RNBounceable>
       </View>
     </View>
@@ -170,12 +182,19 @@ const Recherche = ({navigation}: any) => {
     );
     const result = ({item, index}: any) => (
       <RNBounceable
-        style={styles.item}
+        style={[
+          styles.item,
+          {
+            backgroundColor: isDarkMode ? '#1A2026' : theme.colors.white,
+          },
+        ]}
         onPress={() => navigation.navigate('Detail', {selectedEvent: item})}>
         <View style={{width: width / 1.5}}>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
               textTransform: 'uppercase',
               letterSpacing: 1.1,
@@ -184,7 +203,9 @@ const Recherche = ({navigation}: any) => {
           </Text>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
               textTransform: 'uppercase',
               letterSpacing: 1.1,
@@ -193,7 +214,9 @@ const Recherche = ({navigation}: any) => {
           </Text>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
               letterSpacing: 1.1,
             }}>
@@ -201,7 +224,9 @@ const Recherche = ({navigation}: any) => {
           </Text>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
               letterSpacing: 1.1,
             }}>
@@ -212,7 +237,7 @@ const Recherche = ({navigation}: any) => {
           <View style={{justifyContent: 'center', alignItems: 'center'}}>
             <View
               style={{
-                backgroundColor: '#B5FBDD',
+                backgroundColor: isDarkMode ? '#DAE4E5' : '#B5FBDD',
                 height: 25,
                 width: 85,
                 justifyContent: 'center',
@@ -222,7 +247,7 @@ const Recherche = ({navigation}: any) => {
               }}>
               <Text
                 style={{
-                  color: theme.colors.black,
+                  color: isDarkMode ? theme.colors.dark : theme.colors.black,
                   fontFamily: 'Nunito-SemiBold',
                   textTransform: 'uppercase',
                   fontSize: 12,
@@ -234,7 +259,7 @@ const Recherche = ({navigation}: any) => {
 
             <View
               style={{
-                backgroundColor: '#F7F272',
+                backgroundColor: isDarkMode ? '#2F3538' : '#F7F272',
                 height: 25,
                 width: 75,
                 justifyContent: 'center',
@@ -243,7 +268,9 @@ const Recherche = ({navigation}: any) => {
               }}>
               <Text
                 style={{
-                  color: theme.colors.black,
+                  color: isDarkMode
+                    ? theme.colors.antiFlashWhite
+                    : theme.colors.black,
                   fontFamily: 'Nunito-SemiBold',
                   textTransform: 'uppercase',
                   fontSize: 12,
@@ -273,7 +300,11 @@ const Recherche = ({navigation}: any) => {
   };
 
   return (
-    <View style={styles.screen}>
+    <View
+      style={{
+        backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7',
+        flex: 1,
+      }}>
       <Header />
       <Form />
       <Results />
@@ -282,10 +313,6 @@ const Recherche = ({navigation}: any) => {
 };
 
 const styles = StyleSheet.create({
-  screen: {
-    backgroundColor: '#F6F6F7',
-    flex: 1,
-  },
   item: {
     backgroundColor: '#fff',
     flex: 1,

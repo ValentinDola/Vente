@@ -1,6 +1,6 @@
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import React, {useEffect, useState} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {ScrollView, Text, useColorScheme, View} from 'react-native';
 import VersionInfo from 'react-native-version-info';
 import GetAppName from 'react-native-get-app-name';
 import {useSelector} from 'react-redux';
@@ -18,6 +18,8 @@ const Menu = [
 ];
 
 const Reglages = () => {
+  const isDarkMode = useColorScheme() === 'dark';
+
   const [appName, setAppName] = useState('');
   const [appVersion, setAppVersion] = useState('');
 
@@ -37,7 +39,7 @@ const Reglages = () => {
       <Text
         style={{
           fontFamily: 'Nunito-Light',
-          color: 'black',
+          color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
           marginBottom: 15,
           fontSize: theme.sizes.h7,
           marginHorizontal: 15,
@@ -57,7 +59,9 @@ const Reglages = () => {
           onPress={() => navigation.navigate('NotificationSettings')}>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h6,
             }}>
@@ -73,7 +77,7 @@ const Reglages = () => {
       <Text
         style={{
           fontFamily: 'Nunito-Light',
-          color: 'black',
+          color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
           marginBottom: 15,
           fontSize: theme.sizes.h5,
           marginHorizontal: 15,
@@ -94,7 +98,9 @@ const Reglages = () => {
           >
             <Text
               style={{
-                color: theme.colors.black,
+                color: isDarkMode
+                  ? theme.colors.antiFlashWhite
+                  : theme.colors.black,
                 fontFamily: 'Nunito-SemiBold',
                 fontSize: theme.sizes.h6,
               }}>
@@ -111,7 +117,7 @@ const Reglages = () => {
       <Text
         style={{
           fontFamily: 'Nunito-Light',
-          color: 'black',
+          color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
           marginBottom: 15,
           fontSize: theme.sizes.h7,
           marginHorizontal: 15,
@@ -132,7 +138,9 @@ const Reglages = () => {
         >
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h6,
             }}>
@@ -148,7 +156,7 @@ const Reglages = () => {
       <Text
         style={{
           fontFamily: 'Nunito-Light',
-          color: 'black',
+          color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
           marginBottom: 5,
           fontSize: theme.sizes.h7,
           marginHorizontal: 15,
@@ -165,7 +173,9 @@ const Reglages = () => {
           }}>
           <Text
             style={{
-              color: theme.colors.black,
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
               fontFamily: 'Nunito-Light',
               fontSize: theme.sizes.h7,
             }}>
@@ -177,7 +187,11 @@ const Reglages = () => {
   );
 
   return (
-    <View style={{flex: 1, backgroundColor: '#F6F6F7'}}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7',
+      }}>
       <Header value={'Reglages'} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <Account />

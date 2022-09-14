@@ -10,6 +10,7 @@ import {
   PermissionsAndroid,
   Platform,
   Alert,
+  useColorScheme,
 } from 'react-native';
 import moment from 'moment';
 import Geolocation from '@react-native-community/geolocation';
@@ -136,6 +137,8 @@ const App = () => {
   const [currentLongitude, setCurrentLongitude] = useState('...');
   const [currentLatitude, setCurrentLatitude] = useState('...');
   const [locationStatus, setLocationStatus] = useState('');
+
+  const isDarkMode = useColorScheme() === 'dark';
 
   useEffect(() => {
     // let watchID: number;
@@ -273,7 +276,9 @@ const App = () => {
     <Provider store={store}>
       <ApolloProvider client={client}>
         <SafeAreaView style={{flex: 1}}>
-          <StatusBar backgroundColor={theme.colors.black} />
+          <StatusBar
+            backgroundColor={isDarkMode ? theme.colors.dark : 'black'}
+          />
 
           {/* <InternetConnectionAlert
           onChange={(connectionState) => {

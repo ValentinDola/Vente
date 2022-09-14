@@ -7,6 +7,7 @@ import {
   View,
   Dimensions,
   Image,
+  useColorScheme,
 } from 'react-native';
 import {theme} from '../Constants/index';
 import {Event} from '../Constants/dummy-data';
@@ -19,7 +20,43 @@ import {useNavigation} from '@react-navigation/native';
 
 const {height, width} = Dimensions.get('screen');
 
+const LightTheme = {
+  calendarBackground: 'white',
+  backgroundColor: '#F6F6F7',
+  agendaKnobColor: theme.colors.bluetiful,
+  foregroundColor: theme.colors.bluetiful,
+  dotColor: theme.colors.blue,
+  textDayFontFamily: 'Nunito-SemiBold',
+  textMonthFontFamily: 'Nunito-SemiBold',
+  selectedDayBackgroundColor: theme.colors.bluetiful,
+  selectedDayTextColor: 'black',
+  selectedDotColor: 'black',
+  textDisabledColor: 'black',
+  dayTextColor: 'black',
+  monthTextColor: 'black',
+  textSectionTitleColor: 'black',
+};
+
+const DarkTheme = {
+  calendarBackground: theme.colors.dark,
+  backgroundColor: theme.colors.dark,
+  selectedDayBackgroundColor: theme.colors.white,
+  selectedDayTextColor: 'white',
+  selectedDotColor: 'white',
+  textDisabledColor: 'white',
+  dayTextColor: 'white',
+  monthTextColor: 'white',
+  textSectionTitleColor: 'white',
+  agendaKnobColor: theme.colors.white,
+  foregroundColor: theme.colors.white,
+  dotColor: theme.colors.white,
+  textDayFontFamily: 'Nunito-SemiBold',
+  textMonthFontFamily: 'Nunito-SemiBold',
+};
+
 const Calendrier: React.FC = () => {
+  const isDarkMode = useColorScheme() === 'dark';
+
   const navigation = useNavigation();
 
   const [items, setItems] = useState({});
@@ -59,12 +96,17 @@ const Calendrier: React.FC = () => {
 
   const renderItem = (item: any) => (
     <TouchableOpacity
-      style={styles.item}
+      style={[
+        styles.item,
+        {backgroundColor: isDarkMode ? '#1A2026' : theme.colors.white},
+      ]}
       onPress={() => navigation.navigate('Detail', {selectedEvent: item})}>
       <View style={{width: width / 2.1}}>
         <Text
           style={{
-            color: theme.colors.black,
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
             fontFamily: 'Nunito-SemiBold',
             textTransform: 'uppercase',
             letterSpacing: 1.2,
@@ -74,7 +116,9 @@ const Calendrier: React.FC = () => {
 
         <Text
           style={{
-            color: theme.colors.black,
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
             fontFamily: 'Nunito-SemiBold',
             letterSpacing: 1.2,
             marginVertical: 3,
@@ -83,7 +127,9 @@ const Calendrier: React.FC = () => {
         </Text>
         <Text
           style={{
-            color: theme.colors.black,
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
             fontFamily: 'Nunito-SemiBold',
             letterSpacing: 1.2,
           }}>
@@ -105,7 +151,7 @@ const Calendrier: React.FC = () => {
             }}>
             <Text
               style={{
-                color: theme.colors.black,
+                color: isDarkMode ? theme.colors.dark : theme.colors.black,
                 fontFamily: 'Nunito-SemiBold',
                 textTransform: 'uppercase',
                 fontSize: 12,
@@ -126,7 +172,7 @@ const Calendrier: React.FC = () => {
             }}>
             <Text
               style={{
-                color: theme.colors.black,
+                color: isDarkMode ? theme.colors.dark : theme.colors.black,
                 fontFamily: 'Nunito-SemiBold',
                 textTransform: 'uppercase',
                 fontSize: 12,
@@ -140,33 +186,29 @@ const Calendrier: React.FC = () => {
   );
 
   return (
-    <View style={{flex: 1, backgroundColor: '#F6F6F7'}}>
-      <Agenda
-        items={items}
-        renderItem={renderItem}
-        renderEmptyDate={() => (
-          <View>
-            <Text
-              style={{
-                color: theme.colors.black,
-                fontFamily: 'Nunito-SemiBold',
-              }}>
-              Empty
-            </Text>
-          </View>
-        )}
-        onDayChange={day => {
-          console.log('day changed', day);
-        }}
-        theme={{
-          agendaKnobColor: theme.colors.bluetiful,
-          foregroundColor: theme.colors.bluetiful,
-          dotColor: theme.colors.blue,
-          textDayFontFamily: 'Nunito-SemiBold',
-          textMonthFontFamily: 'Nunito-SemiBold',
-        }}
-      />
-    </View>
+    <Agenda
+      items={items}
+      renderItem={renderItem}
+      renderEmptyDate={() => (
+        <View>
+          <Text
+            style={{
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
+              fontFamily: 'Nunito-SemiBold',
+            }}>
+            Empty
+          </Text>
+        </View>
+      )}
+      onDayChange={day => {
+        console.log('day changed', day);
+      }}
+      theme={{
+        ...(isDarkMode ? DarkTheme : LightTheme),
+      }}
+    />
   );
 };
 

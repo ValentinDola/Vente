@@ -5,6 +5,9 @@ import {
   Dimensions,
   ActivityIndicator,
   TextInput,
+  useColorScheme,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import React, {useState} from 'react';
 import Header from '../../Components/Header';
@@ -15,10 +18,13 @@ import {useDispatch, useSelector} from 'react-redux';
 import {selectUser, setNom, setPrenom} from '../../Slices/user';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {getDefaultValues} from '@apollo/client/utilities';
 
 const {width, height} = Dimensions.get('screen');
 
 const EditMotDePasse = () => {
+  const isDarkMode = useColorScheme() === 'dark';
+
   const [loading, setLoading] = useState(false);
   const [actualSecure, setActualSecure] = useState(true);
   const [newSecure, setNewSecure] = useState(true);
@@ -47,7 +53,7 @@ const EditMotDePasse = () => {
       <Text
         style={{
           fontFamily: 'Nunito-Bold',
-          color: 'black',
+          color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
           fontSize: theme.sizes.h3,
         }}>
         Changer le mot de passe
@@ -64,7 +70,7 @@ const EditMotDePasse = () => {
           borderRadius: 10,
           opacity: 0.9,
           position: 'absolute',
-          backgroundColor: theme.colors.white,
+          backgroundColor: isDarkMode ? '#2F3538' : theme.colors.white,
           bottom: 0,
           justifyContent: 'center',
         }}>
@@ -132,7 +138,7 @@ const EditMotDePasse = () => {
                 <Text
                   style={{
                     fontFamily: 'Nunito-SemiBold',
-                    color: 'black',
+                    color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
                     marginHorizontal: 25,
                   }}>
                   Mot de passe actuel
@@ -147,7 +153,9 @@ const EditMotDePasse = () => {
                     <TextInput
                       style={{
                         fontSize: 17,
-                        color: 'black',
+                        color: isDarkMode
+                          ? theme.colors.antiFlashWhite
+                          : 'black',
                         fontFamily: 'Nunito-SemiBold',
                         paddingRight: 100,
                       }}
@@ -162,10 +170,13 @@ const EditMotDePasse = () => {
                     style={{
                       justifyContent: 'center',
                       alignItems: 'center',
-                      backgroundColor: theme.colors.antiFlashWhite,
+                      backgroundColor: isDarkMode
+                        ? '#2F3538'
+                        : theme.colors.antiFlashWhite,
                       height: 40,
                       width: 40,
                       marginLeft: 20,
+                      borderRadius: 3,
                     }}
                     onPress={() => setActualSecure(!actualSecure)}>
                     <Icon
@@ -175,7 +186,7 @@ const EditMotDePasse = () => {
                           : 'ios-eye-off-outline'
                       }
                       size={20}
-                      color={'black'}
+                      color={isDarkMode ? theme.colors.antiFlashWhite : 'black'}
                     />
                   </RNBounceable>
                 </View>
@@ -199,7 +210,7 @@ const EditMotDePasse = () => {
                 <Text
                   style={{
                     fontFamily: 'Nunito-SemiBold',
-                    color: 'black',
+                    color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
                     marginHorizontal: 25,
                   }}>
                   Nouveau mot de passe
@@ -214,7 +225,9 @@ const EditMotDePasse = () => {
                     <TextInput
                       style={{
                         fontSize: 17,
-                        color: 'black',
+                        color: isDarkMode
+                          ? theme.colors.antiFlashWhite
+                          : 'black',
                         fontFamily: 'Nunito-SemiBold',
                       }}
                       onBlur={onBlur}
@@ -227,7 +240,9 @@ const EditMotDePasse = () => {
                     style={{
                       justifyContent: 'center',
                       alignItems: 'center',
-                      backgroundColor: theme.colors.antiFlashWhite,
+                      backgroundColor: isDarkMode
+                        ? '#2F3538'
+                        : theme.colors.antiFlashWhite,
                       height: 40,
                       width: 40,
                       marginLeft: 20,
@@ -240,7 +255,7 @@ const EditMotDePasse = () => {
                           : 'ios-eye-off-outline'
                       }
                       size={20}
-                      color={'black'}
+                      color={isDarkMode ? theme.colors.antiFlashWhite : 'black'}
                     />
                   </RNBounceable>
                 </View>
@@ -264,7 +279,7 @@ const EditMotDePasse = () => {
                 <Text
                   style={{
                     fontFamily: 'Nunito-SemiBold',
-                    color: 'black',
+                    color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
                     marginHorizontal: 25,
                   }}>
                   Confirmer le nouveau mot de passe
@@ -292,7 +307,9 @@ const EditMotDePasse = () => {
                     style={{
                       justifyContent: 'center',
                       alignItems: 'center',
-                      backgroundColor: theme.colors.antiFlashWhite,
+                      backgroundColor: isDarkMode
+                        ? '#2F3538'
+                        : theme.colors.antiFlashWhite,
                       height: 40,
                       width: 40,
                       marginLeft: 20,
@@ -305,7 +322,7 @@ const EditMotDePasse = () => {
                           : 'ios-eye-off-outline'
                       }
                       size={20}
-                      color={'black'}
+                      color={isDarkMode ? theme.colors.antiFlashWhite : 'black'}
                     />
                   </RNBounceable>
                 </View>
@@ -319,11 +336,17 @@ const EditMotDePasse = () => {
   };
 
   return (
-    <View style={styles.screen}>
+    <View
+      style={[
+        styles.screen,
+        {backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7'},
+      ]}>
       <Header value={'Mot de passe'} />
+      {/* <KeyboardAvoidingView> */}
       <Introduction />
       <Form />
       <ButtomBarSection />
+      {/* </KeyboardAvoidingView> */}
     </View>
   );
 };

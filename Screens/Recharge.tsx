@@ -9,6 +9,7 @@ import {
   TextInput,
   Dimensions,
   Modal,
+  useColorScheme,
 } from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -23,6 +24,8 @@ const {width, height} = Dimensions.get('screen');
 const Networks = ['FLOOZ', 'TMONEY'];
 
 const Recharge = ({navigation}) => {
+  const isDarkMode = useColorScheme() === 'dark';
+
   const [network, setNetwork] = useState('');
   const [networkId, setNetworkId] = useState(0);
   const [modal, setModal] = useState(false);
@@ -70,7 +73,7 @@ const Recharge = ({navigation}) => {
           <Text
             style={{
               fontFamily: 'Nunito-SemiBold',
-              color: 'black',
+              color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
               fontSize: theme.sizes.h6,
             }}>
             Telephone
@@ -79,7 +82,7 @@ const Recharge = ({navigation}) => {
             <Text
               style={{
                 fontFamily: 'Nunito-SemiBold',
-                color: 'black',
+                color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
                 position: 'absolute',
                 top: 26,
                 left: 35,
@@ -109,11 +112,17 @@ const Recharge = ({navigation}) => {
                       paddingLeft: 50,
                       width: '85%',
                       borderWidth: 2,
-                      borderColor: error ? 'red' : theme.colors.blue,
+                      borderColor: error
+                        ? 'red'
+                        : isDarkMode
+                        ? theme.colors.antiFlashWhite
+                        : theme.colors.blue,
                     }}>
                     <TextInput
                       style={{
-                        color: 'black',
+                        color: isDarkMode
+                          ? theme.colors.antiFlashWhite
+                          : 'black',
                         fontFamily: 'Nunito-Bold',
                         fontSize: 20,
                       }}
@@ -138,7 +147,7 @@ const Recharge = ({navigation}) => {
           <Text
             style={{
               fontFamily: 'Nunito-SemiBold',
-              color: 'black',
+              color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
               fontSize: theme.sizes.h6,
             }}>
             Montant
@@ -197,7 +206,7 @@ const Recharge = ({navigation}) => {
           <Text
             style={{
               fontFamily: 'Nunito-SemiBold',
-              color: 'black',
+              color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
               fontSize: theme.sizes.h6,
             }}>
             Réseau
@@ -234,7 +243,7 @@ const Recharge = ({navigation}) => {
                             backgroundColor: theme.colors.bluetiful,
                             height: 40,
                             width: 90,
-                            borderRadius: 3,
+
                             justifyContent: 'center',
                             alignItems: 'center',
                           }
@@ -243,7 +252,7 @@ const Recharge = ({navigation}) => {
                             backgroundColor: theme.colors.white,
                             height: 40,
                             width: 90,
-                            borderRadius: 3,
+
                             justifyContent: 'center',
                             alignItems: 'center',
                           },
@@ -407,7 +416,10 @@ const Recharge = ({navigation}) => {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       enabled={false}
-      style={styles.screen}>
+      style={[
+        styles.screen,
+        {backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7'},
+      ]}>
       <Header value={'Recharge'} />
 
       <Actions />

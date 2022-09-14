@@ -8,6 +8,7 @@ import {
   PermissionsAndroid,
   Platform,
   Alert,
+  useColorScheme,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Header from '../Components/Header';
@@ -30,6 +31,8 @@ import moment from 'moment';
 const {width, height} = Dimensions.get('screen');
 
 const Overview = ({route}: any) => {
+  const isDarkMode = useColorScheme() === 'dark';
+
   const [modal, setModal] = useState(false);
   const [saving, setSaving]: any = useState(false);
 
@@ -119,7 +122,8 @@ const Overview = ({route}: any) => {
             height: 250,
             borderRadius: 5,
             alignItems: 'center',
-          }}>
+          }}
+          onPress={() => setModal(!modal)}>
           <View
             style={{
               height: 70,
@@ -131,7 +135,7 @@ const Overview = ({route}: any) => {
               position: 'relative',
               top: -30,
               borderWidth: 6,
-              borderColor: '#F6F6F7',
+              borderColor: isDarkMode ? theme.colors.dark : '#F6F6F7',
             }}>
             <Icon name={'check'} size={25} color={'white'} />
           </View>
@@ -145,7 +149,7 @@ const Overview = ({route}: any) => {
             <Text
               style={{
                 fontFamily: 'Nunito-Bold',
-                color: '#2F3640',
+                color: isDarkMode ? theme.colors.antiFlashWhite : '#2F3640',
                 fontSize: theme.sizes.h3,
                 textAlign: 'center',
               }}>
@@ -155,7 +159,7 @@ const Overview = ({route}: any) => {
             <Text
               style={{
                 fontFamily: 'Nunito-Bold',
-                color: '#2F3640',
+                color: isDarkMode ? theme.colors.antiFlashWhite : '#2F3640',
                 fontSize: theme.sizes.h6,
                 textAlign: 'center',
                 marginTop: 10,
@@ -167,7 +171,7 @@ const Overview = ({route}: any) => {
                 <Text
                   style={{
                     fontFamily: 'Nunito-Bold',
-                    color: '#2F3640',
+                    color: isDarkMode ? theme.colors.antiFlashWhite : '#2F3640',
                     fontSize: theme.sizes.h2,
                     textAlign: 'center',
                     marginTop: 10,
@@ -177,7 +181,7 @@ const Overview = ({route}: any) => {
                 <Text
                   style={{
                     fontFamily: 'Nunito-Bold',
-                    color: '#2F3640',
+                    color: isDarkMode ? theme.colors.antiFlashWhite : '#2F3640',
                     fontSize: theme.sizes.h6,
                   }}>
                   Total
@@ -188,7 +192,7 @@ const Overview = ({route}: any) => {
                 <Text
                   style={{
                     fontFamily: 'Nunito-Bold',
-                    color: '#2F3640',
+                    color: isDarkMode ? theme.colors.antiFlashWhite : '#2F3640',
                     fontSize: theme.sizes.h2,
                     textAlign: 'center',
                     marginTop: 10,
@@ -198,7 +202,7 @@ const Overview = ({route}: any) => {
                 <Text
                   style={{
                     fontFamily: 'Nunito-Bold',
-                    color: '#2F3640',
+                    color: isDarkMode ? theme.colors.antiFlashWhite : '#2F3640',
                     fontSize: theme.sizes.h6,
                   }}>
                   Billet commandé
@@ -532,7 +536,11 @@ const Overview = ({route}: any) => {
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: '#F6F6F7'}}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7',
+      }}>
       <Header value={'Order Overview'} />
       <Card />
       <TModal />
