@@ -16,7 +16,9 @@
       android:icon="@mipmap/ic_launcher"
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
-      android:theme="@style/BootTheme">
+      android:theme="@style/BootTheme"
+      android:requestLegacyExternalStorage="true"
+      >
       <meta-data
      android:name="com.google.android.geo.API_KEY"
      android:value="AIzaSyD4MnT3XG48wqEPtEw50zsy2NjAFkhHo4E"/>

@@ -21,15 +21,10 @@ import {useSelector, useDispatch} from 'react-redux';
 import {setUser, selectUser} from '../Slices/user';
 import {useNavigation, StackActions} from '@react-navigation/native';
 import RNBounceable from '@freakycoder/react-native-bounceable';
+import Header from '../Components/Header';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const {width, height} = Dimensions.get('screen');
-
-const Menu = [
-  {title: 'Centre de notification', to: 'Notification'},
-  {title: 'Compte lié', to: 'Compte'},
-  {title: 'Gérer les événements', to: 'Gérance'},
-  {title: 'Réglages', to: 'Reglages'},
-];
 
 const Profile = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -44,46 +39,14 @@ const Profile = () => {
 
   const user = useSelector(selectUser);
 
-  const List = () => (
-    <View style={{marginVertical: 15, marginHorizontal: 15}}>
-      {Menu.map((item, index) => (
-        <View key={index} style={{paddingVertical: 5}}>
-          <RNBounceable
-            style={{
-              // borderBottomColor: 'black',
-              // borderBottomWidth: 0.5,
-              // borderTopColor: 'black',
-              // borderTopWidth: 0.5,
-              paddingVertical: 15,
-              paddingHorizontal: 15,
-              justifyContent: 'center',
-              alignItems: 'flex-start',
-              borderRadius: 3,
-            }}
-            onPress={() => navigation.navigate(item?.to)}>
-            <Text
-              style={{
-                color: isDarkMode
-                  ? theme.colors.antiFlashWhite
-                  : theme.colors.black,
-                fontFamily: 'Nunito-SemiBold',
-                fontSize: theme.sizes.h6,
-              }}>
-              {item.title}
-            </Text>
-            {/* <Icon name={'caret-forward-outline'} color={'black'} size={18} /> */}
-          </RNBounceable>
-        </View>
-      ))}
-    </View>
-  );
-
   return (
     <View
       style={[
         styles.screen,
         {backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7'},
       ]}>
+      <Header />
+
       {/* User detail */}
       <View
         style={{
@@ -151,10 +114,6 @@ const Profile = () => {
           justifyContent: 'space-evenly',
           alignItems: 'center',
         }}>
-        {/* <View style={{ justifyContent: 'center', alignItems: 'center' }} >
-          <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-Bold' }} >{user?.likes}</Text>
-          <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-Bold' }} >Likes</Text>
-        </View> */}
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <Text style={{color: theme.colors.blue, fontFamily: 'Nunito-Bold'}}>
             {user?.billets}
@@ -163,36 +122,6 @@ const Profile = () => {
             Billets
           </Text>
         </View>
-        {/* <View style={{ justifyContent: 'center', alignItems: 'center' }} >
-          <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-Bold' }} >{user?.abonner}</Text>
-          <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-Bold' }} >abonnee</Text>
-        </View> */}
-      </View>
-      {/* Dashboard */}
-      <List />
-      {/* My account */}
-      <View
-        style={{
-          backgroundColor: isDarkMode ? theme.colors.dark : theme.colors.white,
-          height: 60,
-          width,
-
-          marginTop: 5,
-          position: 'absolute',
-          bottom: 0,
-          justifyContent: 'center',
-          alignItems: 'flex-start',
-        }}>
-        <RNBounceable style={{marginTop: 10, marginHorizontal: 15}}>
-          <Text
-            style={{
-              color: 'red',
-              fontFamily: 'Nunito-Bold',
-              fontSize: theme.sizes.h6,
-            }}>
-            Se déconnecter?
-          </Text>
-        </RNBounceable>
       </View>
     </View>
   );

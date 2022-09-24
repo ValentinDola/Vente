@@ -16,6 +16,8 @@ target 'Vente' do
 
   pod 'react-native-version-info', :path => '../node_modules/react-native-version-info'
 
+  pod 'react-native-add-calendar-event', :path => '../node_modules/react-native-add-calendar-event'
+
   target 'VenteTests' do
     inherit! :search_paths
     # Pods for testing

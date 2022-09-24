@@ -4,7 +4,7 @@
 // [X] Footer, buttons to navigate between the onboardings.
 // [X] Stack all components.
 
-import React, { useRef } from 'react';
+import React, {useRef} from 'react';
 import {
   SafeAreaView,
   Dimensions,
@@ -17,25 +17,24 @@ import {
   TouchableOpacity,
   ImageSourcePropType,
 } from 'react-native';
-import { theme } from '../Constants';
+import {theme} from '../Constants';
 import * as PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/Ionicons';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 const slides = [
   {
     id: 1,
     name: 'water-outline',
     // title
-    description:
-      "l'endroit où vous pouvez trouver tous les événements.",
+    description: "l'endroit où vous pouvez trouver tous les événements.",
   },
   {
     id: 2,
     name: 'brush-outline',
-    description: "Informations en temps réel sur ce qui se passe dans le pays.",
+    description: 'Informations en temps réel sur ce qui se passe dans le pays.',
   },
   {
     id: 3,
@@ -45,7 +44,7 @@ const slides = [
 ];
 
 const Integration = (props: {
-  navigation: { navigate: (arg0: string) => void };
+  navigation: {navigate: (arg0: string) => void};
 }) => {
   const [currentIndicatorIndex, setCurrentIndicatorIndex] = React.useState(0);
   const ref = useRef(null);
@@ -54,22 +53,20 @@ const Integration = (props: {
     item: {
       name: string;
       description:
-      | boolean
-      | React.ReactChild
-      | React.ReactFragment
-      | React.ReactPortal
-      | null
-      | undefined;
+        | boolean
+        | React.ReactChild
+        | React.ReactFragment
+        | React.ReactPortal
+        | null
+        | undefined;
     };
   }) => {
     return (
-      <View style={{ justifyContent: 'center' }}>
-        <View style={{ width, alignItems: 'center' }} >
+      <View style={{justifyContent: 'center'}}>
+        <View style={{width, alignItems: 'center'}}>
           <Icon name={props.item.name} size={250} color={theme.colors.blue} />
           <Text style={styles.description}>{props.item.description}</Text>
         </View>
-
-
       </View>
     );
   };
@@ -80,7 +77,6 @@ const Integration = (props: {
         style={{
           height: height * 0.25,
           justifyContent: 'space-between',
-
         }}>
         <View
           style={{
@@ -95,42 +91,46 @@ const Integration = (props: {
                 styles.indicator,
                 currentIndicatorIndex == index && {
                   backgroundColor: theme.colors.blue,
-
                 },
               ]}
             />
           ))}
         </View>
-        <View style={{ marginBottom: 30 }}>
+        <View style={{marginBottom: 30}}>
           {currentIndicatorIndex === slides.length - 1 ? (
-            <View style={{ height: 50 }}>
+            <View style={{height: 50}}>
               <RNBounceable
                 style={[styles.btn]}
-                onPress={() => props.navigation.navigate('Maison')}>
+                onPress={() => props.navigation.navigate('Explorer')}>
                 <Text style={[styles.btntxt]}>Commencez</Text>
               </RNBounceable>
             </View>
           ) : (
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{flexDirection: 'row'}}>
               <RNBounceable
                 style={[
                   styles.btn,
                   {
                     backgroundColor: 'transparent',
-
                   },
                 ]}
                 onPress={skip}>
-                <Text style={[styles.btntxt, { color: theme.colors.blue }]}>
+                <Text style={[styles.btntxt, {color: theme.colors.blue}]}>
                   Sauter
                 </Text>
               </RNBounceable>
-              <View style={{ width: 15 }} />
-              <RNBounceable style={[styles.btn, {
-                backgroundColor: 'transparent',
-
-              },]} onPress={goToNextSlide}>
-                <Text style={[styles.btntxt, { color: theme.colors.blue }]}>Suivant</Text>
+              <View style={{width: 15}} />
+              <RNBounceable
+                style={[
+                  styles.btn,
+                  {
+                    backgroundColor: 'transparent',
+                  },
+                ]}
+                onPress={goToNextSlide}>
+                <Text style={[styles.btntxt, {color: theme.colors.blue}]}>
+                  Suivant
+                </Text>
               </RNBounceable>
             </View>
           )}
@@ -139,10 +139,10 @@ const Integration = (props: {
     );
   };
 
-  Slide.propTypes = { item: PropTypes.object };
+  Slide.propTypes = {item: PropTypes.object};
 
   const updateCurrentSlideIndex = (e: {
-    nativeEvent: { contentOffset: { x: any } };
+    nativeEvent: {contentOffset: {x: any}};
   }) => {
     const contentOffsetX = e.nativeEvent.contentOffset.x;
     const currentIndex = Math.round(contentOffsetX / width);
@@ -153,7 +153,7 @@ const Integration = (props: {
     const nextSlideIndex = currentIndicatorIndex + 1;
     if (nextSlideIndex != slides.length) {
       const offset = nextSlideIndex * width;
-      ref?.current?.scrollToOffset({ offset });
+      ref?.current?.scrollToOffset({offset});
       setCurrentIndicatorIndex(nextSlideIndex);
     }
   };
@@ -161,7 +161,7 @@ const Integration = (props: {
   const skip = () => {
     const lastSlideIndex = slides.length - 1;
     const offset = lastSlideIndex * width;
-    ref?.current?.scrollToOffset({ offset });
+    ref?.current?.scrollToOffset({offset});
     setCurrentIndicatorIndex(lastSlideIndex);
   };
 
@@ -171,16 +171,15 @@ const Integration = (props: {
         flex: 1,
         backgroundColor: '#F6F6F7',
       }}>
-
       <FlatList
         ref={ref}
         onMomentumScrollEnd={updateCurrentSlideIndex}
         pagingEnabled={true}
         data={slides}
-        contentContainerStyle={{ height: height * 0.75 }}
+        contentContainerStyle={{height: height * 0.75}}
         horizontal
         showsHorizontalScrollIndicator={false}
-        renderItem={({ item }) => <Slide item={item} />}
+        renderItem={({item}) => <Slide item={item} />}
       />
       <Footer />
     </SafeAreaView>

@@ -268,9 +268,7 @@ const Overview = ({route}: any) => {
         onRequestClose={() => setModal(false)}>
         <View style={styles.MContainer}>
           <View style={styles.modalContainer} ref={viewRef}>
-            <ScrollView
-              style={{height: height, marginVertical: 60}}
-              showsVerticalScrollIndicator={false}>
+            <View style={{height: height, marginVertical: 10}}>
               <View
                 style={{
                   height: 150,
@@ -279,6 +277,7 @@ const Overview = ({route}: any) => {
                 }}>
                 <QRCode value="21747489300373" size={90} />
               </View>
+
               <View>
                 <View
                   style={{
@@ -348,7 +347,11 @@ const Overview = ({route}: any) => {
                       </Text>
                     </View>
                     <View
-                      style={{marginHorizontal: 10, marginTop: 10, width: 120}}>
+                      style={{
+                        marginHorizontal: 10,
+                        marginTop: 10,
+                        width: 120,
+                      }}>
                       <Text
                         style={{
                           color: 'black',
@@ -462,7 +465,7 @@ const Overview = ({route}: any) => {
                     Basic coding for youth
                   </Text>
                 </View>
-                {/* <View style={{marginHorizontal: 10, marginTop: 10}}>
+                <View style={{marginHorizontal: 10, marginTop: 10}}>
                   <Text
                     style={{
                       color: 'black',
@@ -480,7 +483,7 @@ const Overview = ({route}: any) => {
                     }}>
                     {event?.description}
                   </Text>
-                </View> */}
+                </View>
                 <View style={{marginHorizontal: 10, marginTop: 10}}>
                   <Text
                     style={{
@@ -501,34 +504,35 @@ const Overview = ({route}: any) => {
                   </Text>
                 </View>
               </View>
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginTop: 20,
-                }}>
-                <RNBounceable
-                  style={{
-                    backgroundColor: theme.colors.blue,
-                    borderRadius: 3,
-                    justifyContent: 'center',
-                    alignItems: 'center',
+            </View>
+          </View>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              position: 'absolute',
+              bottom: 10,
+            }}>
+            <RNBounceable
+              style={{
+                backgroundColor: theme.colors.blue,
+                borderRadius: 3,
+                justifyContent: 'center',
+                alignItems: 'center',
 
-                    width: width / 1.5,
-                    height: 40,
-                  }}
-                  onPress={() => downloadImage()}>
-                  <Text
-                    style={{
-                      fontFamily: 'Nunito-SemiBold',
-                      color: 'white',
-                      textTransform: 'uppercase',
-                    }}>
-                    Télécharger
-                  </Text>
-                </RNBounceable>
-              </View>
-            </ScrollView>
+                width: width / 1.5,
+                height: 40,
+              }}
+              onPress={() => downloadImage()}>
+              <Text
+                style={{
+                  fontFamily: 'Nunito-SemiBold',
+                  color: 'white',
+                  textTransform: 'uppercase',
+                }}>
+                Télécharger
+              </Text>
+            </RNBounceable>
           </View>
         </View>
       </Modal>

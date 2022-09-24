@@ -1,13 +1,39 @@
+// PROFILE TODO
+// [X] Build the Header component
+// [X] Build the User detail component
+// [] Build the Posts component
+// [X] Build the account component
+
+import React, {useEffect} from 'react';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+  Dimensions,
+  ScrollView,
+  useColorScheme,
+} from 'react-native';
+import OctIcon from 'react-native-vector-icons/Octicons';
+import {theme} from '../Constants/index';
+import {useSelector, useDispatch} from 'react-redux';
+import {setUser, selectUser} from '../Slices/user';
+import {useNavigation, StackActions} from '@react-navigation/native';
 import RNBounceable from '@freakycoder/react-native-bounceable';
-import React, {useEffect, useState} from 'react';
-import {ScrollView, Text, useColorScheme, View} from 'react-native';
+import Header from '../Components/Header';
+import Entypo from 'react-native-vector-icons/Entypo';
 import VersionInfo from 'react-native-version-info';
 import GetAppName from 'react-native-get-app-name';
-import {useSelector} from 'react-redux';
-import Header from '../Components/Header';
-import {theme} from '../Constants';
-import {selectUser} from '../Slices/user';
-import {useNavigation} from '@react-navigation/native';
+
+const {width, height} = Dimensions.get('screen');
+
+// const Menu = [
+//   {title: 'Centre de notification', to: 'Notification'},
+//   {title: 'Compte lié', to: 'Compte'},
+//   {title: 'Gérer les événements', to: 'Gérance'},
+//   {title: 'Réglages', to: 'Reglages'},
+// ];
 
 const Menu = [
   {name: 'Évaluez nous', to: null},
@@ -20,12 +46,14 @@ const Menu = [
 const Reglages = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const [appName, setAppName] = useState('');
-  const [appVersion, setAppVersion] = useState('');
+  useEffect(() => {
+    if (user.value === false) {
+      StackActions.replace('Inscription');
+    }
+  });
 
-  const navigation = useNavigation();
-
-  const user = useSelector(selectUser);
+  const [appName, setAppName] = React.useState('');
+  const [appVersion, setAppVersion] = React.useState('');
 
   useEffect(() => {
     setAppVersion(VersionInfo.appVersion);
@@ -34,11 +62,146 @@ const Reglages = () => {
     });
   });
 
+  const navigation = useNavigation();
+
+  const user = useSelector(selectUser);
+
+  const List = () => (
+    <View style={{marginVertical: 15, marginHorizontal: 15}}>
+      {Menu.map((item, index) => (
+        <View key={index} style={{paddingVertical: 5}}>
+          <RNBounceable
+            style={{
+              // borderBottomColor: 'black',
+              // borderBottomWidth: 0.5,
+              // borderTopColor: 'black',
+              // borderTopWidth: 0.5,
+              paddingVertical: 15,
+              paddingHorizontal: 15,
+              justifyContent: 'center',
+              alignItems: 'flex-start',
+              borderRadius: 3,
+            }}
+            onPress={() => navigation.navigate(item?.to)}>
+            <Text
+              style={{
+                color: isDarkMode
+                  ? theme.colors.antiFlashWhite
+                  : theme.colors.black,
+                fontFamily: 'Nunito-SemiBold',
+                fontSize: theme.sizes.h6,
+              }}>
+              {item.title}
+            </Text>
+            {/* <Icon name={'caret-forward-outline'} color={'black'} size={18} /> */}
+          </RNBounceable>
+        </View>
+      ))}
+    </View>
+  );
+
+  const AccountStatus = () => (
+    <View
+      style={{
+        marginVertical: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <View style={{marginVertical: 15}}>
+        <Text
+          style={{
+            color: isDarkMode ? theme.colors.antiFlashWhite : theme.colors.dark,
+            fontFamily: 'Nunito-SemiBold',
+            fontSize: theme.sizes.h5,
+          }}>
+          Compte navigateur
+        </Text>
+      </View>
+      <View>
+        <RNBounceable
+          style={{
+            backgroundColor: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.dark,
+            borderRadius: 5,
+            paddingVertical: 10,
+            paddingHorizontal: 30,
+          }}>
+          <Text
+            style={{
+              color: isDarkMode ? theme.colors.dark : theme.colors.white,
+              fontFamily: 'Nunito-SemiBold',
+              fontSize: theme.sizes.h6,
+            }}>
+            Gérance
+          </Text>
+        </RNBounceable>
+      </View>
+    </View>
+  );
+
+  const ProfileButton = () => (
+    <RNBounceable
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginHorizontal: 20,
+        marginTop: 30,
+      }}
+      onPress={() => navigation.navigate('Profile')}>
+      <RNBounceable>
+        <Image
+          source={user?.image}
+          style={{width: 55, height: 55, borderRadius: 50}}
+        />
+      </RNBounceable>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          width: width - 100,
+        }}>
+        <View style={{marginLeft: 10}}>
+          <Text
+            style={{
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.dark,
+              fontFamily: 'Nunito-Bold',
+              fontSize: theme.sizes.h5,
+            }}>
+            {user?.nom} {user?.prenom}
+          </Text>
+          <Text
+            style={{
+              color: '#BCBEC0',
+              fontFamily: 'Nunito-Bold',
+              fontSize: theme.sizes.h8,
+              marginTop: 5,
+            }}>
+            Voir le profil
+          </Text>
+        </View>
+        <View>
+          <Entypo
+            name={'chevron-small-right'}
+            size={22}
+            color={
+              isDarkMode ? theme.colors.antiFlashWhite : theme.colors.black
+            }
+          />
+        </View>
+      </View>
+    </RNBounceable>
+  );
+
   const Account = () => (
     <View style={{marginVertical: 15, marginHorizontal: 10}}>
       <Text
         style={{
-          fontFamily: 'Nunito-Light',
+          fontFamily: 'Nunito-Bold',
           color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
           marginBottom: 15,
           fontSize: theme.sizes.h7,
@@ -56,7 +219,8 @@ const Reglages = () => {
             alignItems: 'flex-start',
             borderRadius: 3,
           }}
-          onPress={() => navigation.navigate('NotificationSettings')}>
+          // onPress={() => navigation.navigate('NotificationSettings')}
+        >
           <Text
             style={{
               color: isDarkMode
@@ -73,13 +237,13 @@ const Reglages = () => {
   );
 
   const About = () => (
-    <View style={{marginVertical: 15, marginHorizontal: 10}}>
+    <View style={{marginVertical: 15, marginHorizontal: 10, marginTop: 30}}>
       <Text
         style={{
           fontFamily: 'Nunito-Light',
           color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
           marginBottom: 15,
-          fontSize: theme.sizes.h5,
+          fontSize: theme.sizes.h7,
           marginHorizontal: 15,
         }}>
         À propos de
@@ -113,7 +277,7 @@ const Reglages = () => {
   );
 
   const Profile = () => (
-    <View style={{marginVertical: 15, marginHorizontal: 10}}>
+    <View style={{marginVertical: 5, marginHorizontal: 10, marginTop: 30}}>
       <Text
         style={{
           fontFamily: 'Nunito-Light',
@@ -124,35 +288,23 @@ const Reglages = () => {
         }}>
         Compte
       </Text>
-      <View>
-        <RNBounceable
+      <View style={{marginVertical: 5, marginHorizontal: 15}}>
+        <Text
           style={{
-            paddingVertical: 15,
-            paddingHorizontal: 15,
-
-            justifyContent: 'center',
-            alignItems: 'flex-start',
-            borderRadius: 3,
-          }}
-          // onPress={() => navigation.navigate('Push')}
-        >
-          <Text
-            style={{
-              color: isDarkMode
-                ? theme.colors.antiFlashWhite
-                : theme.colors.black,
-              fontFamily: 'Nunito-SemiBold',
-              fontSize: theme.sizes.h6,
-            }}>
-            {user?.email}
-          </Text>
-        </RNBounceable>
+            color: isDarkMode
+              ? theme.colors.antiFlashWhite
+              : theme.colors.black,
+            fontFamily: 'Nunito-SemiBold',
+            fontSize: theme.sizes.h6,
+          }}>
+          {user?.email}
+        </Text>
       </View>
     </View>
   );
 
   const Version = () => (
-    <View style={{marginVertical: 15, marginHorizontal: 10}}>
+    <View style={{marginVertical: 15, marginHorizontal: 10, marginBottom: 100}}>
       <Text
         style={{
           fontFamily: 'Nunito-Light',
@@ -188,19 +340,53 @@ const Reglages = () => {
 
   return (
     <View
-      style={{
-        flex: 1,
-        backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7',
-      }}>
-      <Header value={'Reglages'} />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Account />
-        <About />
+      style={[
+        styles.screen,
+        {backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7'},
+      ]}>
+      <Header value={'Réglages'} />
+      <ScrollView>
+        <AccountStatus />
+        <ProfileButton />
         <Profile />
+
+        <About />
         <Version />
       </ScrollView>
+
+      <View
+        style={{
+          backgroundColor: isDarkMode ? theme.colors.white : theme.colors.white,
+          height: 60,
+          width,
+
+          marginTop: 5,
+          position: 'absolute',
+          bottom: 0,
+          justifyContent: 'center',
+          alignItems: 'flex-start',
+        }}>
+        <RNBounceable style={{marginHorizontal: 15}}>
+          <Text
+            style={{
+              color: 'red',
+              fontFamily: 'Nunito-Bold',
+              fontSize: theme.sizes.h6,
+            }}>
+            Se déconnecter?
+          </Text>
+        </RNBounceable>
+      </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: '#F6F6F7',
+
+    flex: 1,
+  },
+});
 
 export default Reglages;

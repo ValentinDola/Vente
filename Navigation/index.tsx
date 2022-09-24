@@ -31,6 +31,8 @@ import Edit from '../Screens/Profile_/Edit';
 import EditNomEtPrenom from '../Screens/Profile_/EditNomEtPrenom';
 import EditMotDePasse from '../Screens/Profile_/EditMotDePasse';
 import NotificationSettings from '../Screens/Profile_/NotificationSettings';
+import Explorer from '../Screens/Explorer';
+import Profile from '../Screens/Profile';
 
 const Stack = createNativeStackNavigator();
 
@@ -67,7 +69,8 @@ const App = () => {
             <Stack.Screen name={'Integration'} component={Integration} />
           )}
 
-          <Stack.Screen name={'Maison'} component={Maison} />
+          <Stack.Screen name={'Explorer'} component={Explorer} />
+          <Stack.Screen name={'Profile'} component={Profile} />
           <Stack.Screen name={'Detail'} component={Detail} />
           <Stack.Screen name={'Recherche'} component={Recherche} />
           <Stack.Screen name={'Menu'} component={Menu} />
