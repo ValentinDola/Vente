@@ -366,7 +366,9 @@ const Reglages = () => {
           justifyContent: 'center',
           alignItems: 'flex-start',
         }}>
-        <RNBounceable style={{marginHorizontal: 15}}>
+        <RNBounceable
+          style={{marginHorizontal: 15}}
+          onPress={() => navigation.navigate('Identification')}>
           <Text
             style={{
               color: 'red',

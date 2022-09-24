@@ -34,7 +34,7 @@ const Overview = ({route}: any) => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const [modal, setModal] = useState(false);
-  const [saving, setSaving]: any = useState(false);
+  const [confirmationModal, setConfirmationModal]: any = useState(false);
 
   const event = useSelector(selectEvent);
   const user = useSelector(selectCordonnee);
@@ -96,11 +96,12 @@ const Overview = ({route}: any) => {
       // Cameraroll saves images
       const image = CameraRoll.save(uri, 'photo');
       if (await image) {
-        setSaving(true);
-        navigation.navigate('Explorer');
+        setConfirmationModal(true);
+        setTimeout(() => {
+          navigation.navigate('Explorer');
+        }, 3000);
       }
     } catch (error) {
-      setSaving(false);
       console.warn(error);
     }
   };
@@ -539,15 +540,55 @@ const Overview = ({route}: any) => {
     );
   };
 
+  const ConfirmationModal = () => {
+    return (
+      <Modal
+        animated
+        animationType="fade"
+        visible={confirmationModal}
+        transparent
+        onRequestClose={() => setConfirmationModal(false)}>
+        <View
+          style={{
+            backgroundColor: 'rgba(0,0,0,0.2)',
+            flex: 1,
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              backgroundColor: theme.colors.dark,
+              width: width - 20,
+              height: 50,
+              borderRadius: 3,
+              marginTop: 15,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                color: theme.colors.white,
+                fontFamily: 'Nunito-SemiBold',
+                fontSize: theme.sizes.h7,
+              }}>
+              Votre billet a été téléchargé sous forme d'image.
+            </Text>
+          </View>
+        </View>
+      </Modal>
+    );
+  };
+
   return (
     <View
       style={{
         flex: 1,
         backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7',
       }}>
-      <Header value={'Order Overview'} />
+      <Header value={'Aperçu de la commande'} />
       <Card />
       <TModal />
+      <ConfirmationModal />
     </View>
   );
 };

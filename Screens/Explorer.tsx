@@ -342,7 +342,7 @@ const Explorer: React.FC = () => {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
-          width: 100,
+          width: 150,
           marginTop: 20,
         }}>
         <RNBounceable
@@ -360,6 +360,28 @@ const Explorer: React.FC = () => {
           onPress={() => navigation.navigate('Recherche')}>
           <Icon
             name="search-outline"
+            size={22}
+            color={
+              isDarkMode ? theme.colors.antiFlashWhite : theme.colors.black
+            }
+          />
+        </RNBounceable>
+
+        <RNBounceable
+          style={{
+            backgroundColor: isDarkMode
+              ? '#2F3538'
+              : theme.colors.antiFlashWhite,
+            height: 40,
+            width: 40,
+
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 50,
+          }}
+          onPress={() => navigation.navigate('Portefeuille')}>
+          <Icon
+            name="wallet-outline"
             size={22}
             color={
               isDarkMode ? theme.colors.antiFlashWhite : theme.colors.black
