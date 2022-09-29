@@ -21,6 +21,8 @@ import {theme} from '../Constants';
 import * as PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/Ionicons';
 import RNBounceable from '@freakycoder/react-native-bounceable';
+import {useSelector} from 'react-redux';
+import {selectUser} from '../Slices/user';
 
 const {width, height} = Dimensions.get('window');
 
@@ -48,6 +50,7 @@ const Integration = (props: {
 }) => {
   const [currentIndicatorIndex, setCurrentIndicatorIndex] = React.useState(0);
   const ref = useRef(null);
+  // const user = useSelector(selectUser);
 
   const Slide = (props: {
     item: {

@@ -22,6 +22,8 @@ import Header from '../Components/Header';
 import Checkbox from '../Components/Checkbox';
 import {useNavigation} from '@react-navigation/native';
 import {selectEvent, setCordonnee} from '../Slices/event';
+import {useAuth} from '../Components/authProvider';
+import GetAppName from 'react-native-get-app-name';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -30,13 +32,15 @@ interface CommandeProps {
 }
 
 const Commande = (props: CommandeProps) => {
+  const [appName, setAppName] = React.useState('');
   const isDarkMode = useColorScheme() === 'dark';
 
   const navigation = useNavigation();
 
-  const user = useSelector(selectUser);
-  const event = useSelector(selectEvent);
+  // const user = useSelector(selectUser);
+  // const event = useSelector(selectEvent);
   const [loading, setLoading] = useState(false);
+  const {currentUser} = useAuth();
 
   const {
     control,
@@ -44,9 +48,9 @@ const Commande = (props: CommandeProps) => {
     formState: {errors},
   } = useForm({
     defaultValues: {
-      nom: user?.nom,
-      prenom: user?.prenom,
-      email: user?.email,
+      nom: '',
+      prenom: '',
+      email: currentUser?.email,
     },
   });
 
@@ -54,6 +58,12 @@ const Commande = (props: CommandeProps) => {
 
   const [conditions, setConditions] = useState(false);
   const [numTicket, setNumTickets] = useState('1');
+
+  useEffect(() => {
+    GetAppName.getAppName((appName: React.SetStateAction<string>) => {
+      setAppName(appName);
+    });
+  });
 
   const onSubmit = (data: any) => {
     const newData = {data, conditions, numTicket};
@@ -80,7 +90,7 @@ const Commande = (props: CommandeProps) => {
                 ? theme.colors.antiFlashWhite
                 : theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
-              fontSize: 30,
+              fontSize: 20,
             }}>
             Coordonnees
           </Text>
@@ -122,7 +132,6 @@ const Commande = (props: CommandeProps) => {
                           styles.container,
 
                           {
-                            borderColor: theme.colors.blue,
                             width: 160,
                             backgroundColor: isDarkMode
                               ? theme.colors.dark
@@ -131,7 +140,7 @@ const Commande = (props: CommandeProps) => {
                         ]}>
                         <TextInput
                           style={{
-                            fontSize: 17,
+                            fontSize: 15,
                             color: isDarkMode
                               ? theme.colors.antiFlashWhite
                               : theme.colors.black,
@@ -165,12 +174,16 @@ const Commande = (props: CommandeProps) => {
                       <View
                         style={[
                           styles.container,
-                          {width: 160},
-                          {borderColor: theme.colors.blue},
+                          {
+                            width: 160,
+                            backgroundColor: isDarkMode
+                              ? theme.colors.dark
+                              : 'white',
+                          },
                         ]}>
                         <TextInput
                           style={{
-                            fontSize: 17,
+                            fontSize: 15,
                             color: isDarkMode
                               ? theme.colors.antiFlashWhite
                               : theme.colors.black,
@@ -205,7 +218,6 @@ const Commande = (props: CommandeProps) => {
                     style={[
                       styles.container,
                       {
-                        borderColor: theme.colors.blue,
                         backgroundColor: isDarkMode
                           ? theme.colors.dark
                           : 'white',
@@ -213,7 +225,7 @@ const Commande = (props: CommandeProps) => {
                     ]}>
                     <TextInput
                       style={{
-                        fontSize: 17,
+                        fontSize: 15,
                         paddingRight: 40,
                         color: isDarkMode
                           ? theme.colors.antiFlashWhite
@@ -330,7 +342,7 @@ const Commande = (props: CommandeProps) => {
                     confidentialite
                   </Text>
                 }{' '}
-                de Fast.
+                de {appName}.
               </Text>
             </Pressable>
           </View>
@@ -532,8 +544,8 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: 50,
-    borderColor: '#e8e8e8',
-    borderWidth: 2,
+    // borderColor: '#e8e8e8',
+    // borderWidth: 2,
     borderRadius: 5,
     paddingHorizontal: 10,
     marginVertical: 10,

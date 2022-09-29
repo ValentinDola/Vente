@@ -18,6 +18,12 @@ target 'Vente' do
 
   pod 'react-native-add-calendar-event', :path => '../node_modules/react-native-add-calendar-event'
 
+  pod 'RNFBApp', :path => '../node_modules/@react-native-firebase/app'
+
+  pod 'RNFBAuth', :path => '../node_modules/@react-native-firebase/auth'
+
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
   target 'VenteTests' do
     inherit! :search_paths
     # Pods for testing

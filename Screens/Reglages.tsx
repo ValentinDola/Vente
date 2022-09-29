@@ -25,6 +25,7 @@ import Header from '../Components/Header';
 import Entypo from 'react-native-vector-icons/Entypo';
 import VersionInfo from 'react-native-version-info';
 import GetAppName from 'react-native-get-app-name';
+import {useAuth} from '../Components/authProvider';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -65,6 +66,16 @@ const Reglages = () => {
   const navigation = useNavigation();
 
   const user = useSelector(selectUser);
+  const {currentUser, logout} = useAuth();
+
+  const Deconnexion = () => {
+    try {
+      logout();
+      navigation.dispatch(StackActions.replace('Identification'));
+    } catch {
+      console.log('Logout error');
+    }
+  };
 
   const List = () => (
     <View style={{marginVertical: 15, marginHorizontal: 15}}>
@@ -101,43 +112,67 @@ const Reglages = () => {
   );
 
   const AccountStatus = () => (
-    <View
-      style={{
-        marginVertical: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <View style={{marginVertical: 15}}>
+    <View style={{marginVertical: 5, marginHorizontal: 10, marginTop: 30}}>
+      <Text
+        style={{
+          fontFamily: 'Nunito-Light',
+          color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
+          marginBottom: 15,
+          fontSize: theme.sizes.h7,
+          marginHorizontal: 15,
+        }}>
+        Compte Navigateur
+      </Text>
+      <RNBounceable style={{marginVertical: 5, marginHorizontal: 15}}>
         <Text
           style={{
-            color: isDarkMode ? theme.colors.antiFlashWhite : theme.colors.dark,
-            fontFamily: 'Nunito-SemiBold',
-            fontSize: theme.sizes.h5,
-          }}>
-          Compte navigateur
-        </Text>
-      </View>
-      <View>
-        <RNBounceable
-          style={{
-            backgroundColor: isDarkMode
+            color: isDarkMode
               ? theme.colors.antiFlashWhite
-              : theme.colors.dark,
-            borderRadius: 5,
-            paddingVertical: 10,
-            paddingHorizontal: 30,
+              : theme.colors.black,
+            fontFamily: 'Nunito-SemiBold',
+            fontSize: theme.sizes.h6,
           }}>
-          <Text
-            style={{
-              color: isDarkMode ? theme.colors.dark : theme.colors.white,
-              fontFamily: 'Nunito-SemiBold',
-              fontSize: theme.sizes.h6,
-            }}>
-            Gérance
-          </Text>
-        </RNBounceable>
-      </View>
+          Accéder à l'application de l'organisateur
+        </Text>
+      </RNBounceable>
     </View>
+    // <View
+    //   style={{
+    //     marginVertical: 10,
+    //     justifyContent: 'center',
+    //     alignItems: 'center',
+    //   }}>
+    //   <View style={{marginVertical: 15}}>
+    //     <Text
+    //       style={{
+    //         color: isDarkMode ? theme.colors.antiFlashWhite : theme.colors.dark,
+    //         fontFamily: 'Nunito-SemiBold',
+    //         fontSize: theme.sizes.h5,
+    //       }}>
+    //       Compte navigateur
+    //     </Text>
+    //   </View>
+    //   <View>
+    //     <RNBounceable
+    //       style={{
+    //         backgroundColor: isDarkMode
+    //           ? theme.colors.antiFlashWhite
+    //           : theme.colors.dark,
+    //         borderRadius: 5,
+    //         paddingVertical: 10,
+    //         paddingHorizontal: 30,
+    //       }}>
+    //       <Text
+    //         style={{
+    //           color: isDarkMode ? theme.colors.dark : theme.colors.white,
+    //           fontFamily: 'Nunito-SemiBold',
+    //           fontSize: theme.sizes.h6,
+    //         }}>
+    //         Gérance
+    //       </Text>
+    //     </RNBounceable>
+    //   </View>
+    // </View>
   );
 
   const ProfileButton = () => (
@@ -150,12 +185,36 @@ const Reglages = () => {
         marginTop: 30,
       }}
       onPress={() => navigation.navigate('Profile')}>
-      <RNBounceable>
+      {currentUser?.photoURL === null ? (
+        <RNBounceable
+          style={{
+            backgroundColor: theme.colors.dark,
+            width: 55,
+            height: 55,
+            borderRadius: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{
+              color: theme.colors.white,
+              fontFamily: 'Nunito-SemiBold',
+              fontSize: 25,
+            }}>
+            {currentUser?.email.slice(0, 1).toUpperCase()}
+          </Text>
+          {/* <Image
+          source={user?.data?.image}
+          style={{width: 55, height: 55, borderRadius: 50}}
+        /> */}
+        </RNBounceable>
+      ) : (
         <Image
-          source={user?.image}
+          source={{uri: currentUser?.photoURL}}
           style={{width: 55, height: 55, borderRadius: 50}}
         />
-      </RNBounceable>
+      )}
+
       <View
         style={{
           flexDirection: 'row',
@@ -170,15 +229,17 @@ const Reglages = () => {
                 ? theme.colors.antiFlashWhite
                 : theme.colors.dark,
               fontFamily: 'Nunito-Bold',
-              fontSize: theme.sizes.h5,
+              fontSize: theme.sizes.h7,
             }}>
-            {user?.nom} {user?.prenom}
+            {currentUser?.displayName === null
+              ? currentUser.email
+              : currentUser?.displayName}
           </Text>
           <Text
             style={{
               color: '#BCBEC0',
               fontFamily: 'Nunito-Bold',
-              fontSize: theme.sizes.h8,
+              fontSize: theme.sizes.h9,
               marginTop: 5,
             }}>
             Voir le profil
@@ -297,7 +358,7 @@ const Reglages = () => {
             fontFamily: 'Nunito-SemiBold',
             fontSize: theme.sizes.h6,
           }}>
-          {user?.email}
+          {currentUser?.email}
         </Text>
       </View>
     </View>
@@ -368,7 +429,7 @@ const Reglages = () => {
         }}>
         <RNBounceable
           style={{marginHorizontal: 15}}
-          onPress={() => navigation.navigate('Identification')}>
+          onPress={() => Deconnexion()}>
           <Text
             style={{
               color: 'red',

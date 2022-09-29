@@ -1,21 +1,19 @@
-import * as React from "react"
-import Svg, { RadialGradient, Stop, Path, Circle } from "react-native-svg"
+import * as React from 'react';
+import Svg, {RadialGradient, Stop, Path, Circle} from 'react-native-svg';
 
-const Instagram = (props) => (
+const Instagram = props => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 48 48"
-    width={30}
-    height={30}
-    {...props}
-  >
+    width={25}
+    height={25}
+    {...props}>
     <RadialGradient
       id="a"
       cx={19.38}
       cy={42.035}
       r={44.899}
-      gradientUnits="userSpaceOnUse"
-    >
+      gradientUnits="userSpaceOnUse">
       <Stop offset={0} stopColor="#fd5" />
       <Stop offset={0.328} stopColor="#ff543f" />
       <Stop offset={0.348} stopColor="#fc5245" />
@@ -34,8 +32,7 @@ const Instagram = (props) => (
       cy={5.54}
       r={29.813}
       gradientTransform="matrix(1 0 0 .6663 0 1.849)"
-      gradientUnits="userSpaceOnUse"
-    >
+      gradientUnits="userSpaceOnUse">
       <Stop offset={0} stopColor="#4168c9" />
       <Stop offset={0.999} stopColor="#4168c9" stopOpacity={0} />
     </RadialGradient>
@@ -53,6 +50,6 @@ const Instagram = (props) => (
       d="M30 37H18c-3.859 0-7-3.14-7-7V18c0-3.86 3.141-7 7-7h12c3.859 0 7 3.14 7 7v12c0 3.86-3.141 7-7 7zM18 13c-2.757 0-5 2.243-5 5v12c0 2.757 2.243 5 5 5h12c2.757 0 5-2.243 5-5V18c0-2.757-2.243-5-5-5H18z"
     />
   </Svg>
-)
+);
 
 export default Instagram;

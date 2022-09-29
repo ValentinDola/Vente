@@ -22,6 +22,7 @@ import {theme} from './Constants';
 
 import {LocaleConfig} from 'react-native-calendars';
 import {client} from './Components/Apollo';
+import {AuthProvider} from './Components/authProvider';
 
 LocaleConfig.locales['fr'] = {
   monthNames: [
@@ -144,7 +145,7 @@ const App = () => {
     // let watchID: number;
 
     RNBootSplash.hide({fade: true})
-      .then(r => console.log(r, 'Bootsplash has been hidden successfully'))
+      .then(r => console.log('Bootsplash has been hidden successfully'))
       .catch(err => console.error(err));
 
     // Geolocation.getCurrentPosition(info => console.log(info));
@@ -284,7 +285,10 @@ const App = () => {
           onChange={(connectionState) => {
             console.log("Connection State: ", connectionState);
           }} title={'Connection'} > */}
-          <Navigation />
+          <AuthProvider>
+            <Navigation />
+          </AuthProvider>
+
           {/* </InternetConnectionAlert> */}
         </SafeAreaView>
       </ApolloProvider>

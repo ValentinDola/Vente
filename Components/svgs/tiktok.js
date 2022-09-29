@@ -1,16 +1,15 @@
-import * as React from "react"
-import Svg, { Path } from "react-native-svg"
+import * as React from 'react';
+import Svg, {Path} from 'react-native-svg';
 
-const Tiktok = (props) => (
+const Tiktok = props => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 48 48"
-    width={30}
-    height={30}
+    width={25}
+    height={25}
     fillRule="evenodd"
     clipRule="evenodd"
-    {...props}
-  >
+    {...props}>
     <Path
       fill="#212121"
       d="M10.904 6h26.191A4.905 4.905 0 0 1 42 10.904v26.191A4.905 4.905 0 0 1 37.096 42H10.904A4.905 4.905 0 0 1 6 37.096V10.904A4.905 4.905 0 0 1 10.904 6z"
@@ -28,6 +27,6 @@ const Tiktok = (props) => (
       d="M33.626 18.262v-.854a5.586 5.586 0 0 1-2.969-.848 5.605 5.605 0 0 0 2.969 1.702zm-5.531-5.49a5.484 5.484 0 0 1-.061-.461v-.516h-4.036v16.019a3.392 3.392 0 0 1-4.919 3.017 3.392 3.392 0 0 0 6.094-2.041V12.772h2.922zm-6.46 8.608v-.909a7.415 7.415 0 0 0-5.147 13.503 7.384 7.384 0 0 1-2.114-5.183 7.415 7.415 0 0 1 7.261-7.411z"
     />
   </Svg>
-)
+);
 
 export default Tiktok;

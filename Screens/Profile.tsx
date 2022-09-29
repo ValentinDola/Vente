@@ -23,17 +23,14 @@ import {useNavigation, StackActions} from '@react-navigation/native';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import Header from '../Components/Header';
 import Entypo from 'react-native-vector-icons/Entypo';
+import {useAuth} from '../Components/authProvider';
 
 const {width, height} = Dimensions.get('screen');
 
 const Profile = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
-  useEffect(() => {
-    if (user.value === false) {
-      StackActions.replace('Inscription');
-    }
-  });
+  const {currentUser} = useAuth();
 
   const navigation = useNavigation();
 
@@ -45,7 +42,13 @@ const Profile = () => {
         styles.screen,
         {backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7'},
       ]}>
-      <Header />
+      <Header
+        value={
+          currentUser?.displayName === null
+            ? currentUser.email
+            : currentUser?.displayName
+        }
+      />
 
       {/* User detail */}
       <View
@@ -55,10 +58,32 @@ const Profile = () => {
           alignItems: 'center',
         }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Image
-            source={user?.image}
-            style={{width: 100, height: 100, borderRadius: 50}}
-          />
+          {currentUser?.photoURL === null ? (
+            <RNBounceable
+              style={{
+                backgroundColor: theme.colors.dark,
+                width: 100,
+                height: 100,
+                borderRadius: 50,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  color: theme.colors.white,
+                  fontFamily: 'Nunito-SemiBold',
+                  fontSize: 55,
+                }}>
+                {currentUser?.email.slice(0, 1).toUpperCase()}
+              </Text>
+            </RNBounceable>
+          ) : (
+            <Image
+              source={{uri: currentUser?.photoURL}}
+              style={{width: 100, height: 100, borderRadius: 50}}
+            />
+          )}
+
           <View style={{width: 20}} />
           <RNBounceable
             style={{
@@ -85,7 +110,6 @@ const Profile = () => {
             style={{
               justifyContent: 'center',
               alignItems: 'center',
-              marginRight: 30,
             }}>
             <Text
               style={{
@@ -93,22 +117,25 @@ const Profile = () => {
                   ? theme.colors.antiFlashWhite
                   : theme.colors.black,
                 fontFamily: 'Nunito-Black',
-                fontSize: 30,
+                fontSize: 20,
               }}>
-              {user?.nom} {user?.prenom}
+              {currentUser?.displayName === null
+                ? currentUser.email
+                : currentUser?.displayName}
             </Text>
             <Text
               style={{
                 color: '#D1D3D4',
                 fontFamily: 'Nunito-Bold',
                 fontSize: 18,
+                marginTop: 20,
               }}>
-              {user?.email}
+              {currentUser?.email}
             </Text>
           </View>
         </View>
       </View>
-      <View
+      {/* <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-evenly',
@@ -116,13 +143,13 @@ const Profile = () => {
         }}>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <Text style={{color: theme.colors.blue, fontFamily: 'Nunito-Bold'}}>
-            {user?.billets}
+            {user?.data?.billets}
           </Text>
           <Text style={{color: theme.colors.blue, fontFamily: 'Nunito-Bold'}}>
             Billets
           </Text>
         </View>
-      </View>
+      </View> */}
     </View>
   );
 };

@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   TextInput,
   useColorScheme,
+  DevSettings,
 } from 'react-native';
 import React, {useState} from 'react';
 import Header from '../../Components/Header';
@@ -14,7 +15,8 @@ import {Controller, useForm} from 'react-hook-form';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectUser, setNom, setPrenom} from '../../Slices/user';
-import {useNavigation} from '@react-navigation/native';
+import {StackActions, useNavigation} from '@react-navigation/native';
+import {useAuth} from '../../Components/authProvider';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -28,6 +30,7 @@ const EditNomEtPrenom = () => {
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
+  const {updateProfile} = useAuth();
 
   const {
     control,
@@ -40,17 +43,31 @@ const EditNomEtPrenom = () => {
     },
   });
 
-  const Sauvegarde = (data: any) => {
-    const {nom, prenom} = data;
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      if (data) {
-        dispatch(setNom(nom));
-        dispatch(setPrenom(prenom));
-        navigation.goBack();
-      }
-    }, 2000);
+  const Sauvegarde = async (data: any) => {
+    const {nom} = data;
+    try {
+      setLoading(true);
+      // console.log(nom);
+      const update = {
+        displayName: nom,
+      };
+      await updateProfile(update);
+      DevSettings.reload();
+    } catch {
+      console.log('("Failed to create an account"');
+    }
+
+    setLoading(false);
+
+    // setLoading(true);
+    // setTimeout(() => {
+    //   setLoading(false);
+    //   if (data) {
+    //     dispatch(setNom(nom));
+    //     dispatch(setPrenom(prenom));
+    //     navigation.goBack();
+    //   }
+    // }, 2000);
   };
 
   const Introduction = () => (
@@ -141,25 +158,20 @@ const EditNomEtPrenom = () => {
               fieldState: {error},
             }) => (
               <View>
-                <Text
-                  style={{
-                    fontFamily: 'Nunito-SemiBold',
-                    color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
-                    marginHorizontal: 25,
-                  }}>
-                  Nom
-                </Text>
                 <View style={{justifyContent: 'center', alignItems: 'center'}}>
                   <View style={[styles.container]}>
                     <TextInput
                       style={{
-                        fontSize: 17,
+                        fontSize: 15,
                         color: isDarkMode
                           ? theme.colors.antiFlashWhite
                           : 'black',
                         fontFamily: 'Nunito-SemiBold',
+                        paddingHorizontal: 10,
                       }}
                       onBlur={onBlur}
+                      placeholder={"Nom d'utilisateur"}
+                      placeholderTextColor={theme.colors.dark}
                       onChangeText={onChange}
                       value={value}
                     />
@@ -171,46 +183,6 @@ const EditNomEtPrenom = () => {
           />
         </View>
         {/* prenom */}
-        <View style={{marginVertical: 20}}>
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({
-              field: {onChange, onBlur, value},
-              fieldState: {error},
-            }) => (
-              <View>
-                <Text
-                  style={{
-                    fontFamily: 'Nunito-SemiBold',
-                    color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
-                    marginHorizontal: 25,
-                  }}>
-                  Prenom
-                </Text>
-                <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                  <View style={[styles.container]}>
-                    <TextInput
-                      style={{
-                        fontSize: 17,
-                        color: isDarkMode
-                          ? theme.colors.antiFlashWhite
-                          : 'black',
-                        fontFamily: 'Nunito-SemiBold',
-                      }}
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      value={value}
-                    />
-                  </View>
-                </View>
-              </View>
-            )}
-            name="prenom"
-          />
-        </View>
       </View>
     );
   };
@@ -224,7 +196,44 @@ const EditNomEtPrenom = () => {
       <Header value={'Nom et Prenom'} />
       <Introduction />
       <Form />
-      <ButtomBarSection />
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginVertical: 10,
+        }}>
+        <RNBounceable
+          style={{
+            backgroundColor: isDirty
+              ? theme.colors.blue
+              : theme.colors.antiFlashWhite,
+            height: 40,
+            width: width / 1.2,
+            borderRadius: 3,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          onPress={handleSubmit(Sauvegarde)}>
+          {loading === true ? (
+            <ActivityIndicator
+              size="small"
+              color={isDarkMode ? theme.colors.dark : '#FFFFFF'}
+              animating={loading}
+              hidesWhenStopped={loading}
+            />
+          ) : (
+            <Text
+              style={{
+                fontFamily: 'Nunito-SemiBold',
+                color: isDirty ? theme.colors.white : theme.colors.black,
+                fontSize: theme.sizes.h6,
+              }}>
+              Sauvegarder les modifications
+            </Text>
+          )}
+        </RNBounceable>
+      </View>
+      {/* <ButtomBarSection /> */}
     </View>
   );
 };
@@ -237,12 +246,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6F6F7',
   },
   container: {
-    backgroundColor: 'transparent',
+    backgroundColor: 'white',
     width: '90%',
-    height: 50,
-    borderBottomColor: '#e8e8e8',
-    borderBottomWidth: 2,
-    paddingHorizontal: 10,
+    height: 45,
     marginVertical: 10,
+    borderRadius: 3,
   },
 });

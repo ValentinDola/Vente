@@ -16,6 +16,7 @@ import {
   Pressable,
   Modal,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import ContentLoader, {Rect, Circle, Path} from 'react-content-loader/native';
@@ -37,6 +38,7 @@ import {
   State,
 } from 'react-native-gesture-handler';
 import _ from 'lodash';
+import {useAuth} from '../Components/authProvider';
 
 const MY_DATA = gql`
   query Event {
@@ -142,6 +144,7 @@ const Explorer: React.FC = () => {
   const scrollXAnimated = React.useRef(new Animated.Value(0)).current;
   const [index_, setIndex] = React.useState(0);
   const [modal, setModal] = React.useState(false);
+  // const [currentUser, setCurrentUser] = useState(null);
 
   const setActiveIndex = React.useCallback(activeIndex => {
     setIndex(activeIndex);
@@ -170,6 +173,8 @@ const Explorer: React.FC = () => {
   const categories = useSelector(selectCategories);
   const news = useSelector(selectNews);
   const dispatch = useDispatch();
+
+  const {currentUser} = useAuth();
 
   const renderCategories = ({item}: any) => (
     <View
@@ -378,23 +383,79 @@ const Explorer: React.FC = () => {
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: 50,
+            marginHorizontal: 10,
           }}
+          disabled={currentUser === null}
           onPress={() => navigation.navigate('Portefeuille')}>
           <Icon
             name="wallet-outline"
             size={22}
             color={
-              isDarkMode ? theme.colors.antiFlashWhite : theme.colors.black
+              isDarkMode
+                ? currentUser === null
+                  ? theme.colors.black
+                  : theme.colors.white
+                : currentUser === null
+                ? theme.colors.white
+                : theme.colors.black
             }
           />
         </RNBounceable>
+        {currentUser === null ? (
+          <RNBounceable
+            style={{
+              backgroundColor: isDarkMode
+                ? '#2F3538'
+                : theme.colors.antiFlashWhite,
+              height: 40,
+              width: 40,
 
-        <RNBounceable onPress={() => navigation.navigate('Reglages')}>
-          <Image
-            source={user?.image}
-            style={{width: 50, height: 50, borderRadius: 50}}
-          />
-        </RNBounceable>
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 50,
+              marginHorizontal: 10,
+            }}
+            onPress={() => navigation.navigate('Identification')}>
+            <Icon
+              name="log-in-outline"
+              size={22}
+              color={
+                isDarkMode ? theme.colors.antiFlashWhite : theme.colors.black
+              }
+            />
+          </RNBounceable>
+        ) : (
+          <View>
+            {currentUser?.photoURL === null ? (
+              <RNBounceable
+                onPress={() => navigation.navigate('Reglages')}
+                style={{
+                  backgroundColor: theme.colors.dark,
+                  width: 55,
+                  height: 55,
+                  borderRadius: 50,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={{
+                    color: theme.colors.white,
+                    fontFamily: 'Nunito-SemiBold',
+                    fontSize: 25,
+                  }}>
+                  {currentUser?.email.slice(0, 1).toUpperCase()}
+                </Text>
+              </RNBounceable>
+            ) : (
+              <RNBounceable onPress={() => navigation.navigate('Reglages')}>
+                <Image
+                  source={{uri: currentUser?.photoURL}}
+                  style={{width: 50, height: 50, borderRadius: 50}}
+                />
+              </RNBounceable>
+            )}
+          </View>
+        )}
       </View>
     </View>
   );

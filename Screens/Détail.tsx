@@ -39,6 +39,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import {setEvent, selectPrice, setPrice} from '../Slices/event';
 import * as AddCalendarEvent from 'react-native-add-calendar-event';
+import {useAuth} from '../Components/authProvider';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -54,6 +55,7 @@ const Detail = ({navigation, route}: any) => {
   const price = useSelector(selectPrice);
 
   const dispatch = useDispatch();
+  const {currentUser} = useAuth();
 
   const dataTimeOut = () => {
     setTimeout(() => {
@@ -76,12 +78,16 @@ const Detail = ({navigation, route}: any) => {
   };
 
   const billet = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      dispatch(setEvent(selectedEvent));
-      navigation.navigate('Cart');
-    }, 3000);
+    if (currentUser !== null) {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        dispatch(setEvent(selectedEvent));
+        navigation.navigate('Cart');
+      }, 3000);
+    } else {
+      navigation.navigate('Identification');
+    }
   };
 
   const utcDateToString = momentInUTC => {
@@ -106,27 +112,31 @@ const Detail = ({navigation, route}: any) => {
       notes: description,
     };
 
-    AddCalendarEvent.presentEventCreatingDialog(eventConfig)
-      .then(
-        (eventInfo: {
-          action: string;
-          calendarItemIdentifier: string;
-          eventIdentifier: string;
-        }) => {
-          // handle success - receives an object with `calendarItemIdentifier` and `eventIdentifier` keys, both of type string.
-          // These are two different identifiers on iOS.
-          // On Android, where they are both equal and represent the event id, also strings.
-          // when { action: 'CANCELED' } is returned, the dialog was dismissed
+    if (currentUser !== null) {
+      AddCalendarEvent.presentEventCreatingDialog(eventConfig)
+        .then(
+          (eventInfo: {
+            action: string;
+            calendarItemIdentifier: string;
+            eventIdentifier: string;
+          }) => {
+            // handle success - receives an object with `calendarItemIdentifier` and `eventIdentifier` keys, both of type string.
+            // These are two different identifiers on iOS.
+            // On Android, where they are both equal and represent the event id, also strings.
+            // when { action: 'CANCELED' } is returned, the dialog was dismissed
 
-          if (eventInfo.action === 'SAVED') {
-            console.log(JSON.stringify(eventInfo));
-          }
-        },
-      )
-      .catch((error: string) => {
-        // handle error such as when user rejected permissions
-        Alert.prompt(error);
-      });
+            if (eventInfo.action === 'SAVED') {
+              console.log(JSON.stringify(eventInfo));
+            }
+          },
+        )
+        .catch((error: string) => {
+          // handle error such as when user rejected permissions
+          Alert.prompt(error);
+        });
+    } else {
+      navigation.navigate('Identification');
+    }
   };
 
   const showCalendarEventWithId = eventId => {
@@ -571,10 +581,11 @@ const Detail = ({navigation, route}: any) => {
                 <RNBounceable
                   key={index}
                   style={{
-                    backgroundColor: clickedId === index ? 'white' : '#B5FBDD',
-                    height: 30,
-                    width: 95,
-                    justifyContent: 'center',
+                    backgroundColor: clickedId === index ? 'white' : '#AFCFEA',
+                    marginTop: 10,
+                    height: 95,
+                    width: 90,
+                    justifyContent: 'flex-start',
                     alignItems: 'center',
                     marginBottom: 10,
                     borderRadius: 3,
@@ -583,9 +594,13 @@ const Detail = ({navigation, route}: any) => {
                   <Text
                     key={index}
                     style={{
-                      color: theme.colors.black,
+                      color:
+                        clickedId === index
+                          ? theme.colors.black
+                          : theme.colors.white,
                       fontFamily: 'Nunito-SemiBold',
                       fontSize: theme.sizes.h8,
+                      marginTop: 15,
                     }}>
                     {`${item} fcfa`}
                   </Text>

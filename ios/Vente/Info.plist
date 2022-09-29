@@ -87,6 +87,7 @@
 		<string>Zocial.ttf</string>
 	</array>
 	<key>NSPhotoLibraryAddUsageDescription</key>
+	<key>NSCameraUsageDescription</key>
 	<string>This app would like to save images to your devices</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app would like to save images to your devices</string>
