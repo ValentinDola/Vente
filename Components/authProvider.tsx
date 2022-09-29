@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react';
 import auth from '@react-native-firebase/auth';
 import {AuthContextData} from '../Constants/authTypes';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const AuthContext = React.createContext({} as AuthContextData);
 
@@ -17,6 +18,24 @@ export const AuthProvider = ({children}: any) => {
 
   const signin = (email: string, password: string) => {
     return auth().signInWithEmailAndPassword(email, password);
+  };
+
+  const GoogleAuth = async () => {
+    // return await GoogleSignin.signIn()
+    //   .then(r => console.log(r))
+    //   .catch(error => console.log(error));
+
+    // Get the users ID token
+    const {idToken} = await GoogleSignin.signIn();
+
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+    // Sign-in the user with the credential
+    return auth()
+      .signInWithCredential(googleCredential)
+      .then(r => console.log(r))
+      .catch(error => console.log(error));
   };
 
   const logout = () => {
@@ -40,6 +59,10 @@ export const AuthProvider = ({children}: any) => {
   };
 
   useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '306836157446-c7apca39lgknppsiupk4r9aptgcujov5.apps.googleusercontent.com',
+    });
     const unsubscribe = auth().onAuthStateChanged(user => {
       setCurrentUser(user);
       console.log(user);
@@ -59,6 +82,7 @@ export const AuthProvider = ({children}: any) => {
     updateEmail,
     updatePassword,
     updateProfile,
+    GoogleAuth,
   };
 
   return (

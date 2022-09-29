@@ -139,30 +139,6 @@ const Detail = ({navigation, route}: any) => {
     }
   };
 
-  const showCalendarEventWithId = eventId => {
-    if (!eventId) {
-      Alert.alert('Please Insert Event Id');
-      return;
-    }
-    const eventConfig = {
-      eventId,
-      allowsEditing: false,
-      allowsCalendarPreview: true,
-      navigationBarIOS: {
-        tintColor: 'orange',
-        backgroundColor: 'green',
-      },
-    };
-
-    AddCalendarEvent.presentEventViewingDialog(eventConfig)
-      .then(eventInfo => {
-        Alert.alert('eventInfo -> ' + JSON.stringify(eventInfo));
-      })
-      .catch(error => {
-        Alert.alert('Error -> ' + error);
-      });
-  };
-
   const ImageBackgroundComponent = () => {
     return (
       <ImageBackground
@@ -504,15 +480,15 @@ const Detail = ({navigation, route}: any) => {
             {selectedEvent?.location?.address?.addressLocality} -{' '}
             {selectedEvent?.location?.name}
           </Text>
-          <TouchableOpacity onPress={() => console.log('Locate')}>
+          <RNBounceable onPress={() => navigation.navigate('Carte')}>
             <Icon
               name="location-outline"
-              size={24}
+              size={22}
               color={
                 isDarkMode ? theme.colors.antiFlashWhite : theme.colors.black
               }
             />
-          </TouchableOpacity>
+          </RNBounceable>
         </View>
       </View>
     );
@@ -564,7 +540,7 @@ const Detail = ({navigation, route}: any) => {
             style={{
               marginVertical: 5,
               flexDirection: 'row',
-              justifyContent: 'space-around',
+              justifyContent: 'flex-start',
               alignItems: 'center',
             }}>
             {selectedEvent?.offers?.price?.map(
@@ -589,6 +565,7 @@ const Detail = ({navigation, route}: any) => {
                     alignItems: 'center',
                     marginBottom: 10,
                     borderRadius: 3,
+                    marginHorizontal: 12,
                   }}
                   onPress={() => handlePrice(item, index)}>
                   <Text
@@ -678,21 +655,6 @@ const Detail = ({navigation, route}: any) => {
       </View>
     );
   };
-
-  const Item = () => (
-    <View style={{flex: 1}}>
-      <ImageBackground
-        source={selectedEvent?.image}
-        style={[StyleSheet.absoluteFillObject]}
-      />
-      <View
-        style={[
-          StyleSheet.absoluteFillObject,
-          {backgroundColor: '#000', opacity: 0.3},
-        ]}
-      />
-    </View>
-  );
 
   return (
     <View

@@ -26,7 +26,8 @@ import {Controller, useForm} from 'react-hook-form';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useAuth} from '../Components/authProvider';
 import {StackActions, useNavigation} from '@react-navigation/native';
-import {Error} from '../Components/Error';
+import {Error} from '../Components/Alert';
+import {statusCodes} from '@react-native-google-signin/google-signin';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -39,7 +40,7 @@ const Identification = (props: {
   const [error, setError] = useState('');
   const [modal, setModal] = useState(false);
 
-  const {signin} = useAuth();
+  const {signin, GoogleAuth} = useAuth();
   const navigation = useNavigation();
 
   const {
@@ -74,6 +75,36 @@ const Identification = (props: {
 
           if (error.code === 'auth/wrong-password') {
             setError('auth/mauvais mot de passe');
+          }
+        });
+    } catch {
+      setError('Failed to create an account');
+    }
+
+    setTimeout(() => {
+      setModal(false);
+    }, 1000);
+
+    setLoading(false);
+  };
+
+  const googleAuth = async () => {
+    try {
+      setLoading(true);
+      await GoogleAuth()
+        .then(r => navigation.dispatch(StackActions.replace('Explorer')))
+        .catch(error => {
+          if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+            setError("l'utilisateur a annulé le flux de connexion");
+          }
+          if (error.code === statusCodes.IN_PROGRESS) {
+            setError(
+              "l'opération (par exemple, la connexion) est déjà en cours",
+            );
+          }
+
+          if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            setError('services de jeu non disponibles ou obsolètes');
           }
         });
     } catch {
@@ -263,10 +294,19 @@ const Identification = (props: {
       </View>
       <View style={{marginTop: 10}}>
         <View>
-          <RNBounceable style={styles.btn}>
+          <RNBounceable style={styles.btn} onPress={() => googleAuth()}>
             <Google />
             <View style={{width: 20}} />
-            <Text style={styles.btntxt}>Continue avec Google</Text>
+            {loading === true ? (
+              <ActivityIndicator
+                size="small"
+                color={isDarkMode ? theme.colors.dark : '#000000'}
+                animating={loading}
+                hidesWhenStopped={loading}
+              />
+            ) : (
+              <Text style={styles.btntxt}>Continue avec Google</Text>
+            )}
           </RNBounceable>
         </View>
         <View>
@@ -284,7 +324,7 @@ const Identification = (props: {
           </RNBounceable>
         </View>
       </View>
-      <Error isError={true} value={error} modal={modal} setModal={setModal} />
+      <Error value={error} modal={modal} setModal={setModal} />
     </View>
   );
 };

@@ -5,6 +5,7 @@ export type AuthContextData = {
   signin(): Promise<void>;
   logout(): void;
   updateProfile(): Promise<void>;
+  GoogleAuth(): Promise<void>;
 };
 
 export type AuthData = {

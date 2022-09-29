@@ -36,6 +36,7 @@ import Profile from '../Screens/Profile';
 import {useSelector} from 'react-redux';
 import {selectUser, selectValue} from '../Slices/user';
 import Inscription2 from '../Screens/Inscription2';
+import Carte from '../Screens/Carte';
 
 const Stack = createNativeStackNavigator();
 
@@ -122,6 +123,7 @@ const App = () => {
           <Stack.Screen name={'Explorer'} component={Explorer} />
           <Stack.Screen name={'Profile'} component={Profile} />
           <Stack.Screen name={'Detail'} component={Detail} />
+          <Stack.Screen name={'Carte'} component={Carte} />
           <Stack.Screen name={'Recherche'} component={Recherche} />
           <Stack.Screen name={'Menu'} component={Menu} />
           <Stack.Screen name={'Tickets'} component={Tickets} />

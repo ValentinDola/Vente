@@ -21,7 +21,6 @@ const Carte = () => (
 const styles = StyleSheet.create({
   screen: {
     backgroundColor: '#F6F6F7',
-
     flex: 1,
   },
   map: {

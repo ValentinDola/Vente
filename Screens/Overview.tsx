@@ -20,6 +20,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import {theme} from '../Constants';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
+import {Confirmation} from '../Components/Alert';
 import {
   selectEvent,
   selectCordonnee,
@@ -275,8 +276,17 @@ const Overview = ({route}: any) => {
                   height: 150,
                   justifyContent: 'center',
                   alignItems: 'center',
+                  marginVertical: 10,
                 }}>
-                <QRCode value="21747489300373" size={90} />
+                <Text
+                  style={{
+                    color: theme.colors.dark,
+                    fontFamily: 'Nunito-SemiBold',
+                    marginVertical: 10,
+                  }}>
+                  Code QR pour vous enregistrer.
+                </Text>
+                <QRCode value="21747489300373" size={100} />
               </View>
 
               <View>
@@ -588,7 +598,11 @@ const Overview = ({route}: any) => {
       <Header value={'Aperçu de la commande'} />
       <Card />
       <TModal />
-      <ConfirmationModal />
+      <Confirmation
+        value={"Votre billet a été téléchargé sous forme d'image."}
+        modal={confirmationModal}
+        setModal={setConfirmationModal}
+      />
     </View>
   );
 };
