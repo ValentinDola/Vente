@@ -10,7 +10,7 @@ import io.invertase.firebase.auth.ReactNativeFirebaseAuthPackage;
 import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
 import com.vonovak.AddCalendarEventPackage;
 import cx.evermeet.versioninfo.RNVersionInfoPackage;
-import com.febaisi.reactnative.getappname.GetAppNamePackage;
+// import com.febaisi.reactnative.getappname.GetAppNamePackage;
 import fr.greweb.reactnativeviewshot.RNViewShotPackage;
 import cl.json.RNSharePackage;
 import cl.json.ShareApplication;

@@ -24,7 +24,6 @@ import RNBounceable from '@freakycoder/react-native-bounceable';
 import Header from '../Components/Header';
 import Entypo from 'react-native-vector-icons/Entypo';
 import VersionInfo from 'react-native-version-info';
-import GetAppName from 'react-native-get-app-name';
 import {useAuth} from '../Components/authProvider';
 
 const {width, height} = Dimensions.get('screen');
@@ -53,14 +52,11 @@ const Reglages = () => {
     }
   });
 
-  const [appName, setAppName] = React.useState('');
+  const [appName, setAppName] = React.useState('Vente');
   const [appVersion, setAppVersion] = React.useState('');
 
   useEffect(() => {
     setAppVersion(VersionInfo.appVersion);
-    GetAppName.getAppName(appName => {
-      setAppName(appName);
-    });
   });
 
   const navigation = useNavigation();

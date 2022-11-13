@@ -23,7 +23,7 @@ import Checkbox from '../Components/Checkbox';
 import {useNavigation} from '@react-navigation/native';
 import {selectEvent, setCordonnee} from '../Slices/event';
 import {useAuth} from '../Components/authProvider';
-import GetAppName from 'react-native-get-app-name';
+// import GetAppName from 'react-native-get-app-name';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -32,7 +32,7 @@ interface CommandeProps {
 }
 
 const Commande = (props: CommandeProps) => {
-  const [appName, setAppName] = React.useState('');
+  const [appName, setAppName] = React.useState('Vente');
   const isDarkMode = useColorScheme() === 'dark';
 
   const navigation = useNavigation();
@@ -58,12 +58,6 @@ const Commande = (props: CommandeProps) => {
 
   const [conditions, setConditions] = useState(false);
   const [numTicket, setNumTickets] = useState('1');
-
-  useEffect(() => {
-    GetAppName.getAppName((appName: React.SetStateAction<string>) => {
-      setAppName(appName);
-    });
-  });
 
   const onSubmit = (data: any) => {
     const newData = {data, conditions, numTicket};
