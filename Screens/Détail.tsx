@@ -34,7 +34,6 @@ import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import {theme} from '../Constants/index';
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import {useSelector, useDispatch} from 'react-redux';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import {setEvent, selectPrice, setPrice} from '../Slices/event';
@@ -48,9 +47,8 @@ const Detail = ({navigation, route}: any) => {
 
   const [selectedEvent, setSelectedEvent]: any = useState({});
   const [loading, setLoading] = useState(false);
-  const [clickedId, setClickedId] = useState(null);
+  const [clickedId, setClickedId] = useState(Number);
   const [pageLoading, setPageLoading] = useState(true);
-  const [price_, setPrice_] = useState('');
 
   const price = useSelector(selectPrice);
 
@@ -69,12 +67,20 @@ const Detail = ({navigation, route}: any) => {
     dataTimeOut();
   }, []);
 
-  const handlePrice = (item, index) => {
+  const handlePrice = (
+    item:
+      | boolean
+      | React.ReactChild
+      | React.ReactFragment
+      | React.ReactPortal
+      | null
+      | undefined,
+    index: any,
+  ) => {
     setClickedId(index);
     dispatch(
       selectedEvent?.offers?.type === false ? setPrice('0') : setPrice(item),
     );
-    console.log(item, index);
   };
 
   const billet = () => {
@@ -90,7 +96,7 @@ const Detail = ({navigation, route}: any) => {
     }
   };
 
-  const utcDateToString = momentInUTC => {
+  const utcDateToString = (momentInUTC: moment.MomentInput) => {
     let s = moment.utc(momentInUTC).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
     return s;
   };
@@ -114,22 +120,16 @@ const Detail = ({navigation, route}: any) => {
 
     if (currentUser !== null) {
       AddCalendarEvent.presentEventCreatingDialog(eventConfig)
-        .then(
-          (eventInfo: {
-            action: string;
-            calendarItemIdentifier: string;
-            eventIdentifier: string;
-          }) => {
-            // handle success - receives an object with `calendarItemIdentifier` and `eventIdentifier` keys, both of type string.
-            // These are two different identifiers on iOS.
-            // On Android, where they are both equal and represent the event id, also strings.
-            // when { action: 'CANCELED' } is returned, the dialog was dismissed
+        .then(eventInfo => {
+          // handle success - receives an object with `calendarItemIdentifier` and `eventIdentifier` keys, both of type string.
+          // These are two different identifiers on iOS.
+          // On Android, where they are both equal and represent the event id, also strings.
+          // when { action: 'CANCELED' } is returned, the dialog was dismissed
 
-            if (eventInfo.action === 'SAVED') {
-              console.log(JSON.stringify(eventInfo));
-            }
-          },
-        )
+          if (eventInfo.action === 'SAVED') {
+            console.log(JSON.stringify(eventInfo));
+          }
+        })
         .catch((error: string) => {
           // handle error such as when user rejected permissions
           Alert.prompt(error);
@@ -206,17 +206,6 @@ const Detail = ({navigation, route}: any) => {
             <View>
               <Text
                 style={{
-                  textTransform: 'uppercase',
-                  fontFamily: 'Nunito-SemiBold',
-                  opacity: 0.6,
-                  letterSpacing: 2,
-                  fontSize: theme.sizes.h5,
-                  color: theme.colors.white,
-                }}>
-                {selectedEvent?.type}
-              </Text>
-              <Text
-                style={{
                   fontFamily: 'Nunito-SemiBold',
                   width: 200,
                   fontSize: theme.sizes.h3,
@@ -227,7 +216,7 @@ const Detail = ({navigation, route}: any) => {
               <Text
                 style={{
                   fontFamily: 'Nunito-SemiBold',
-                  opacity: 0.6,
+
                   letterSpacing: 1.5,
                   fontSize: theme.sizes.h5,
                   color: theme.colors.white,
@@ -362,23 +351,6 @@ const Detail = ({navigation, route}: any) => {
               {selectedEvent?.organizer?.name}
             </Text>
           </View>
-          {/* <RNBounceable
-            style={{
-              height: 35,
-              width: 100,
-              backgroundColor: 'transparent',
-              borderColor: theme.colors.blue,
-              borderWidth: 2,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 3,
-            }}
-            onPress={() => setFollow(!follow)}>
-            <Text
-              style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }}>
-              {follow === false ? "S'abonner" : 'Abonne'}
-            </Text>
-          </RNBounceable> */}
         </View>
         <View style={{marginBottom: 25}}>
           <Text
@@ -464,9 +436,9 @@ const Detail = ({navigation, route}: any) => {
         <View
           style={{
             marginVertical: 5,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
           }}>
           <Text
             style={{
@@ -475,20 +447,10 @@ const Detail = ({navigation, route}: any) => {
                 : theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h8,
-              width: 250,
             }}>
             {selectedEvent?.location?.address?.addressLocality} -{' '}
             {selectedEvent?.location?.name}
           </Text>
-          <RNBounceable onPress={() => navigation.navigate('Carte')}>
-            <Icon
-              name="location-outline"
-              size={22}
-              color={
-                isDarkMode ? theme.colors.antiFlashWhite : theme.colors.black
-              }
-            />
-          </RNBounceable>
         </View>
       </View>
     );
@@ -559,8 +521,10 @@ const Detail = ({navigation, route}: any) => {
                   style={{
                     backgroundColor: clickedId === index ? 'white' : '#AFCFEA',
                     marginTop: 10,
-                    height: 95,
-                    width: 90,
+                    // height: 55,
+                    // width: 90,
+                    paddingHorizontal: 15,
+                    paddingVertical: 10,
                     justifyContent: 'flex-start',
                     alignItems: 'center',
                     marginBottom: 10,
@@ -575,9 +539,8 @@ const Detail = ({navigation, route}: any) => {
                         clickedId === index
                           ? theme.colors.black
                           : theme.colors.white,
-                      fontFamily: 'Nunito-SemiBold',
+                      fontFamily: 'Nunito-Bold',
                       fontSize: theme.sizes.h8,
-                      marginTop: 15,
                     }}>
                     {`${item} fcfa`}
                   </Text>
@@ -596,7 +559,7 @@ const Detail = ({navigation, route}: any) => {
         style={{
           height: 60,
           width,
-          // borderRadius: 10,
+
           opacity: 0.9,
           position: 'absolute',
           backgroundColor: isDarkMode ? '#1A2026' : theme.colors.white,
@@ -627,7 +590,7 @@ const Detail = ({navigation, route}: any) => {
                 disabled={
                   clickedId === null && selectedEvent?.offers?.type !== false
                 }
-                onPress={() => billet()}>
+                onPress={billet}>
                 {loading === true ? (
                   <ActivityIndicator
                     size="small"
@@ -680,19 +643,10 @@ const Detail = ({navigation, route}: any) => {
       ) : (
         <View style={{flex: 1}}>
           <ScrollView showsVerticalScrollIndicator={false}>
-            {/* <Item /> */}
-            {/* ImageBackground */}
             <ImageBackgroundComponent />
-
             <IntroductionComponent />
-
-            {/* Description section */}
             <DescriptionSection />
-
-            {/* Location section */}
             <LocationSection />
-            {/* Promotion section */}
-
             <PriceSection />
           </ScrollView>
           <ButtomBarSection />

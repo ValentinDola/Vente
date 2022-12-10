@@ -50,6 +50,7 @@ const Inscription = (props: {
   const [confirmation, setConfirmation] = useState(true);
   const [error, setError] = useState('');
   const [modal, setModal] = useState(false);
+  const [loadingG, setLoadingG] = useState(false);
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -109,7 +110,7 @@ const Inscription = (props: {
 
   const googleAuth = async () => {
     try {
-      setLoading(true);
+      setLoadingG(true);
       await GoogleAuth()
         .then(r => navigation.dispatch(StackActions.replace('Explorer')))
         .catch(error => {
@@ -134,7 +135,7 @@ const Inscription = (props: {
       setModal(false);
     }, 1000);
 
-    setLoading(false);
+    setLoadingG(false);
   };
 
   return (
@@ -397,12 +398,12 @@ const Inscription = (props: {
           <RNBounceable style={styles.btn} onPress={() => googleAuth()}>
             <Google />
             <View style={{width: 20}} />
-            {loading === true ? (
+            {loadingG === true ? (
               <ActivityIndicator
                 size="small"
                 color={isDarkMode ? theme.colors.dark : '#000000'}
-                animating={loading}
-                hidesWhenStopped={loading}
+                animating={loadingG}
+                hidesWhenStopped={loadingG}
               />
             ) : (
               <Text style={styles.btntxt}>Continue avec Google</Text>

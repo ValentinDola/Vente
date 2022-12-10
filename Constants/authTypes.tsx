@@ -1,6 +1,5 @@
 export type AuthContextData = {
   currentUser?: AuthData;
-  loading: boolean;
   signup(): Promise<void>;
   signin(): Promise<void>;
   logout(): void;

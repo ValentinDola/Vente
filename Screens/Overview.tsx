@@ -95,9 +95,12 @@ const Overview = ({route}: any) => {
       }
 
       // Cameraroll saves images
-      const image = CameraRoll.save(uri, 'photo');
+      const image = CameraRoll.save(uri);
       if (await image) {
-        setConfirmationModal(true);
+        setTimeout(() => {
+          setConfirmationModal(true);
+        }, 3000);
+
         setTimeout(() => {
           navigation.navigate('Explorer');
         }, 3000);
@@ -276,16 +279,9 @@ const Overview = ({route}: any) => {
                   height: 150,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  marginVertical: 10,
+                  marginBottom: 10,
+                  marginTop: 20,
                 }}>
-                <Text
-                  style={{
-                    color: theme.colors.dark,
-                    fontFamily: 'Nunito-SemiBold',
-                    marginVertical: 10,
-                  }}>
-                  Code QR pour vous enregistrer.
-                </Text>
                 <QRCode value="21747489300373" size={100} />
               </View>
 
@@ -534,7 +530,7 @@ const Overview = ({route}: any) => {
                 width: width / 1.5,
                 height: 40,
               }}
-              onPress={() => downloadImage()}>
+              onPress={downloadImage}>
               <Text
                 style={{
                   fontFamily: 'Nunito-SemiBold',
@@ -597,6 +593,7 @@ const Overview = ({route}: any) => {
       }}>
       <Header value={'Aperçu de la commande'} />
       <Card />
+
       <TModal />
       <Confirmation
         value={"Votre billet a été téléchargé sous forme d'image."}

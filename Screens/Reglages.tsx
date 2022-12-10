@@ -413,7 +413,7 @@ const Reglages = () => {
 
       <View
         style={{
-          backgroundColor: isDarkMode ? theme.colors.white : theme.colors.white,
+          backgroundColor: isDarkMode ? theme.colors.dark : theme.colors.white,
           height: 60,
           width,
 

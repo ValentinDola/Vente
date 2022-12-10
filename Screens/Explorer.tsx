@@ -1,36 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
-  StyleSheet,
   Text,
   View,
-  TouchableOpacity,
   FlatList,
   Image,
   ImageBackground,
-  TouchableWithoutFeedback,
-  ScrollView,
-  Alert,
   Animated,
   useColorScheme,
   Pressable,
-  Modal,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import RNBounceable from '@freakycoder/react-native-bounceable';
-import ContentLoader, {Rect, Circle, Path} from 'react-content-loader/native';
-import {useSelector, useDispatch} from 'react-redux';
-import ExplorerSkeleton from '../Skeleton/Explorer';
+import {useSelector} from 'react-redux';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
-// import { events } from '../Constants/dummy-data';
 import {theme} from '../Constants/index';
-import {selectData, setData} from '../Slices/data';
-import {selectCategories, setCategories} from '../Slices/categories';
-import {selectUser} from '../Slices/user';
-import {selectNews} from '../Slices/news';
-import {useQuery, gql} from '@apollo/client';
+import {selectData} from '../Slices/data';
+import {gql} from '@apollo/client';
 import {
   Directions,
   FlingGestureHandler,
@@ -74,61 +61,8 @@ const MY_DATA = gql`
   }
 `;
 
-const DATA = [
-  {
-    title: 'Afro vibes',
-    location: 'Mumbai, India',
-    date: '2022-07-22 19:00',
-    poster:
-      'https://www.creative-flyers.com/wp-content/uploads/2020/07/Afro-vibes-flyer-template.jpg',
-  },
-  {
-    title: 'Jungle Party',
-    location: 'Unknown',
-    date: '2022-09-23 19:00',
-    poster:
-      'https://www.creative-flyers.com/wp-content/uploads/2019/11/Jungle-Party-Flyer-Template-1.jpg',
-  },
-  {
-    title: '4th Of July',
-    location: 'New York, USA',
-    date: '2022-08-03 19:00',
-    poster:
-      'https://www.creative-flyers.com/wp-content/uploads/2020/06/4th-Of-July-Invitation.jpg',
-  },
-  {
-    title: 'Summer festival',
-    location: 'Bucharest, Romania',
-    date: '2022-10-13 19:00',
-    poster:
-      'https://www.creative-flyers.com/wp-content/uploads/2020/07/Summer-Music-Festival-Poster.jpg',
-  },
-  {
-    title: 'BBQ with friends',
-    location: 'Prague, Czech Republic',
-    date: '2022-07-23 19:00',
-    poster:
-      'https://www.creative-flyers.com/wp-content/uploads/2020/06/BBQ-Flyer-Psd-Template.jpg',
-  },
-  {
-    title: 'Festival music',
-    location: 'Berlin, Germany',
-    date: '2022-04-23 19:00',
-    poster:
-      'https://www.creative-flyers.com/wp-content/uploads/2020/06/Festival-Music-PSD-Template.jpg',
-  },
-  {
-    title: 'Beach House',
-    location: 'Liboa, Portugal',
-    date: '2022-01-23 19:00',
-    poster:
-      'https://www.creative-flyers.com/wp-content/uploads/2020/06/Summer-Beach-House-Flyer.jpg',
-  },
-];
+const {width} = Dimensions.get('screen');
 
-const {width, height} = Dimensions.get('screen');
-
-const OVERFLOW_HEIGHT = 70;
 const SPACING = 10;
 const ITEM_WIDTH = width * 0.76;
 const ITEM_HEIGHT = ITEM_WIDTH * 1.6;
@@ -139,23 +73,14 @@ const Explorer: React.FC = () => {
 
   const navigation = useNavigation();
 
-  const [data, setData] = useState(DATA);
   const scrollXIndex = React.useRef(new Animated.Value(0)).current;
   const scrollXAnimated = React.useRef(new Animated.Value(0)).current;
   const [index_, setIndex] = React.useState(0);
-  const [modal, setModal] = React.useState(false);
-  // const [currentUser, setCurrentUser] = useState(null);
 
   const setActiveIndex = React.useCallback(activeIndex => {
     setIndex(activeIndex);
     scrollXIndex.setValue(activeIndex);
-  });
-
-  // const {data, loading, error} = useQuery(MY_DATA);
-
-  // useEffect(() => {
-  //   if (data) console.log(data.data);
-  // }, [data]);
+  }, []);
 
   React.useEffect(() => {
     Animated.spring(scrollXAnimated, {
@@ -164,14 +89,11 @@ const Explorer: React.FC = () => {
     }).start();
   });
 
-  const user = useSelector(selectUser);
   const event = useSelector(selectData);
-  const categories = useSelector(selectCategories);
-  const news = useSelector(selectNews);
 
   const {currentUser} = useAuth();
 
-  const Header = (props: any) => (
+  const Header = () => (
     <View
       style={{
         flexDirection: 'row',
@@ -212,7 +134,7 @@ const Explorer: React.FC = () => {
         <RNBounceable
           style={{
             backgroundColor: isDarkMode
-              ? '#2F3538'
+              ? 'transparent'
               : theme.colors.antiFlashWhite,
             height: 40,
             width: 40,
@@ -234,7 +156,7 @@ const Explorer: React.FC = () => {
         <RNBounceable
           style={{
             backgroundColor: isDarkMode
-              ? '#2F3538'
+              ? 'transparent'
               : theme.colors.antiFlashWhite,
             height: 40,
             width: 40,
@@ -356,7 +278,7 @@ const Explorer: React.FC = () => {
           scrollEnabled={false}
           removeClippedSubviews={false}
           CellRendererComponent={({item, index, children, style, ...props}) => {
-            const newStyle = [style, {zIndex: data.length - index}];
+            const newStyle = [style, {zIndex: event.length - index}];
             return (
               <View style={newStyle} index={index} {...props}>
                 {children}
@@ -436,8 +358,7 @@ const Explorer: React.FC = () => {
                     </View>
                     <View
                       style={{
-                        paddingHorizontal: 10,
-                        paddingBottom: 15,
+                        padding: 10,
                         backgroundColor: theme.colors.white,
                         borderBottomLeftRadius: 10,
                         borderBottomRightRadius: 10,
@@ -452,8 +373,7 @@ const Explorer: React.FC = () => {
                           fontSize: theme.sizes.h5,
                           color: theme.colors.black,
                         }}>
-                        {' '}
-                        {item.name}{' '}
+                        {item.name}
                       </Text>
                       <Text
                         style={{
@@ -485,17 +405,3 @@ const Explorer: React.FC = () => {
 };
 
 export default Explorer;
-
-const styles = StyleSheet.create({
-  MContainer: {
-    backgroundColor: 'rgba(0,0,0,0.2)',
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
-  },
-  modalContainer: {
-    backgroundColor: 'white',
-    height: height,
-    width: width / 1.25,
-  },
-});

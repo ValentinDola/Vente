@@ -9,7 +9,7 @@ import {
   ScrollView,
   useColorScheme,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {theme} from '../Constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
@@ -17,6 +17,7 @@ import RNBounceable from '@freakycoder/react-native-bounceable';
 import {useNavigation} from '@react-navigation/native';
 import {selectEvent, selectPrice, setTotal} from '../Slices/event';
 import {useDispatch, useSelector} from 'react-redux';
+import Header from '../Components/Header';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -24,7 +25,7 @@ interface CartProps {
   route: any;
 }
 
-const Cart = (props: CartProps) => {
+const Cart: FC = () => {
   const navigation = useNavigation();
 
   const isDarkMode = useColorScheme() === 'dark';
@@ -32,7 +33,7 @@ const Cart = (props: CartProps) => {
   const [selectedEvent, setSelectedEvent]: any = useState({});
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState(false);
-  const [ticket, setTicket] = useState('1');
+  const [ticket] = useState('1');
 
   const event = useSelector(selectEvent);
   const price = useSelector(selectPrice);
@@ -53,66 +54,26 @@ const Cart = (props: CartProps) => {
     }, 3000);
   };
 
-  const Header = () => {
+  const Intro = () => {
     return (
       <View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginVertical: 20,
-            marginHorizontal: 15,
-          }}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={{
-              backgroundColor: isDarkMode
-                ? theme.colors.white
-                : theme.colors.grey,
-              padding: 5,
-              borderRadius: 10,
-              opacity: 0.7,
-            }}>
-            <Icon
-              name="ios-chevron-back-outline"
-              size={24}
-              color={theme.colors.black}
-            />
-          </TouchableOpacity>
-
-          <View>
-            <Text
-              style={{
-                color: isDarkMode
-                  ? theme.colors.antiFlashWhite
-                  : theme.colors.black,
-                fontFamily: 'Nunito-Light',
-                fontSize: 16,
-              }}>
-              {selectedEvent?.name}
-            </Text>
-          </View>
-
-          <TouchableOpacity
-            style={{
-              backgroundColor: isDarkMode
-                ? theme.colors.antiFlashWhite
-                : theme.colors.grey,
-              padding: 5,
-              borderRadius: 10,
-              opacity: 0.7,
-            }}
-            onPress={() => navigation.navigate('Explorer')}>
-            <Icon name={'close-outline'} size={24} color={theme.colors.black} />
-          </TouchableOpacity>
-        </View>
         <View
           style={{
             justifyContent: 'center',
             alignItems: 'center',
             marginHorizontal: 15,
           }}>
+          <Text
+            style={{
+              color: isDarkMode
+                ? theme.colors.antiFlashWhite
+                : theme.colors.black,
+              fontFamily: 'Nunito-Light',
+              fontSize: 16,
+              marginBottom: 10,
+            }}>
+            {selectedEvent?.name}
+          </Text>
           <Text
             style={{
               color: isDarkMode
@@ -475,39 +436,6 @@ const Cart = (props: CartProps) => {
     </View>
   );
 
-  const Wallet = () => {
-    return (
-      <View>
-        <RNBounceable
-          style={{
-            backgroundColor: theme.colors.white,
-            height: 50,
-            width: width,
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexDirection: 'row',
-          }}>
-          <Icon
-            name={'wallet'}
-            size={20}
-            color={'#45D09E'}
-            style={{marginLeft: 20}}
-          />
-
-          <Text
-            style={{
-              color: 'black',
-              fontFamily: 'Nunito-Bold',
-              fontSize: theme.sizes.h4,
-              marginRight: 20,
-            }}>
-            18000 cfa
-          </Text>
-        </RNBounceable>
-      </View>
-    );
-  };
-
   const Wallt = () => {
     return (
       <View style={{marginHorizontal: 15, marginVertical: 15}}>
@@ -575,8 +503,8 @@ const Cart = (props: CartProps) => {
         flex: 1,
         backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7',
       }}>
-      <Header />
-
+      <Header value={'Panier'} />
+      <Intro />
       <Information />
       <Outro />
 
