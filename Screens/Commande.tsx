@@ -15,13 +15,14 @@ import React, {useEffect, useState} from 'react';
 import {theme} from '../Constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useForm, Controller} from 'react-hook-form';
-import {selectUser} from '../Slices/user';
 import {useDispatch, useSelector} from 'react-redux';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import Header from '../Components/Header';
 import Checkbox from '../Components/Checkbox';
 import {useNavigation} from '@react-navigation/native';
 import {selectEvent, setCordonnee} from '../Slices/event';
+import {useAuth} from '../Components/authProvider';
+// import GetAppName from 'react-native-get-app-name';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -30,13 +31,15 @@ interface CommandeProps {
 }
 
 const Commande = (props: CommandeProps) => {
+  const [appName, setAppName] = React.useState('Vente');
   const isDarkMode = useColorScheme() === 'dark';
 
   const navigation = useNavigation();
 
-  const user = useSelector(selectUser);
-  const event = useSelector(selectEvent);
+  // const user = useSelector(selectUser);
+  // const event = useSelector(selectEvent);
   const [loading, setLoading] = useState(false);
+  const {currentUser} = useAuth();
 
   const {
     control,
@@ -44,9 +47,9 @@ const Commande = (props: CommandeProps) => {
     formState: {errors},
   } = useForm({
     defaultValues: {
-      nom: user?.nom,
-      prenom: user?.prenom,
-      email: user?.email,
+      nom: '',
+      prenom: '',
+      email: currentUser?.email,
     },
   });
 
@@ -73,18 +76,18 @@ const Commande = (props: CommandeProps) => {
   const Coordonnees = () => {
     return (
       <View style={{marginVertical: 30, marginHorizontal: 15}}>
-        <View>
+        {/* <View>
           <Text
             style={{
               color: isDarkMode
                 ? theme.colors.antiFlashWhite
                 : theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
-              fontSize: 30,
+              fontSize: 20,
             }}>
             Coordonnees
           </Text>
-        </View>
+        </View> */}
         <View style={{marginTop: 10}}>
           <Text
             style={{
@@ -122,19 +125,14 @@ const Commande = (props: CommandeProps) => {
                           styles.container,
 
                           {
-                            borderColor: theme.colors.blue,
                             width: 160,
-                            backgroundColor: isDarkMode
-                              ? theme.colors.dark
-                              : 'white',
+                            backgroundColor: 'white',
                           },
                         ]}>
                         <TextInput
                           style={{
-                            fontSize: 17,
-                            color: isDarkMode
-                              ? theme.colors.antiFlashWhite
-                              : theme.colors.black,
+                            fontSize: 15,
+                            color: theme.colors.black,
                             fontFamily: 'Nunito-SemiBold',
                           }}
                           onBlur={onBlur}
@@ -165,15 +163,15 @@ const Commande = (props: CommandeProps) => {
                       <View
                         style={[
                           styles.container,
-                          {width: 160},
-                          {borderColor: theme.colors.blue},
+                          {
+                            width: 160,
+                            backgroundColor: 'white',
+                          },
                         ]}>
                         <TextInput
                           style={{
-                            fontSize: 17,
-                            color: isDarkMode
-                              ? theme.colors.antiFlashWhite
-                              : theme.colors.black,
+                            fontSize: 15,
+                            color: theme.colors.black,
                             fontFamily: 'Nunito-SemiBold',
                           }}
                           onBlur={onBlur}
@@ -205,19 +203,14 @@ const Commande = (props: CommandeProps) => {
                     style={[
                       styles.container,
                       {
-                        borderColor: theme.colors.blue,
-                        backgroundColor: isDarkMode
-                          ? theme.colors.dark
-                          : 'white',
+                        backgroundColor: 'white',
                       },
                     ]}>
                     <TextInput
                       style={{
-                        fontSize: 17,
+                        fontSize: 15,
                         paddingRight: 40,
-                        color: isDarkMode
-                          ? theme.colors.antiFlashWhite
-                          : theme.colors.black,
+                        color: theme.colors.black,
                         fontFamily: 'Nunito-SemiBold',
                       }}
                       onBlur={onBlur}
@@ -330,7 +323,7 @@ const Commande = (props: CommandeProps) => {
                     confidentialite
                   </Text>
                 }{' '}
-                de Fast.
+                de {appName}.
               </Text>
             </Pressable>
           </View>
@@ -532,8 +525,6 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: 50,
-    borderColor: '#e8e8e8',
-    borderWidth: 2,
     borderRadius: 5,
     paddingHorizontal: 10,
     marginVertical: 10,

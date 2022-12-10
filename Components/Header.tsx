@@ -3,6 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {theme} from '../Constants/index';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 interface HeaderProps {
   value: string;
@@ -27,15 +28,15 @@ const Header = (props: HeaderProps) => {
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={{
-            backgroundColor: theme.colors.grey,
+            backgroundColor: 'transparent',
             padding: 5,
             borderRadius: 5,
             opacity: 0.8,
           }}>
-          <Icon
-            name="ios-chevron-back-outline"
+          <Entypo
+            name="chevron-small-left"
             size={24}
-            color={theme.colors.black}
+            color={isDarkMode ? theme.colors.antiFlashWhite : theme.colors.dark}
           />
         </TouchableOpacity>
 
@@ -46,7 +47,7 @@ const Header = (props: HeaderProps) => {
                 ? theme.colors.antiFlashWhite
                 : theme.colors.black,
               fontFamily: 'Nunito-Light',
-              fontSize: 24,
+              fontSize: 20,
             }}>
             {value}
           </Text>
@@ -54,13 +55,17 @@ const Header = (props: HeaderProps) => {
 
         <TouchableOpacity
           style={{
-            backgroundColor: theme.colors.grey,
+            backgroundColor: 'transparent',
             padding: 5,
             borderRadius: 5,
             opacity: 0.8,
           }}
           onPress={() => navigation.navigate('Explorer')}>
-          <Icon name={'close-outline'} size={24} color={theme.colors.black} />
+          <Icon
+            name={'close-outline'}
+            size={24}
+            color={isDarkMode ? theme.colors.antiFlashWhite : theme.colors.dark}
+          />
         </TouchableOpacity>
       </View>
     </View>

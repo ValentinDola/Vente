@@ -141,7 +141,7 @@ const EditMotDePasse = () => {
                     color: isDarkMode ? theme.colors.antiFlashWhite : 'black',
                     marginHorizontal: 25,
                   }}>
-                  Mot de passe actuel
+                  Mot de passe
                 </Text>
                 <View
                   style={{

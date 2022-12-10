@@ -237,7 +237,7 @@ const Portefeuille = ({navigation, route}) => {
                   width: width / 1.1,
                   height: 40,
                 }}
-                onPress={() => navigation.navigate('Tickets')}>
+                onPress={() => console.log('Effacer')}>
                 <Text
                   style={{
                     color: isDarkMode ? theme.colors.dark : theme.colors.white,

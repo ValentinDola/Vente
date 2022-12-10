@@ -85,7 +85,7 @@ const Maison = () => {
         }}
       />
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Tickets"
         component={Tickets}
         options={{
@@ -109,7 +109,7 @@ const Maison = () => {
             </Text>
           ),
         }}
-      />
+      /> */}
 
       <Tab.Screen
         name="Carte"

@@ -1,4 +1,11 @@
-import {View, Text, StyleSheet, Image, useColorScheme} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  useColorScheme,
+  DevSettings,
+} from 'react-native';
 import React from 'react';
 import Header from '../../Components/Header';
 import {useSelector} from 'react-redux';
@@ -6,12 +13,38 @@ import {selectUser} from '../../Slices/user';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import {theme} from '../../Constants';
 import {useNavigation} from '@react-navigation/native';
+import {useAuth} from '../../Components/authProvider';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 const Edit = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const navigation = useNavigation();
   const user = useSelector(selectUser);
+
+  const {currentUser, updateProfile} = useAuth();
+
+  const Sauvegarde = async () => {
+    const options = {
+      mediaType: 'photo',
+    };
+    await launchImageLibrary(options)
+      .then(r =>
+        r.assets?.map(async item => {
+          console.log(item);
+          try {
+            const update = {
+              photoURL: item.uri,
+            };
+            await updateProfile(update);
+            DevSettings.reload();
+          } catch {
+            console.log('Error');
+          }
+        }),
+      )
+      .catch(error => console.log(error));
+  };
 
   const Image_ = () => (
     <View
@@ -20,11 +53,32 @@ const Edit = () => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Image
-        source={user?.image}
-        style={{width: 100, height: 100, borderRadius: 50}}
-      />
-      <RNBounceable style={{marginVertical: 20}}>
+      {currentUser?.photoURL === null ? (
+        <RNBounceable
+          style={{
+            backgroundColor: theme.colors.dark,
+            width: 100,
+            height: 100,
+            borderRadius: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{
+              color: theme.colors.white,
+              fontFamily: 'Nunito-SemiBold',
+              fontSize: 55,
+            }}>
+            {currentUser?.email.slice(0, 1).toUpperCase()}
+          </Text>
+        </RNBounceable>
+      ) : (
+        <Image
+          source={{uri: currentUser?.photoURL}}
+          style={{width: 100, height: 100, borderRadius: 50}}
+        />
+      )}
+      <RNBounceable style={{marginVertical: 20}} onPress={() => Sauvegarde()}>
         <Text
           style={{
             color: theme.colors.blue,
@@ -64,7 +118,9 @@ const Edit = () => {
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h6,
             }}>
-            {user?.nom} {user?.prenom}
+            {currentUser?.displayName === null
+              ? 'Nom'
+              : currentUser?.displayName}
           </Text>
         </RNBounceable>
       </View>
@@ -93,12 +149,12 @@ const Edit = () => {
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h6,
             }}>
-            {user?.email}
+            {currentUser?.email}
           </Text>
         </View>
       </View>
       {/* password */}
-      <View
+      {/* <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
@@ -125,7 +181,7 @@ const Edit = () => {
             Mettre à jour le MP
           </Text>
         </RNBounceable>
-      </View>
+      </View> */}
     </View>
   );
 

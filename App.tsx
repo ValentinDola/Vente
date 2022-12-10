@@ -1,4 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {
+  FC,
+  SetStateAction,
+  useEffect,
+  useState,
+  useLayoutEffect,
+} from 'react';
 import Navigation from './Navigation';
 import RNBootSplash from 'react-native-bootsplash';
 import {ApolloProvider} from '@apollo/client';
@@ -13,58 +19,16 @@ import {
   useColorScheme,
 } from 'react-native';
 import moment from 'moment';
-import Geolocation from '@react-native-community/geolocation';
+import Geolocation from 'react-native-geolocation-service';
 import InternetConnectionAlert from 'react-native-internet-connection-alert';
 import Geocoder from 'react-native-geocoding';
 
 import {enableLatestRenderer} from 'react-native-maps';
 import {theme} from './Constants';
-
-import {LocaleConfig} from 'react-native-calendars';
 import {client} from './Components/Apollo';
+import {AuthProvider} from './Components/authProvider';
 
-LocaleConfig.locales['fr'] = {
-  monthNames: [
-    'Janvier',
-    'Février',
-    'Mars',
-    'Avril',
-    'Mai',
-    'Juin',
-    'Juillet',
-    'Août',
-    'Septembre',
-    'Octobre',
-    'Novembre',
-    'Décembre',
-  ],
-  monthNamesShort: [
-    'Janv.',
-    'Févr.',
-    'Mars',
-    'Avril',
-    'Mai',
-    'Juin',
-    'Juil.',
-    'Août',
-    'Sept.',
-    'Oct.',
-    'Nov.',
-    'Déc.',
-  ],
-  dayNames: [
-    'Dimanche',
-    'Lundi',
-    'Mardi',
-    'Mercredi',
-    'Jeudi',
-    'Vendredi',
-    'Samedi',
-  ],
-  dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
-  today: "Aujourd'hui",
-};
-LocaleConfig.defaultLocale = 'fr';
+import {DropdownAlertType} from 'react-native-dropdownalert';
 
 enableLatestRenderer();
 
@@ -133,144 +97,80 @@ moment.updateLocale('fr', {
   },
 });
 
-const App = () => {
-  const [currentLongitude, setCurrentLongitude] = useState('...');
-  const [currentLatitude, setCurrentLatitude] = useState('...');
+const App: FC = () => {
+  const [currentLongitude, setCurrentLongitude] = useState(Number);
+  const [currentLatitude, setCurrentLatitude] = useState(Number);
   const [locationStatus, setLocationStatus] = useState('');
+  const [location, setLocation] = useState(false);
 
   const isDarkMode = useColorScheme() === 'dark';
 
-  useEffect(() => {
-    // let watchID: number;
-
-    RNBootSplash.hide({fade: true})
-      .then(r => console.log(r, 'Bootsplash has been hidden successfully'))
-      .catch(err => console.error(err));
-
-    // Geolocation.getCurrentPosition(info => console.log(info));
-
-    const requestLocationPermission = async () => {
-      if (Platform.OS === 'ios') {
-        getOneTimeLocation();
-        subscribeLocationLocation();
+  // Function to get permission for location
+  const requestLocationPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Geolocation Permission',
+          message: 'Can we access your location?',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      console.log('granted', granted);
+      if (granted === 'granted') {
+        return true;
       } else {
-        try {
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-            {
-              title: "Accès à l'emplacement requis",
-              message: 'Cette application doit accéder à votre position',
-              buttonNegative: 'Annuler',
-              buttonPositive: 'OK',
-            },
-          );
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            //To Check, If Permission is granted
-            getOneTimeLocation();
-            subscribeLocationLocation();
-          } else {
-            setLocationStatus('Permission Denied');
-          }
-        } catch (err) {
-          console.log(err);
-        }
+        console.log('You cannot use Geolocation');
+        return false;
       }
-    };
+    } catch (err) {
+      return false;
+    }
+  };
 
-    const getCurrentPosition = () =>
-      Geolocation.getCurrentPosition(info => {
-        const longitude = JSON.stringify(info.coords.longitude);
-        const latitude = JSON.stringify(info.coords.latitude);
-
-        return (
-          setCurrentLongitude(longitude),
-          setCurrentLatitude(latitude),
-          console.log(currentLatitude, currentLongitude)
+  // function to check permissions and get Location
+  const getLocation = () => {
+    const result = requestLocationPermission();
+    result.then(res => {
+      console.log('res is:', res);
+      if (res) {
+        Geolocation.getCurrentPosition(
+          position => {
+            console.log(position.coords);
+            setLocation(res);
+            setCurrentLongitude(position.coords.longitude);
+            setCurrentLatitude(position.coords.latitude);
+          },
+          error => {
+            // See error code charts below.
+            console.log(error.code, error.message);
+            setLocation(false);
+          },
+          {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
         );
-      });
 
-    requestLocationPermission();
+        // Geocoder.init('AIzaSyDV9YHcr43AxFrOf1_MdHmc8D6Upr7UWO4', {
+        //   language: 'fr',
+        // });
 
-    // const getCurrentAddress = () => (
-    //   Geocoder.init('AIzaSyCls3Fj2pMSWh1eCySiZUEbFor4gHPbykQ', {
-    //     language: 'fr',
-    //   }),
-    //   Geocoder.from(currentLongitude, currentLatitude)
-    //     .then(json => {
-    //       let address = json.results[0].address_components[0];
-    //       console.log(address);
-    //     })
-    //     .catch(error => console.warn(error))
-    // );
+        // Geocoder.from(currentLatitude, currentLongitude)
+        //   .then(json => {
+        //     let addressComponent = json.results[0].address_components[0];
+        //     console.log(addressComponent);
+        //   })
+        //   .catch(error => console.warn(error));
+      }
+    });
+  };
 
-    // getCurrentAddress();
-
-    return () => Geolocation.clearWatch(watchID);
+  useEffect(() => {
+    RNBootSplash.hide({fade: true})
+      .then(r => console.log('Bootsplash has been hidden successfully'))
+      .catch(err => console.error(err));
+    getLocation();
   }, []);
-
-  const getOneTimeLocation = () => {
-    setLocationStatus('Getting Location ...');
-    Geolocation.getCurrentPosition(
-      //Will give you the current location
-      position => {
-        setLocationStatus('You are Here');
-
-        //getting the Longitude from the location json
-        const longitude = JSON.stringify(position.coords.longitude);
-
-        //getting the Latitude from the location json
-        const latitude = JSON.stringify(position.coords.latitude);
-
-        //Setting Longitude state
-        setCurrentLongitude(longitude);
-
-        //Setting Longitude state
-        setCurrentLatitude(latitude);
-      },
-      error => {
-        setLocationStatus(error.message);
-      },
-      {
-        enableHighAccuracy: false,
-        timeout: 30000,
-        maximumAge: 1000,
-      },
-    );
-
-    return null;
-  };
-
-  const subscribeLocationLocation = () => {
-    Geolocation.watchPosition(
-      position => {
-        //Will give you the location on location change
-
-        setLocationStatus('You are Here');
-        console.log(position);
-
-        //getting the Longitude from the location json
-        const currentLongitude = JSON.stringify(position.coords.longitude);
-
-        //getting the Latitude from the location json
-        const currentLatitude = JSON.stringify(position.coords.latitude);
-
-        //Setting Longitude state
-        setCurrentLongitude(currentLongitude);
-
-        //Setting Latitude state
-        setCurrentLatitude(currentLatitude);
-      },
-      error => {
-        setLocationStatus(error.message);
-      },
-      {
-        enableHighAccuracy: false,
-        maximumAge: 1000,
-      },
-    );
-
-    return watchID;
-  };
 
   return (
     <Provider store={store}>
@@ -280,12 +180,9 @@ const App = () => {
             backgroundColor={isDarkMode ? theme.colors.dark : 'black'}
           />
 
-          {/* <InternetConnectionAlert
-          onChange={(connectionState) => {
-            console.log("Connection State: ", connectionState);
-          }} title={'Connection'} > */}
-          <Navigation />
-          {/* </InternetConnectionAlert> */}
+          <AuthProvider>
+            <Navigation />
+          </AuthProvider>
         </SafeAreaView>
       </ApolloProvider>
     </Provider>
@@ -293,6 +190,3 @@ const App = () => {
 };
 
 export default App;
-function watchID(watchID: any): void | {[UNDEFINED_VOID_ONLY]: never} {
-  throw new Error('Function not implemented.');
-}

@@ -20,6 +20,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import {theme} from '../Constants';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
+import {Confirmation} from '../Components/Alert';
 import {
   selectEvent,
   selectCordonnee,
@@ -34,7 +35,7 @@ const Overview = ({route}: any) => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const [modal, setModal] = useState(false);
-  const [saving, setSaving]: any = useState(false);
+  const [confirmationModal, setConfirmationModal]: any = useState(false);
 
   const event = useSelector(selectEvent);
   const user = useSelector(selectCordonnee);
@@ -94,13 +95,17 @@ const Overview = ({route}: any) => {
       }
 
       // Cameraroll saves images
-      const image = CameraRoll.save(uri, 'photo');
+      const image = CameraRoll.save(uri);
       if (await image) {
-        setSaving(true);
-        navigation.navigate('Explorer');
+        setTimeout(() => {
+          setConfirmationModal(true);
+        }, 3000);
+
+        setTimeout(() => {
+          navigation.navigate('Explorer');
+        }, 3000);
       }
     } catch (error) {
-      setSaving(false);
       console.warn(error);
     }
   };
@@ -268,17 +273,18 @@ const Overview = ({route}: any) => {
         onRequestClose={() => setModal(false)}>
         <View style={styles.MContainer}>
           <View style={styles.modalContainer} ref={viewRef}>
-            <ScrollView
-              style={{height: height, marginVertical: 60}}
-              showsVerticalScrollIndicator={false}>
+            <View style={{height: height, marginVertical: 10}}>
               <View
                 style={{
                   height: 150,
                   justifyContent: 'center',
                   alignItems: 'center',
+                  marginBottom: 10,
+                  marginTop: 20,
                 }}>
-                <QRCode value="21747489300373" size={90} />
+                <QRCode value="21747489300373" size={100} />
               </View>
+
               <View>
                 <View
                   style={{
@@ -348,7 +354,11 @@ const Overview = ({route}: any) => {
                       </Text>
                     </View>
                     <View
-                      style={{marginHorizontal: 10, marginTop: 10, width: 120}}>
+                      style={{
+                        marginHorizontal: 10,
+                        marginTop: 10,
+                        width: 120,
+                      }}>
                       <Text
                         style={{
                           color: 'black',
@@ -462,7 +472,7 @@ const Overview = ({route}: any) => {
                     Basic coding for youth
                   </Text>
                 </View>
-                {/* <View style={{marginHorizontal: 10, marginTop: 10}}>
+                <View style={{marginHorizontal: 10, marginTop: 10}}>
                   <Text
                     style={{
                       color: 'black',
@@ -480,7 +490,7 @@ const Overview = ({route}: any) => {
                     }}>
                     {event?.description}
                   </Text>
-                </View> */}
+                </View>
                 <View style={{marginHorizontal: 10, marginTop: 10}}>
                   <Text
                     style={{
@@ -501,34 +511,74 @@ const Overview = ({route}: any) => {
                   </Text>
                 </View>
               </View>
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginTop: 20,
-                }}>
-                <RNBounceable
-                  style={{
-                    backgroundColor: theme.colors.blue,
-                    borderRadius: 3,
-                    justifyContent: 'center',
-                    alignItems: 'center',
+            </View>
+          </View>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              position: 'absolute',
+              bottom: 10,
+            }}>
+            <RNBounceable
+              style={{
+                backgroundColor: theme.colors.blue,
+                borderRadius: 3,
+                justifyContent: 'center',
+                alignItems: 'center',
 
-                    width: width / 1.5,
-                    height: 40,
-                  }}
-                  onPress={() => downloadImage()}>
-                  <Text
-                    style={{
-                      fontFamily: 'Nunito-SemiBold',
-                      color: 'white',
-                      textTransform: 'uppercase',
-                    }}>
-                    Télécharger
-                  </Text>
-                </RNBounceable>
-              </View>
-            </ScrollView>
+                width: width / 1.5,
+                height: 40,
+              }}
+              onPress={downloadImage}>
+              <Text
+                style={{
+                  fontFamily: 'Nunito-SemiBold',
+                  color: 'white',
+                  textTransform: 'uppercase',
+                }}>
+                Télécharger
+              </Text>
+            </RNBounceable>
+          </View>
+        </View>
+      </Modal>
+    );
+  };
+
+  const ConfirmationModal = () => {
+    return (
+      <Modal
+        animated
+        animationType="fade"
+        visible={confirmationModal}
+        transparent
+        onRequestClose={() => setConfirmationModal(false)}>
+        <View
+          style={{
+            backgroundColor: 'rgba(0,0,0,0.2)',
+            flex: 1,
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              backgroundColor: theme.colors.dark,
+              width: width - 20,
+              height: 50,
+              borderRadius: 3,
+              marginTop: 15,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                color: theme.colors.white,
+                fontFamily: 'Nunito-SemiBold',
+                fontSize: theme.sizes.h7,
+              }}>
+              Votre billet a été téléchargé sous forme d'image.
+            </Text>
           </View>
         </View>
       </Modal>
@@ -541,9 +591,15 @@ const Overview = ({route}: any) => {
         flex: 1,
         backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7',
       }}>
-      <Header value={'Order Overview'} />
+      <Header value={'Aperçu de la commande'} />
       <Card />
+
       <TModal />
+      <Confirmation
+        value={"Votre billet a été téléchargé sous forme d'image."}
+        modal={confirmationModal}
+        setModal={setConfirmationModal}
+      />
     </View>
   );
 };

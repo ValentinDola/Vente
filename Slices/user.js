@@ -1,15 +1,12 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
+  value: false,
   user: {
-    value: false,
-    nom: 'DOLA',
-    prenom: 'Valentin',
     email: 'dolavalentino@gmail.com',
-    image: require('../assets/images/data/jakob-owens-qoFQxxuk3QY-unsplash.jpg'),
-    likes: 10,
-    billets: 5,
-    abonner: 19,
+    displayName: 'Username',
+    photoURL: '',
+    uid: '',
   },
 };
 
@@ -17,20 +14,28 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, action) => {
-      state.user = action.payload;
+    setValue: (state, action) => {
+      state.value = action.payload;
     },
-    setNom: (state, action) => {
-      state.user.nom = action.payload;
+    setEmail: (state, action) => {
+      state.user.email = action.payload;
     },
-    setPrenom: (state, action) => {
-      state.user.prenom = action.payload;
+    setDisplayName: (state, action) => {
+      state.user.displayName = action.payload;
+    },
+    setPhotoURL: (state, action) => {
+      state.user.photoURL = action.payload;
+    },
+    setUID: (state, action) => {
+      state.user.uid = action.payload;
     },
   },
 });
 
-export const {setUser, setPrenom, setNom} = userSlice.actions;
+export const {setPhotoURL, setValue, setEmail, setDisplayName, setUID} =
+  userSlice.actions;
 
 export const selectUser = state => state.user.user;
+export const selectValue = state => state.user.value;
 
 export default userSlice.reducer;

@@ -27,15 +27,18 @@ import {
   TextInput,
   ActivityIndicator,
   useColorScheme,
+  Alert,
 } from 'react-native';
 import moment from 'moment';
 // import TextInput from 'react-native-text-input-interactive';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Feather from 'react-native-vector-icons/Feather';
 import {theme} from '../Constants/index';
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import {useSelector, useDispatch} from 'react-redux';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import {setEvent, selectPrice, setPrice} from '../Slices/event';
+import * as AddCalendarEvent from 'react-native-add-calendar-event';
+import {useAuth} from '../Components/authProvider';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -44,40 +47,103 @@ const Detail = ({navigation, route}: any) => {
 
   const [selectedEvent, setSelectedEvent]: any = useState({});
   const [loading, setLoading] = useState(false);
-  const [clickedId, setClickedId] = useState(null);
-  const [price_, setPrice_] = useState('');
+  const [clickedId, setClickedId] = useState(Number);
+  const [pageLoading, setPageLoading] = useState(true);
 
   const price = useSelector(selectPrice);
 
   const dispatch = useDispatch();
+  const {currentUser} = useAuth();
+
+  const dataTimeOut = () => {
+    setTimeout(() => {
+      setPageLoading(false);
+      let {selectedEvent} = route.params;
+      setSelectedEvent(selectedEvent);
+    }, 3000);
+  };
 
   useEffect(() => {
-    let {selectedEvent} = route.params;
-    setSelectedEvent(selectedEvent);
+    dataTimeOut();
   }, []);
 
-  const handlePrice = (item, index) => {
+  const handlePrice = (
+    item:
+      | boolean
+      | React.ReactChild
+      | React.ReactFragment
+      | React.ReactPortal
+      | null
+      | undefined,
+    index: any,
+  ) => {
     setClickedId(index);
     dispatch(
       selectedEvent?.offers?.type === false ? setPrice('0') : setPrice(item),
     );
-    console.log(item, index);
   };
 
   const billet = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      dispatch(setEvent(selectedEvent));
-      navigation.navigate('Cart');
-    }, 3000);
+    if (currentUser !== null) {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        dispatch(setEvent(selectedEvent));
+        navigation.navigate('Cart');
+      }, 3000);
+    } else {
+      navigation.navigate('Identification');
+    }
+  };
+
+  const utcDateToString = (momentInUTC: moment.MomentInput) => {
+    let s = moment.utc(momentInUTC).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+    return s;
+  };
+
+  const addToCalendar = (
+    title: any,
+    startDateUTC: moment.MomentInput,
+    endDateUTC: any,
+    location: any,
+    description: any,
+  ) => {
+    const eventConfig = {
+      title,
+      startDate: utcDateToString(startDateUTC),
+      endDate: utcDateToString(endDateUTC),
+      allowsEditing: false,
+      allowsCalendarPreview: true,
+      location,
+      notes: description,
+    };
+
+    if (currentUser !== null) {
+      AddCalendarEvent.presentEventCreatingDialog(eventConfig)
+        .then(eventInfo => {
+          // handle success - receives an object with `calendarItemIdentifier` and `eventIdentifier` keys, both of type string.
+          // These are two different identifiers on iOS.
+          // On Android, where they are both equal and represent the event id, also strings.
+          // when { action: 'CANCELED' } is returned, the dialog was dismissed
+
+          if (eventInfo.action === 'SAVED') {
+            console.log(JSON.stringify(eventInfo));
+          }
+        })
+        .catch((error: string) => {
+          // handle error such as when user rejected permissions
+          Alert.prompt(error);
+        });
+    } else {
+      navigation.navigate('Identification');
+    }
   };
 
   const ImageBackgroundComponent = () => {
     return (
       <ImageBackground
         source={selectedEvent?.image}
-        style={{width: '100%', height: height / 2.2}}>
+        style={{width, height: height / 2}}>
         {/* Image Header */}
         <View style={{flex: 1}}>
           <View
@@ -101,7 +167,7 @@ const Detail = ({navigation, route}: any) => {
                 color={theme.colors.black}
               />
             </RNBounceable>
-            {/* <View
+            <RNBounceable
               style={{
                 backgroundColor: theme.colors.grey,
                 alignItems: 'center',
@@ -109,17 +175,21 @@ const Detail = ({navigation, route}: any) => {
                 paddingHorizontal: 8,
                 borderRadius: 5,
                 opacity: 0.7,
-              }}>
-              <Icon
-                name="ios-share-outline"
-                size={24}
-                color={theme.colors.black}
-              />
-
-            </View> */}
+              }}
+              onPress={() =>
+                addToCalendar(
+                  selectedEvent?.name,
+                  selectedEvent?.startDate,
+                  selectedEvent?.endDate,
+                  selectedEvent?.location?.address?.addressLocality,
+                  selectedEvent?.description,
+                )
+              }>
+              <Feather name="calendar" size={24} color={theme.colors.black} />
+            </RNBounceable>
           </View>
         </View>
-        {/* Image footer */}
+
         <View
           style={{
             flex: 1,
@@ -136,17 +206,6 @@ const Detail = ({navigation, route}: any) => {
             <View>
               <Text
                 style={{
-                  textTransform: 'uppercase',
-                  fontFamily: 'Nunito-SemiBold',
-                  opacity: 0.6,
-                  letterSpacing: 2,
-                  fontSize: theme.sizes.h5,
-                  color: theme.colors.white,
-                }}>
-                {selectedEvent?.type}
-              </Text>
-              <Text
-                style={{
                   fontFamily: 'Nunito-SemiBold',
                   width: 200,
                   fontSize: theme.sizes.h3,
@@ -157,7 +216,7 @@ const Detail = ({navigation, route}: any) => {
               <Text
                 style={{
                   fontFamily: 'Nunito-SemiBold',
-                  opacity: 0.6,
+
                   letterSpacing: 1.5,
                   fontSize: theme.sizes.h5,
                   color: theme.colors.white,
@@ -292,23 +351,6 @@ const Detail = ({navigation, route}: any) => {
               {selectedEvent?.organizer?.name}
             </Text>
           </View>
-          {/* <RNBounceable
-            style={{
-              height: 35,
-              width: 100,
-              backgroundColor: 'transparent',
-              borderColor: theme.colors.blue,
-              borderWidth: 2,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 3,
-            }}
-            onPress={() => setFollow(!follow)}>
-            <Text
-              style={{ color: theme.colors.blue, fontFamily: 'Nunito-SemiBold' }}>
-              {follow === false ? "S'abonner" : 'Abonne'}
-            </Text>
-          </RNBounceable> */}
         </View>
         <View style={{marginBottom: 25}}>
           <Text
@@ -394,9 +436,9 @@ const Detail = ({navigation, route}: any) => {
         <View
           style={{
             marginVertical: 5,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
           }}>
           <Text
             style={{
@@ -405,20 +447,10 @@ const Detail = ({navigation, route}: any) => {
                 : theme.colors.black,
               fontFamily: 'Nunito-SemiBold',
               fontSize: theme.sizes.h8,
-              width: 250,
             }}>
             {selectedEvent?.location?.address?.addressLocality} -{' '}
             {selectedEvent?.location?.name}
           </Text>
-          <TouchableOpacity onPress={() => console.log('Locate')}>
-            <Icon
-              name="location-outline"
-              size={24}
-              color={
-                isDarkMode ? theme.colors.antiFlashWhite : theme.colors.black
-              }
-            />
-          </TouchableOpacity>
         </View>
       </View>
     );
@@ -470,7 +502,7 @@ const Detail = ({navigation, route}: any) => {
             style={{
               marginVertical: 5,
               flexDirection: 'row',
-              justifyContent: 'space-around',
+              justifyContent: 'flex-start',
               alignItems: 'center',
             }}>
             {selectedEvent?.offers?.price?.map(
@@ -487,20 +519,27 @@ const Detail = ({navigation, route}: any) => {
                 <RNBounceable
                   key={index}
                   style={{
-                    backgroundColor: clickedId === index ? 'white' : '#B5FBDD',
-                    height: 30,
-                    width: 85,
-                    justifyContent: 'center',
+                    backgroundColor: clickedId === index ? 'white' : '#AFCFEA',
+                    marginTop: 10,
+                    // height: 55,
+                    // width: 90,
+                    paddingHorizontal: 15,
+                    paddingVertical: 10,
+                    justifyContent: 'flex-start',
                     alignItems: 'center',
                     marginBottom: 10,
                     borderRadius: 3,
+                    marginHorizontal: 12,
                   }}
                   onPress={() => handlePrice(item, index)}>
                   <Text
                     key={index}
                     style={{
-                      color: theme.colors.black,
-                      fontFamily: 'Nunito-SemiBold',
+                      color:
+                        clickedId === index
+                          ? theme.colors.black
+                          : theme.colors.white,
+                      fontFamily: 'Nunito-Bold',
                       fontSize: theme.sizes.h8,
                     }}>
                     {`${item} fcfa`}
@@ -520,7 +559,7 @@ const Detail = ({navigation, route}: any) => {
         style={{
           height: 60,
           width,
-          // borderRadius: 10,
+
           opacity: 0.9,
           position: 'absolute',
           backgroundColor: isDarkMode ? '#1A2026' : theme.colors.white,
@@ -551,7 +590,7 @@ const Detail = ({navigation, route}: any) => {
                 disabled={
                   clickedId === null && selectedEvent?.offers?.type !== false
                 }
-                onPress={() => billet()}>
+                onPress={billet}>
                 {loading === true ? (
                   <ActivityIndicator
                     size="small"
@@ -586,23 +625,33 @@ const Detail = ({navigation, route}: any) => {
         flex: 1,
         backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7',
       }}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {/* ImageBackground */}
-        <ImageBackgroundComponent />
-
-        <IntroductionComponent />
-
-        {/* Description section */}
-        <DescriptionSection />
-
-        {/* Location section */}
-        <LocationSection />
-        {/* Promotion section */}
-
-        <PriceSection />
-      </ScrollView>
-      {/* Buttom bar section */}
-      {<ButtomBarSection />}
+      {pageLoading === true ? (
+        <View
+          style={{
+            width,
+            height,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <ActivityIndicator
+            size="small"
+            color={isDarkMode ? 'white' : 'black'}
+            animating={pageLoading}
+            hidesWhenStopped={pageLoading}
+          />
+        </View>
+      ) : (
+        <View style={{flex: 1}}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <ImageBackgroundComponent />
+            <IntroductionComponent />
+            <DescriptionSection />
+            <LocationSection />
+            <PriceSection />
+          </ScrollView>
+          <ButtomBarSection />
+        </View>
+      )}
     </View>
   );
 };

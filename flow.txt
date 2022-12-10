@@ -1,0 +1,73 @@
+This describe the flow of the application.
+
+1- Splash Screen
+
+2- Browsing Screen
+    
+    - Actual position of the user
+    
+    - Search Screen ( allow the user to search through a list of events available )
+        
+        - Actual position of the user
+        
+        - A search bar
+        
+        - A list of events that user the user can search through
+    
+    - Wallet Screen ( a wallet that contains all the transactions )
+    
+    - Settings Screen ( display all the settings available to the user )
+        
+        - The type of the user account ( attendee of organizer )
+        
+        - The user Profile
+
+            - Profile picture
+
+            - Edit profile button
+
+                - Update profile picture
+
+                - Update Username
+
+            - Username
+
+            - User email address
+        
+        - The user email address
+        
+        - About the app
+        
+        - The app version
+
+        - Logout from the app
+    
+    - List of events ( a list of events available to the user to browse and choose the right one )
+
+        - Go back button
+
+        - Add to locale calendar button
+
+        - The event date format
+
+        - The event picture in the background
+
+        - The event name
+
+        - The event organizer name
+
+        - The event date
+
+        - The event description
+
+        - The event location
+
+        - The event ticket price
+
+        - Buying ticket 
+        
+            - 
+
+3- Signup Screen
+
+4- Login Screen

@@ -21,62 +21,20 @@ import {useSelector, useDispatch} from 'react-redux';
 import {setUser, selectUser} from '../Slices/user';
 import {useNavigation, StackActions} from '@react-navigation/native';
 import RNBounceable from '@freakycoder/react-native-bounceable';
+import Header from '../Components/Header';
+import Entypo from 'react-native-vector-icons/Entypo';
+import {useAuth} from '../Components/authProvider';
 
 const {width, height} = Dimensions.get('screen');
-
-const Menu = [
-  {title: 'Centre de notification', to: 'Notification'},
-  {title: 'Compte lié', to: 'Compte'},
-  {title: 'Gérer les événements', to: 'Gérance'},
-  {title: 'Réglages', to: 'Reglages'},
-];
 
 const Profile = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
-  useEffect(() => {
-    if (user.value === false) {
-      StackActions.replace('Inscription');
-    }
-  });
+  const {currentUser} = useAuth();
 
   const navigation = useNavigation();
 
   const user = useSelector(selectUser);
-
-  const List = () => (
-    <View style={{marginVertical: 15, marginHorizontal: 15}}>
-      {Menu.map((item, index) => (
-        <View key={index} style={{paddingVertical: 5}}>
-          <RNBounceable
-            style={{
-              // borderBottomColor: 'black',
-              // borderBottomWidth: 0.5,
-              // borderTopColor: 'black',
-              // borderTopWidth: 0.5,
-              paddingVertical: 15,
-              paddingHorizontal: 15,
-              justifyContent: 'center',
-              alignItems: 'flex-start',
-              borderRadius: 3,
-            }}
-            onPress={() => navigation.navigate(item?.to)}>
-            <Text
-              style={{
-                color: isDarkMode
-                  ? theme.colors.antiFlashWhite
-                  : theme.colors.black,
-                fontFamily: 'Nunito-SemiBold',
-                fontSize: theme.sizes.h6,
-              }}>
-              {item.title}
-            </Text>
-            {/* <Icon name={'caret-forward-outline'} color={'black'} size={18} /> */}
-          </RNBounceable>
-        </View>
-      ))}
-    </View>
-  );
 
   return (
     <View
@@ -84,6 +42,14 @@ const Profile = () => {
         styles.screen,
         {backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7'},
       ]}>
+      <Header
+        value={
+          currentUser?.displayName === null
+            ? currentUser.email
+            : currentUser?.displayName
+        }
+      />
+
       {/* User detail */}
       <View
         style={{
@@ -92,10 +58,32 @@ const Profile = () => {
           alignItems: 'center',
         }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Image
-            source={user?.image}
-            style={{width: 100, height: 100, borderRadius: 50}}
-          />
+          {currentUser?.photoURL === null ? (
+            <RNBounceable
+              style={{
+                backgroundColor: theme.colors.dark,
+                width: 100,
+                height: 100,
+                borderRadius: 50,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  color: theme.colors.white,
+                  fontFamily: 'Nunito-SemiBold',
+                  fontSize: 55,
+                }}>
+                {currentUser?.email.slice(0, 1).toUpperCase()}
+              </Text>
+            </RNBounceable>
+          ) : (
+            <Image
+              source={{uri: currentUser?.photoURL}}
+              style={{width: 100, height: 100, borderRadius: 50}}
+            />
+          )}
+
           <View style={{width: 20}} />
           <RNBounceable
             style={{
@@ -122,7 +110,6 @@ const Profile = () => {
             style={{
               justifyContent: 'center',
               alignItems: 'center',
-              marginRight: 30,
             }}>
             <Text
               style={{
@@ -130,70 +117,39 @@ const Profile = () => {
                   ? theme.colors.antiFlashWhite
                   : theme.colors.black,
                 fontFamily: 'Nunito-Black',
-                fontSize: 30,
+                fontSize: 20,
               }}>
-              {user?.nom} {user?.prenom}
+              {currentUser?.displayName === null
+                ? currentUser.email
+                : currentUser?.displayName}
             </Text>
             <Text
               style={{
                 color: '#D1D3D4',
                 fontFamily: 'Nunito-Bold',
                 fontSize: 18,
+                marginTop: 20,
               }}>
-              {user?.email}
+              {currentUser?.email}
             </Text>
           </View>
         </View>
       </View>
-      <View
+      {/* <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-evenly',
           alignItems: 'center',
         }}>
-        {/* <View style={{ justifyContent: 'center', alignItems: 'center' }} >
-          <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-Bold' }} >{user?.likes}</Text>
-          <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-Bold' }} >Likes</Text>
-        </View> */}
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <Text style={{color: theme.colors.blue, fontFamily: 'Nunito-Bold'}}>
-            {user?.billets}
+            {user?.data?.billets}
           </Text>
           <Text style={{color: theme.colors.blue, fontFamily: 'Nunito-Bold'}}>
             Billets
           </Text>
         </View>
-        {/* <View style={{ justifyContent: 'center', alignItems: 'center' }} >
-          <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-Bold' }} >{user?.abonner}</Text>
-          <Text style={{ color: theme.colors.blue, fontFamily: 'Nunito-Bold' }} >abonnee</Text>
-        </View> */}
-      </View>
-      {/* Dashboard */}
-      <List />
-      {/* My account */}
-      <View
-        style={{
-          backgroundColor: isDarkMode ? theme.colors.dark : theme.colors.white,
-          height: 60,
-          width,
-
-          marginTop: 5,
-          position: 'absolute',
-          bottom: 0,
-          justifyContent: 'center',
-          alignItems: 'flex-start',
-        }}>
-        <RNBounceable style={{marginTop: 10, marginHorizontal: 15}}>
-          <Text
-            style={{
-              color: 'red',
-              fontFamily: 'Nunito-Bold',
-              fontSize: theme.sizes.h6,
-            }}>
-            Se déconnecter?
-          </Text>
-        </RNBounceable>
-      </View>
+      </View> */}
     </View>
   );
 };
