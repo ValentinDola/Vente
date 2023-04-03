@@ -77,7 +77,7 @@ const Explorer: React.FC = () => {
   const scrollXAnimated = React.useRef(new Animated.Value(0)).current;
   const [index_, setIndex] = React.useState(0);
 
-  const setActiveIndex = React.useCallback(activeIndex => {
+  const setActiveIndex = React.useCallback((activeIndex: Number) => {
     setIndex(activeIndex);
     scrollXIndex.setValue(activeIndex);
   }, []);
@@ -153,35 +153,6 @@ const Explorer: React.FC = () => {
           />
         </RNBounceable>
 
-        <RNBounceable
-          style={{
-            backgroundColor: isDarkMode
-              ? 'transparent'
-              : theme.colors.antiFlashWhite,
-            height: 40,
-            width: 40,
-
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 50,
-            marginHorizontal: 10,
-          }}
-          disabled={currentUser === null}
-          onPress={() => navigation.navigate('Portefeuille')}>
-          <Icon
-            name="wallet-outline"
-            size={22}
-            color={
-              isDarkMode
-                ? currentUser === null
-                  ? theme.colors.black
-                  : theme.colors.white
-                : currentUser === null
-                ? theme.colors.white
-                : theme.colors.black
-            }
-          />
-        </RNBounceable>
         {currentUser === null ? (
           <RNBounceable
             style={{

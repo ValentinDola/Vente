@@ -17,6 +17,8 @@ import {
   Platform,
   Alert,
   useColorScheme,
+  Text,
+  View,
 } from 'react-native';
 import moment from 'moment';
 import Geolocation from 'react-native-geolocation-service';
@@ -97,7 +99,7 @@ moment.updateLocale('fr', {
   },
 });
 
-const App: FC = () => {
+const App = () => {
   const [currentLongitude, setCurrentLongitude] = useState(Number);
   const [currentLatitude, setCurrentLatitude] = useState(Number);
   const [locationStatus, setLocationStatus] = useState('');

@@ -10,6 +10,7 @@ import io.invertase.firebase.auth.ReactNativeFirebaseAuthPackage;
 import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
 import com.vonovak.AddCalendarEventPackage;
 import cx.evermeet.versioninfo.RNVersionInfoPackage;
+import com.reactlibrary.RNGpayPackage;
 // import com.febaisi.reactnative.getappname.GetAppNamePackage;
 import fr.greweb.reactnativeviewshot.RNViewShotPackage;
 import cl.json.RNSharePackage;
@@ -49,6 +50,7 @@ public class MainApplication extends Application implements ReactApplication {
       // example:
       // packages.add(new MyReactNativePackage());
       new RNSharePackage();
+      new RNGpayPackage()
       return packages;
     }
 

@@ -47,7 +47,7 @@ const Detail = ({navigation, route}: any) => {
 
   const [selectedEvent, setSelectedEvent]: any = useState({});
   const [loading, setLoading] = useState(false);
-  const [clickedId, setClickedId] = useState(Number);
+  const [clickedId, setClickedId] = useState(-1);
   const [pageLoading, setPageLoading] = useState(true);
 
   const price = useSelector(selectPrice);
@@ -68,24 +68,17 @@ const Detail = ({navigation, route}: any) => {
   }, []);
 
   const handlePrice = (
-    item:
-      | boolean
-      | React.ReactChild
-      | React.ReactFragment
-      | React.ReactPortal
-      | null
-      | undefined,
+    item: boolean | React.ReactFragment | React.ReactPortal | null | undefined,
     index: any,
   ) => {
     setClickedId(index);
-    dispatch(
-      selectedEvent?.offers?.type === false ? setPrice('0') : setPrice(item),
-    );
+    dispatch(setPrice(item));
   };
 
   const billet = () => {
     if (currentUser !== null) {
       setLoading(true);
+      selectedEvent?.offers?.type === false && dispatch(setPrice('0'));
       setTimeout(() => {
         setLoading(false);
         dispatch(setEvent(selectedEvent));
@@ -102,11 +95,11 @@ const Detail = ({navigation, route}: any) => {
   };
 
   const addToCalendar = (
-    title: any,
+    title: string,
     startDateUTC: moment.MomentInput,
-    endDateUTC: any,
-    location: any,
-    description: any,
+    endDateUTC: moment.MomentInput,
+    location: string,
+    description: string,
   ) => {
     const eventConfig = {
       title,
@@ -588,7 +581,7 @@ const Detail = ({navigation, route}: any) => {
                   height: 40,
                 }}
                 disabled={
-                  clickedId === null && selectedEvent?.offers?.type !== false
+                  clickedId === -1 && selectedEvent?.offers?.type !== false
                 }
                 onPress={billet}>
                 {loading === true ? (

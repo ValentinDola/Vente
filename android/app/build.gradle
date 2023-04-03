@@ -263,12 +263,14 @@ android {
     }
 }
 
+
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-
+    compile project(':react-native-gpay')
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:30.4.1')
 

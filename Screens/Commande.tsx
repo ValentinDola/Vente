@@ -20,7 +20,7 @@ import RNBounceable from '@freakycoder/react-native-bounceable';
 import Header from '../Components/Header';
 import Checkbox from '../Components/Checkbox';
 import {useNavigation} from '@react-navigation/native';
-import {selectEvent, setCordonnee} from '../Slices/event';
+import {selectEvent, selectPrice, setCordonnee} from '../Slices/event';
 import {useAuth} from '../Components/authProvider';
 // import GetAppName from 'react-native-get-app-name';
 
@@ -58,6 +58,8 @@ const Commande = (props: CommandeProps) => {
   const [conditions, setConditions] = useState(false);
   const [numTicket, setNumTickets] = useState('1');
 
+  const price = useSelector(selectPrice);
+
   const onSubmit = (data: any) => {
     const newData = {data, conditions, numTicket};
     setLoading(true);
@@ -66,7 +68,7 @@ const Commande = (props: CommandeProps) => {
       if (newData) {
         dispatch(setCordonnee(newData));
 
-        navigation.navigate('Overview');
+        navigation.navigate(price !== '0' ? 'Payment' : 'Overview');
       } else {
         return null;
       }
@@ -490,7 +492,7 @@ const Commande = (props: CommandeProps) => {
 
                       fontSize: theme.sizes.h6,
                     }}>
-                    S'inscrire
+                    Passer la commande
                   </Text>
                 )}
               </RNBounceable>
