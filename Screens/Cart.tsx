@@ -184,15 +184,13 @@ const Cart: FC = () => {
           bottom: 0,
           justifyContent: 'center',
         }}>
-        <RNBounceable
+        <View
           style={{
             margin: 20,
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-          }}
-          onPress={() => setModal(!modal)}
-          disabled={price === '0'}>
+          }}>
           <View>
             <Icon
               name={'cart-outline'}
@@ -239,7 +237,7 @@ const Cart: FC = () => {
                 : `${parseInt(price) + parseInt(price) * 0.15} cfa`}
             </Text>
           </View>
-        </RNBounceable>
+        </View>
         <View
           style={{
             marginHorizontal: 20,
@@ -262,7 +260,7 @@ const Cart: FC = () => {
                   height: 40,
                   marginBottom: 20,
                 }}
-                onPress={() => inscription()}>
+                onPress={inscription}>
                 {loading == true ? (
                   <ActivityIndicator
                     size="small"
@@ -292,16 +290,7 @@ const Cart: FC = () => {
   };
 
   const OrderSummary = () => (
-    <View style={{marginHorizontal: 15, marginVertical: 15}}>
-      <Text
-        style={{
-          color: isDarkMode ? theme.colors.antiFlashWhite : theme.colors.black,
-          fontFamily: 'Nunito-SemiBold',
-          fontSize: theme.sizes.h5,
-        }}>
-        {' '}
-        Récapitulatif de la commande{' '}
-      </Text>
+    <View style={{marginHorizontal: 5, marginVertical: 15}}>
       <View
         style={{
           flexDirection: 'row',
@@ -474,29 +463,6 @@ const Cart: FC = () => {
     );
   };
 
-  const SummaryModal = () => (
-    <Modal
-      animated
-      animationType="slide"
-      visible={modal}
-      transparent
-      onRequestClose={() => setModal(false)}>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: isDarkMode ? theme.colors.dark : '#F6F6F7',
-        }}>
-        {/* <Header /> */}
-        <View style={{marginVertical: 20}}>
-          <Wallt />
-          <OrderSummary />
-        </View>
-
-        <ModalBottomSection />
-      </View>
-    </Modal>
-  );
-
   return (
     <View
       style={{
@@ -508,17 +474,11 @@ const Cart: FC = () => {
       <Information />
       <Outro />
 
-      <SummaryModal />
+      <OrderSummary />
+
       <ButtomBarSection />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: '#F6F6F7',
-  },
-});
 
 export default Cart;
